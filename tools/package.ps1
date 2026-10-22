@@ -1,6 +1,6 @@
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path $PSScriptRoot -Parent
-$manifest = Get-Content -LiteralPath (Join-Path $projectRoot 'manifest.json') -Raw | ConvertFrom-Json
+$manifest = Get-Content -LiteralPath (Join-Path $projectRoot 'manifest.json') -Raw -Encoding UTF8 | ConvertFrom-Json
 $version = $manifest.version
 if ($version -notmatch '^\d+\.\d+\.\d+$') { throw 'Invalid manifest version' }
 $files = @('manifest.json', 'background.js', 'content.js', 'posts.js', 'page-bridge.js', 'popup.html', 'popup.js', 'README.md', 'PRIVACY.md', 'CHANGELOG.md')
@@ -17,6 +17,7 @@ $releaseDir = Join-Path $projectRoot 'release'
 New-Item -ItemType Directory -Force -Path $releaseDir | Out-Null
 $destination = Join-Path $releaseDir "X-Chat-Translator-$version.zip"
 if (Test-Path -LiteralPath $destination) { throw "Package already exists: $destination" }
+Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $zip = [IO.Compression.ZipFile]::Open($destination, [IO.Compression.ZipArchiveMode]::Create)
 try {
