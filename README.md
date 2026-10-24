@@ -1,6 +1,6 @@
 # X Chat Translator
 
-当前正式版本：**1.0.0**。本仓库的正式版是本地 Git 标签与 ZIP 安装包，不代表已提交或上架 Chrome Web Store。
+当前正式版本：**1.0.1**。本仓库的标签与 ZIP 安装包不代表已提交或上架 Chrome Web Store。
 
 Chrome MV3 插件。在 X Chat 输入框里输入中文，在上方预览翻译，按 Enter 或点击发送时将译文作为独立消息正文发送。发送成功后自动清空中文草稿和译文浮窗。收到的文字消息可以自动翻译成自己的语言。
 
@@ -30,6 +30,7 @@ X Chat 的发送入口是页面内部实现，可能随 X 更新而变化。正�
 
 ```powershell
 node tests/background.test.cjs
+node tests/bridge-compat.test.cjs
 node tests/chat.test.cjs
 node tests/posts.test.cjs
 powershell -ExecutionPolicy Bypass -File tools/package.ps1

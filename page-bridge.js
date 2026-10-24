@@ -14,18 +14,38 @@
   }
 
   function findSendMethod(composer) {
-    for (const value of Object.values(composer)) {
+    const identifier = '[$A-Z_a-z][$\\w]*';
+    const wrapper = new RegExp(`^(?:function(?:${identifier})?)?\\(([^()]*)\\)\\{return(${identifier})\\(this\\.(${identifier}),([^()]*)\\);?\\}$`);
+    const candidates = [];
+    for (const descriptor of Object.values(Object.getOwnPropertyDescriptors(composer))) {
+      const value = descriptor.value;
       if (!value || typeof value !== 'object') continue;
-      const prototype = Object.getPrototypeOf(value);
-      if (!prototype) continue;
-      const candidates = Object.getOwnPropertyNames(prototype).filter((name) => {
-        const method = value[name];
-        return typeof method === 'function' && method.length === 5 &&
-          /^function\(e,t,n,r,i\)\{return \w+\(this\.\w+,e,t,n,r,i\)\}$/.test(String(method));
-      });
-      if (candidates.length === 1) return { sender: value, method: candidates[0] };
+      const seen = new Set();
+      // Inspect data descriptors only; never invoke getters or probe a method by sending.
+      for (let prototype = value, depth = 0; prototype && prototype !== Object.prototype && depth < 6;
+        prototype = Object.getPrototypeOf(prototype), depth++) {
+        for (const [name, property] of Object.entries(Object.getOwnPropertyDescriptors(prototype))) {
+          if (seen.has(name)) continue;
+          seen.add(name);
+          const method = property.value;
+          if (name === 'constructor' || typeof method !== 'function' || method.length !== 5) continue;
+          const match = Function.prototype.toString.call(method).replace(/\s+/g, '').match(wrapper);
+          if (!match) continue;
+          const parameters = match[1].split(',');
+          if (parameters.length !== 5 || new Set(parameters).size !== 5 ||
+            parameters.some(parameter => !new RegExp(`^${identifier}$`).test(parameter)) ||
+            match[4] !== parameters.join(',')) continue;
+          // The delegate must forward the owner followed by all five arguments, in order.
+          const owner = Object.getOwnPropertyDescriptor(value, match[3]);
+          if (!owner || !owner.value || typeof owner.value !== 'object') continue;
+          if (!candidates.some(candidate => candidate.sender === value && candidate.fn === method)) {
+            candidates.push({ sender: value, method: name, fn: method });
+          }
+        }
+      }
     }
-    return null;
+    if (candidates.length > 1) throw new Error('发现多个发送入口，已暂停发送以避免误发');
+    return candidates[0] || null;
   }
 
   document.addEventListener(requestEvent, async (event) => {
