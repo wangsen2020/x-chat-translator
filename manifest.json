@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "X Chat Translator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "X 帖子双语翻译、聊天译文预览发送与收到消息自动翻译。",
   "icons": {
     "16": "icons/icon-16.png",
