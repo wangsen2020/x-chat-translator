@@ -1,0 +1,8 @@
+{
+  "extName": {
+    "message": "X Chat Translator"
+  },
+  "extDesc": {
+    "message": "X 게시물의 원문과 번역문을 함께 읽고, 메시지를 보내기 전에 번역을 확인하세요. 받은 채팅도 자동으로 번역합니다."
+  }
+}

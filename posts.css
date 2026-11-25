@@ -1,0 +1,14 @@
+[data-testid="tweetText"][data-xct-original-hidden] { display: none !important; }
+
+/* Preserve X's scrollable icon rail and increase the gap only in reply composers. */
+[data-xct-reply-toolbar] [data-testid="ScrollSnap-List"] {
+  column-gap: 10px !important;
+}
+
+/* X reserves 96 px for the empty modal editor. The visible preview needs
+   that space, while the editor should still grow with the user's draft. */
+:has(> [data-testid$="_label"]):has(+ .xct-reply-preview:not([hidden]))
+  :is([data-testid$="RichTextInputContainer"], .DraftEditor-root,
+      .DraftEditor-editorContainer, [contenteditable="true"][data-testid^="tweetTextarea_"]) {
+  min-height: 32px !important;
+}

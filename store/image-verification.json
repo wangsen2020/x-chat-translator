@@ -1,0 +1,72 @@
+[
+  {
+    "locale": "en",
+    "kind": "chat",
+    "width": 1280,
+    "height": 800,
+    "meanPixelDifference": 0
+  },
+  {
+    "locale": "en",
+    "kind": "posts",
+    "width": 1280,
+    "height": 800,
+    "meanPixelDifference": 0
+  },
+  {
+    "locale": "zh_CN",
+    "kind": "chat",
+    "width": 1280,
+    "height": 800,
+    "meanPixelDifference": 0
+  },
+  {
+    "locale": "zh_CN",
+    "kind": "posts",
+    "width": 1280,
+    "height": 800,
+    "meanPixelDifference": 0
+  },
+  {
+    "locale": "es_419",
+    "kind": "chat",
+    "width": 1280,
+    "height": 800,
+    "meanPixelDifference": 0
+  },
+  {
+    "locale": "es_419",
+    "kind": "posts",
+    "width": 1280,
+    "height": 800,
+    "meanPixelDifference": 0
+  },
+  {
+    "locale": "ja",
+    "kind": "chat",
+    "width": 1280,
+    "height": 800,
+    "meanPixelDifference": 0
+  },
+  {
+    "locale": "ja",
+    "kind": "posts",
+    "width": 1280,
+    "height": 800,
+    "meanPixelDifference": 0
+  },
+  {
+    "locale": "ko",
+    "kind": "chat",
+    "width": 1280,
+    "height": 800,
+    "meanPixelDifference": 0
+  },
+  {
+    "locale": "ko",
+    "kind": "posts",
+    "width": 1280,
+    "height": 800,
+    "meanPixelDifference": 0
+  }
+]

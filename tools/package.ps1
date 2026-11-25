@@ -3,13 +3,14 @@ $projectRoot = Split-Path $PSScriptRoot -Parent
 $manifest = Get-Content -LiteralPath (Join-Path $projectRoot 'manifest.json') -Raw -Encoding UTF8 | ConvertFrom-Json
 $version = $manifest.version
 if ($version -notmatch '^\d+\.\d+\.\d+$') { throw 'Invalid manifest version' }
-$files = @('manifest.json', 'background.js', 'content.js', 'posts.js', 'page-bridge.js', 'popup.html', 'popup.js', 'README.md', 'PRIVACY.md', 'CHANGELOG.md')
+$files = @('manifest.json', 'i18n.js', 'background.js', 'content.js', 'posts.js', 'replies.js', 'reply-bridge.js', 'page-bridge.js', 'popup.html', 'popup.js', 'options.html', 'options.css', 'options.js', 'relay-client.js', 'worker.js', 'relay-worker.js', 'gemini-worker.js', 'posts.css', 'post-cache.js', 'README.md', 'PRIVACY.md', 'CHANGELOG.md')
 $files += Get-ChildItem -LiteralPath (Join-Path $projectRoot 'icons') -File | ForEach-Object { 'icons/' + $_.Name }
 $files += 'assets/logo.svg'
+$files += Get-ChildItem -LiteralPath (Join-Path $projectRoot '_locales') -Recurse -File | ForEach-Object { $_.FullName.Substring($projectRoot.Length + 1).Replace('\', '/') }
 foreach ($file in $files) {
   if (-not (Test-Path -LiteralPath (Join-Path $projectRoot $file) -PathType Leaf)) { throw "Missing package file: $file" }
 }
-foreach ($script in @('background.js', 'content.js', 'posts.js', 'page-bridge.js', 'popup.js')) {
+foreach ($script in @('i18n.js', 'background.js', 'content.js', 'posts.js', 'replies.js', 'reply-bridge.js', 'page-bridge.js', 'popup.js', 'options.js', 'worker.js', 'relay-client.js', 'relay-worker.js', 'gemini-worker.js', 'post-cache.js')) {
   & node --check (Join-Path $projectRoot $script)
   if ($LASTEXITCODE -ne 0) { throw "Syntax error: $script" }
 }

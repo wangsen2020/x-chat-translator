@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101214"><title>翻译设置 · X Chat Translator</title>
+<link rel="stylesheet" href="options.css"><script src="i18n.js" defer></script><script src="relay-client.js" defer></script><script src="options.js" defer></script>
+</head>
+<body>
+<svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+<symbol id="book" viewBox="0 0 24 24"><path d="M3 4h6a4 4 0 0 1 3 1.5A4 4 0 0 1 15 4h6v15h-6a4 4 0 0 0-3 1.5A4 4 0 0 0 9 19H3zM12 6v14"/></symbol>
+<symbol id="route" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M6 9v4a5 5 0 0 0 5 5h4M10 6h7m-3-3 3 3-3 3"/></symbol>
+<symbol id="sliders" viewBox="0 0 24 24"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="2.5"/><circle cx="15" cy="17" r="2.5"/></symbol>
+<symbol id="play" viewBox="0 0 24 24"><path d="m7 4 13 8-13 8z"/></symbol>
+<symbol id="refresh-icon" viewBox="0 0 24 24"><path d="M20 7a9 9 0 1 0 1 8M20 2v6h-6"/></symbol>
+</defs></svg>
+<header class="bar"><div class="bar-inner"><div class="brand"><img src="icons/icon-48.png" alt="" width="34" height="34"> X Chat Translator</div></div></header>
+<main inert><h1 data-i18n="optsTitle">翻译设置</h1>
+<div class="shell">
+<nav class="sidebar" aria-label="Settings sections">
+<button type="button" class="nav-item" data-tab="providers" aria-selected="true"><svg aria-hidden="true"><use href="#route"/></svg><span data-i18n="navProviders">翻译引擎</span></button>
+<button type="button" class="nav-item" data-tab="scenes" aria-selected="false"><svg aria-hidden="true"><use href="#sliders"/></svg><span data-i18n="navScenes">引擎选择</span></button>
+<button type="button" class="nav-item" data-tab="preferences" aria-selected="false"><svg aria-hidden="true"><use href="#book"/></svg><span data-i18n="navPreferences">偏好设置</span></button>
+</nav>
+
+<div class="workspace">
+<section class="panel tab-panel" id="tab-providers" aria-labelledby="providers-title">
+<h2 id="providers-title"><svg aria-hidden="true"><use href="#route"/></svg><span data-i18n="navProviders">翻译引擎</span></h2>
+
+<div class="provider-split">
+<div class="provider-list" role="tablist" aria-label="Translation providers">
+<button type="button" class="provider-item" data-provider="google" aria-selected="true"><strong>Google Translate</strong><span class="badge ready" data-i18n="statusEnabled">已启用</span></button>
+<button type="button" class="provider-item" data-provider="gemini" aria-selected="false"><strong>Gemini API</strong><span class="badge" id="gemini-badge" data-i18n="statusUnconfigured">未配置</span></button>
+<button type="button" class="provider-item" data-provider="relay" aria-selected="false"><strong>AgentRelay</strong><span class="badge" id="relay-badge" data-i18n="statusUnconfigured">未配置</span></button>
+</div>
+
+<div class="provider-detail">
+<div class="provider-pane" id="pane-google">
+<div class="provider-head"><div><strong>Google Translate</strong><p class="hint" data-i18n="googleDesc">官方云端免费直连，免配置，默认启用。</p></div><input id="google-enabled" class="switch" type="checkbox" checked role="switch" aria-label="Google Translate"></div>
+</div>
+
+<div class="provider-pane" id="pane-gemini" hidden>
+<div class="provider-head"><div><strong>Gemini API</strong><p class="hint" data-i18n="geminiKeyHint">密钥仅保存在此浏览器，可在 Google AI Studio 免费申请。</p></div><input id="gemini-enabled" class="switch" type="checkbox" role="switch" aria-label="Gemini API"></div>
+<div id="gemini-config">
+<label for="gemini-key" data-i18n="geminiApiKey">Gemini API Key</label>
+<div class="key-row"><input type="password" id="gemini-key" autocomplete="off" spellcheck="false" placeholder="AQ... / AIza..."><button type="button" id="gemini-get-key" data-i18n="geminiGetKey">获取 Key</button><button type="button" id="gemini-test" data-i18n="geminiTest">测试</button></div>
+<label for="gemini-model" data-i18n="geminiModel">Gemini 模型</label>
+<select id="gemini-model">
+<option value="gemini-flash-lite-latest">gemini-flash-lite-latest</option>
+<option value="gemini-flash-latest">gemini-flash-latest</option>
+<option value="gemini-3.8-flash">gemini-3.8-flash</option>
+<option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite</option>
+</select>
+</div>
+</div>
+
+<div class="provider-pane" id="pane-relay" hidden>
+<div class="provider-head"><div><strong>AgentRelay</strong><p class="hint" data-i18n="relayDesc">连接本机 AI 客户端，支持一键自动检测安装并交换令牌。</p></div><div class="provider-actions"><button type="button" id="relay-auto" data-i18n="relayAutoEnable">一键启用</button><input id="relay-enabled" class="switch" type="checkbox" role="switch" aria-label="AgentRelay"></div></div>
+<div id="binding">
+<label for="address" data-i18n="localAddress">本地服务地址</label><input type="url" spellcheck="false" autocomplete="off" name="address" id="address" value="http://127.0.0.1:8787">
+<label for="token" data-i18n="accessToken">访问令牌</label><input type="password" id="token" autocomplete="off" name="access-token" aria-describedby="token-hint"><p class="hint" id="token-hint" data-i18n="localToken">令牌仅保存在此浏览器。</p>
+<div class="pair"><div><label for="provider" data-i18n="aiProvider">AI 引擎</label><select id="provider"></select></div>
+<div><label for="session" data-i18n="existingSession">已有会话</label><div class="session"><select id="session"></select>
+<button type="button" class="icon-btn" id="refresh" data-i18n-aria-label="refreshSessions" aria-label="检测连接并刷新会话"><svg aria-hidden="true"><use href="#refresh-icon"/></svg><span class="tip" aria-hidden="true" data-i18n="refreshSessions">检测连接并刷新会话</span></button></div></div></div>
+</div>
+</div>
+
+<div class="actions">
+<button type="button" class="primary" id="save" data-i18n="saveEngine">保存配置</button>
+<button type="button" id="trial"><svg aria-hidden="true"><use href="#play"/></svg><span data-i18n="trialPosts">试译 2 条示例</span></button>
+</div>
+<p role="status" id="feedback"></p>
+
+<div class="preview-block">
+<div class="preview-heading"><h3 data-i18n="testPreview">测试预览</h3><span id="preview-caption" data-i18n="sample">显示示例</span></div>
+<div class="feed" id="feed"></div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="panel tab-panel" id="tab-scenes" aria-labelledby="scenes-title" hidden>
+<h2 id="scenes-title"><svg aria-hidden="true"><use href="#sliders"/></svg><span data-i18n="navScenes">引擎选择</span></h2>
+<p class="hint scenes-intro" data-i18n="multiEngineScope">各场景将独立使用各自所选的翻译引擎。</p>
+<div class="scene-list">
+<div class="scene-row"><div><label for="engine" data-i18n="postEngineLabel">帖子翻译</label><p class="hint" data-i18n="postSceneHint">X 首页、详情页与时间线推文</p></div><select id="engine"><option value="google">Google Translate</option><option value="gemini">Gemini API</option><option value="relay">AgentRelay</option></select></div>
+<div class="scene-row"><div><label for="engine-reply" data-i18n="replyEngineLabel">评论翻译</label><p class="hint" data-i18n="replySceneHint">发评输入框实时预览与拦截发送</p></div><select id="engine-reply"><option value="google">Google Translate</option><option value="gemini">Gemini API</option><option value="relay">AgentRelay</option></select></div>
+<div class="scene-row"><div><label for="engine-chat-incoming" data-i18n="chatIncomingEngineLabel">私信收到</label><p class="hint" data-i18n="chatInSceneHint">X Chat 收到的对方私信消息</p></div><select id="engine-chat-incoming"><option value="google">Google Translate</option><option value="gemini">Gemini API</option><option value="relay">AgentRelay</option></select></div>
+<div class="scene-row"><div><label for="engine-chat-outgoing" data-i18n="chatOutgoingEngineLabel">私信发送</label><p class="hint" data-i18n="chatOutSceneHint">X Chat 输入框发送前译文预览</p></div><select id="engine-chat-outgoing"><option value="google">Google Translate</option><option value="gemini">Gemini API</option><option value="relay">AgentRelay</option></select></div>
+</div>
+<div class="actions"><button type="button" class="primary" id="save-scenes" data-i18n="saveScenes">保存场景分配</button></div>
+<p role="status" id="scenes-feedback"></p>
+</section>
+
+<section class="panel tab-panel" id="tab-preferences" aria-labelledby="read-title" hidden>
+<h2 id="read-title"><svg aria-hidden="true"><use href="#book"/></svg><span data-i18n="navPreferences">偏好设置</span></h2>
+<label class="toggle-row"><span data-i18n="autoPosts">自动翻译可见帖子</span><input id="enabled" type="checkbox" checked role="switch"></label>
+<label for="language" data-i18n="readLang">我的阅读语言</label>
+<select id="language"></select>
+<fieldset><legend data-i18n="displayMode">帖子显示方式</legend><div class="segments">
+<label><input type="radio" name="mode" value="both" checked><span data-i18n="bilingual">双语对照</span></label>
+<label><input type="radio" name="mode" value="replace"><span data-i18n="replaceMode">原位替换</span></label>
+</div></fieldset>
+<fieldset><legend data-i18n="themeSetting">外观主题</legend><div class="segments">
+<label><input type="radio" name="theme" value="auto" checked><span data-i18n="themeAuto">跟随默认</span></label>
+<label><input type="radio" name="theme" value="light"><span data-i18n="themeLight">白天</span></label>
+<label><input type="radio" name="theme" value="dark"><span data-i18n="themeDark">黑夜</span></label>
+</div></fieldset>
+<p class="hint reading-note" data-i18n="sharedLang">阅读语言也用于收到的私信。</p>
+</section>
+</div>
+</div>
+</main>
+<dialog id="relay-guide" class="guide-dialog" aria-labelledby="guide-title">
+<h2 id="guide-title"></h2>
+<p id="guide-desc"></p>
+<div class="guide-actions">
+<button type="button" class="primary" id="guide-retry" data-i18n="relayGuideRetry">重新检测</button>
+<button type="button" id="guide-learn" data-i18n="relayGuideLearnMore">了解与下载 AgentRelay</button>
+<button type="button" id="guide-close" data-i18n="close">关闭</button>
+</div>
+</dialog>
+</body></html>

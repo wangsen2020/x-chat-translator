@@ -1,0 +1,23 @@
+X Chat Translator te ayuda a leer posts en X y conversar en otro idioma. Conserva el texto original junto a su traducción y revisa los mensajes directos traducidos antes de decidir enviarlos.
+
+Traducción de chats
+• Escribe en el cuadro de chat de X. La traducción aparece en una vista previa independiente, encima del cuadro.
+• Revisa la traducción y presiona Enter o haz clic en Enviar para enviar el texto traducido. Después de un envío exitoso, se borran el borrador y la vista previa.
+• Traduce automáticamente los mensajes de texto recibidos y elige si quieres mostrar el original.
+• Contrae la barra de ajustes cuando necesites más espacio. El idioma de envío se recuerda para cada conversación.
+
+Posts bilingües
+• Consulta las traducciones debajo del texto original en Inicio, Para ti, detalles de posts y respuestas.
+• Los posts de texto se procesan a medida que aparecen al desplazarte. Puedes reintentar las traducciones fallidas.
+• Activa o desactiva la traducción de posts y elige tu idioma desde la ventana de la barra de herramientas.
+
+Idiomas
+La interfaz sigue el idioma de tu navegador y está disponible en español latinoamericano, inglés, chino simplificado, japonés y coreano. Los idiomas de traducción incluyen español, inglés, chino simplificado, japonés, coreano, francés, alemán, portugués, árabe y ruso. Puedes escribir el borrador en cualquier idioma compatible con el servicio de traducción.
+
+Uso y limitaciones
+Funciona con el contenido de texto compatible en x.com. No traduce texto en imágenes ni subtítulos de videos, y no funciona sin conexión. La calidad y disponibilidad dependen del servicio de traducción. Los cambios en X pueden afectar el envío de chats: si la extensión no identifica una función de envío compatible, pausa el envío traducido y conserva el borrador. Revisa siempre la traducción antes de enviarla. Al desactivar la traducción de mensajes salientes, X vuelve a enviar el texto original.
+
+Datos y privacidad
+Cuando activas una función de traducción, el texto correspondiente del post, mensaje recibido o borrador se envía a Google Translate. La extensión no tiene un servidor de datos operado por el desarrollador ni código de seguimiento analítico. Los ajustes se guardan localmente en el navegador. La caché de traducciones permanece solo en la memoria de la página actual y se borra al recargarla. No actives la traducción automática para contenido que no quieras compartir con el servicio de traducción.
+
+Esta extensión es independiente: no es un producto oficial de X ni de Google y no está afiliada ni respaldada por estas empresas.

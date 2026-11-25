@@ -1,0 +1,23 @@
+X Chat Translator helps you read posts on X and chat in another language. Keep the original alongside its translation, and preview translated direct messages before you choose to send them.
+
+Chat translation
+• Type in the native chat composer. The translation appears in a separate preview above it.
+• Check the translation, then press Enter or click Send to send the translated text. The draft and preview clear after a successful send.
+• Automatically translate incoming text messages and choose whether to show the original.
+• Collapse the settings sidebar when you need more space. Your outgoing language is remembered for each conversation.
+
+Bilingual posts
+• See translations below the original text on Home, For you, post details and replies.
+• Newly visible text posts are processed as you scroll. Retry failed translations.
+• Use the toolbar popup to turn post translation on or off and choose your reading language.
+
+Languages
+The interface follows your browser language and supports English, Simplified Chinese, Latin American Spanish, Japanese and Korean. Translation targets include English, Simplified Chinese, Spanish, Japanese, Korean, French, German, Portuguese, Arabic and Russian. Your draft can be in any language supported by the translation service.
+
+Use and limitations
+Works with supported text content on x.com. Image text, video subtitles and offline translation are not supported. Translation quality and availability depend on the translation service. Changes to X can affect chat sending; if the extension cannot identify a compatible send handler, it pauses translated sending and keeps your draft. Always review the translation before sending. Turning off outgoing translation restores X's normal sending of the original text.
+
+Data and privacy
+When you enable a translation feature, the relevant post text, received message or draft is sent to Google Translate. The extension has no developer-operated data server or analytics tracking code. Settings are stored locally in your browser; translations are cached only in the current page's memory and cleared on refresh. Do not enable automatic translation for content you do not want to share with the translation service.
+
+This is an independent extension, not an official product of X or Google. It is not affiliated with or endorsed by either company.

@@ -40,6 +40,7 @@ const path = require('node:path');
       };
     });
     await page.addScriptTag({ path: path.join(__dirname, '..', 'page-bridge.js') });
+    await page.addScriptTag({ path: path.join(__dirname, '..', 'i18n.js') });
     await page.addScriptTag({ path: path.join(__dirname, '..', 'content.js') });
     const input = page.locator('textarea');
     const ready = () => page.locator('.xct-card[data-state="ready"]').waitFor();

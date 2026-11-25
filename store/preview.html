@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark"><meta charset="utf-8"><title>X Chat Translator · 示例界面</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#08090b;color:#e7e9ea;font:16px/1.6 "Microsoft YaHei",system-ui,sans-serif}header.brand{height:120px;padding:24px 36px;display:flex;align-items:center;border-bottom:1px solid #303238}header.brand img{width:64px;height:64px;margin-right:18px}h1{font-size:25px;margin:0}p{margin:4px 0;color:#aab0b8}.tag{margin-left:auto;color:#9299a3;font-size:13px}main{margin-left:28px;width:calc(100vw - 356px);max-width:924px;height:660px}#chat{width:100%;height:640px;position:relative}article{border:1px solid #333840;padding:24px;border-radius:16px;margin:20px 0;background:#0d0f12}.person{font-weight:bold;margin-bottom:12px}article [data-testid=tweetText]{font-size:18px}#posts{max-width:780px;margin:24px auto}.foot{position:fixed;bottom:10px;left:36px;color:#858c95;font-size:12px}
+@media(max-width:800px){body:not(.posts-view) header.brand{width:calc(100vw - 328px);padding:18px 12px}body:not(.posts-view) header.brand img{width:32px;height:32px;margin-right:10px}h1{font-size:17px;line-height:1.4}header.brand p{font-size:12px}}
+</style>
+<header class="brand"><img src="../icons/icon-128.png" alt=""><div><h1 id="headline">先预览译文，再发送</h1><p id="subtitle">中文草稿保留在输入框中</p></div><span class="tag">X Chat Translator · 示例界面</span></header>
+<main data-testid="primaryColumn"><div id="chat" data-testid="xchatEmbedRoute"></div></main>
+<div id="posts" hidden><article data-testid="tweet"><div class="person">Design Notes · 示例帖子</div><div data-testid="tweetText" lang="en">Good design makes everyday conversations easier. Start with a clear idea, then choose the words that feel right.</div></article><article data-testid="tweet"><div class="person">Travel Journal · 示例帖子</div><div data-testid="tweetText" lang="en">A quiet morning, a good cup of coffee, and a new city to explore.</div></article></div>
+<div class="foot">使用扩展实际界面与示例内容展示 · 翻译需要联网</div>
+<script type="module" src="preview.js"></script>
+</html>

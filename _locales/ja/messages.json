@@ -1,0 +1,534 @@
+{
+  "extName": {
+    "message": "X（Twitter）自動翻訳 – ツイート・DM | X Chat Translator"
+  },
+  "extDesc": {
+    "message": "X（Twitter）のツイートや返信を自動翻訳し、原文と訳文を対訳表示。DMの受信メッセージを翻訳し、送信前に訳文をプレビューできます。"
+  },
+  "refreshRequired": {
+    "message": "拡張機能が更新されました。ページを再読み込みしてください。"
+  },
+  "translationFailed": {
+    "message": "翻訳できませんでした。再試行してください。"
+  },
+  "paused": {
+    "message": "翻訳を一時停止中"
+  },
+  "translating": {
+    "message": "翻訳中…"
+  },
+  "sending": {
+    "message": "訳文を送信中…"
+  },
+  "enterToSend": {
+    "message": "Enter で訳文を送信"
+  },
+  "sendPaused": {
+    "message": "送信を一時停止中"
+  },
+  "on": {
+    "message": "オン"
+  },
+  "off": {
+    "message": "オフ"
+  },
+  "show": {
+    "message": "表示"
+  },
+  "hide": {
+    "message": "非表示"
+  },
+  "collapse": {
+    "message": "翻訳設定を閉じる"
+  },
+  "expand": {
+    "message": "翻訳設定を開く"
+  },
+  "translationTimeout": {
+    "message": "翻訳がタイムアウトしました。再試行してください。"
+  },
+  "retry": {
+    "message": "再試行"
+  },
+  "sendUnconfirmed": {
+    "message": "送信を確認できません。再試行する前にチャットを確認してください。"
+  },
+  "sendFailed": {
+    "message": "送信できませんでした。再試行する前にチャットを確認してください。"
+  },
+  "previewLabel": {
+    "message": "訳文プレビュー"
+  },
+  "settings": {
+    "message": "翻訳設定"
+  },
+  "outgoing": {
+    "message": "送信メッセージ"
+  },
+  "translateTo": {
+    "message": "翻訳先の言語"
+  },
+  "previewHint": {
+    "message": "送信前に訳文を確認できます。翻訳が完了した場合のみ送信します。"
+  },
+  "sendTranslation": {
+    "message": "送信時に翻訳"
+  },
+  "incoming": {
+    "message": "受信メッセージ"
+  },
+  "myLanguage": {
+    "message": "自分の言語に翻訳"
+  },
+  "autoTranslate": {
+    "message": "自動翻訳"
+  },
+  "showOriginal": {
+    "message": "原文を表示"
+  },
+  "settingsHint": {
+    "message": "設定は自動保存されます。受信したメッセージの下に訳文を表示します。"
+  },
+  "postFailed": {
+    "message": "翻訳できませんでした。原文は保持されています。"
+  },
+  "postTranslation": {
+    "message": "ポストの訳文"
+  },
+  "translationLabel": {
+    "message": "訳文 · $LANGUAGE$",
+    "placeholders": {
+      "language": {
+        "content": "$1"
+      }
+    }
+  },
+  "multipleSenders": {
+    "message": "送信処理が複数検出されたため、送信を一時停止しました。"
+  },
+  "sendBusy": {
+    "message": "前のメッセージを送信中です。先にチャットを確認してください。"
+  },
+  "draftChanged": {
+    "message": "エンジン設定に未保存の変更があります。"
+  },
+  "unsupportedMessage": {
+    "message": "現在のメッセージの状態では訳文を送信できません。"
+  },
+  "senderChanged": {
+    "message": "X Chat の仕様が変更されました。下書きを保護するため、送信を一時停止しました。"
+  },
+  "invalidTranslation": {
+    "message": "翻訳リクエストが無効です。"
+  },
+  "serviceError": {
+    "message": "翻訳サービスが $STATUS$ を返しました。",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "emptyTranslation": {
+    "message": "翻訳結果が空です。"
+  },
+  "readSettingsFailed": {
+    "message": "設定を読み込めませんでした。拡張機能を開き直してください。"
+  },
+  "saved": {
+    "message": "保存しました。開いているページにも自動で反映されます。"
+  },
+  "saveFailed": {
+    "message": "保存できませんでした。再試行してください。"
+  },
+  "popupSubtitle": {
+    "message": "送信前に確認 · 受信時に翻訳"
+  },
+  "popupIntro": {
+    "message": "ポストの原文の下に訳文を表示します。X Chat でメッセージを入力し、訳文を確認してから Enter で送信できます。"
+  },
+  "postsToggle": {
+    "message": "ポストの対訳表示"
+  },
+  "readingLanguage": {
+    "message": "自分の言語（ポストと受信メッセージ）"
+  },
+  "postsHint": {
+    "message": "表示中のポストと返信が対象です。設定で表示方法を選べます。"
+  },
+  "openChat": {
+    "message": "X Chat を開く"
+  },
+  "sidebarHint": {
+    "message": "チャットの設定は X Chat の右側に表示されます。"
+  },
+  "privacyHint": {
+    "message": "投稿と返信の下書きは選択した翻訳サービスへ送信されます。DM は Google Translate を使用します。"
+  },
+  "lang_en": {
+    "message": "英語"
+  },
+  "lang_es": {
+    "message": "スペイン語"
+  },
+  "lang_ja": {
+    "message": "日本語"
+  },
+  "lang_ko": {
+    "message": "韓国語"
+  },
+  "lang_fr": {
+    "message": "フランス語"
+  },
+  "lang_de": {
+    "message": "ドイツ語"
+  },
+  "lang_pt": {
+    "message": "ポルトガル語"
+  },
+  "lang_ar": {
+    "message": "アラビア語"
+  },
+  "lang_ru": {
+    "message": "ロシア語"
+  },
+  "lang_zh_CN": {
+    "message": "簡体字中国語"
+  },
+  "optsTitle": {
+    "message": "翻訳設定"
+  },
+  "readPrefs": {
+    "message": "閲覧設定"
+  },
+  "autoPosts": {
+    "message": "表示中のポストを翻訳"
+  },
+  "readLang": {
+    "message": "読む言語"
+  },
+  "displayMode": {
+    "message": "ポストの表示方法"
+  },
+  "bilingual": {
+    "message": "対訳"
+  },
+  "replaceMode": {
+    "message": "訳文に置換"
+  },
+  "postPreview": {
+    "message": "ポストのプレビュー"
+  },
+  "sample": {
+    "message": "サンプル"
+  },
+  "sharedLang": {
+    "message": "受信メッセージにも使用します。"
+  },
+  "postEngineTitle": {
+    "message": "ポストの翻訳エンジン"
+  },
+  "translationService": {
+    "message": "翻訳サービス"
+  },
+  "localAddress": {
+    "message": "ローカルサービスのアドレス"
+  },
+  "accessToken": {
+    "message": "アクセストークン"
+  },
+  "localToken": {
+    "message": "このブラウザにのみ保存します。"
+  },
+  "aiProvider": {
+    "message": "AI エンジン"
+  },
+  "existingSession": {
+    "message": "既存のセッション"
+  },
+  "refreshSessions": {
+    "message": "接続を確認してセッションを更新"
+  },
+  "relayScope": {
+    "message": "ポスト本文は選択した AI セッションに送られます。DM は Google 翻訳を使います。"
+  },
+  "googleScope": {
+    "message": "ポストと DM に Google 翻訳を使用します。"
+  },
+  "saveEngine": {
+    "message": "エンジンを保存"
+  },
+  "trialPosts": {
+    "message": "サンプル 2 件を試訳"
+  },
+  "trialDone": {
+    "message": "2 件の訳文を表示しました。"
+  },
+  "trialResults": {
+    "message": "試訳結果"
+  },
+  "detecting": {
+    "message": "接続を確認中…"
+  },
+  "pickSession": {
+    "message": "更新してセッションを選択してください。"
+  },
+  "emptySessions": {
+    "message": "AgentRelay で翻訳用セッションを用意して更新してください。"
+  },
+  "showTranslation": {
+    "message": "訳文を表示"
+  },
+  "checkResult": {
+    "message": "結果を確認"
+  },
+  "slowTranslation": {
+    "message": "翻訳中です。原文は引き続き読めます。"
+  },
+  "relayUnknown": {
+    "message": "結果が未確認です。元のリクエストを確認してください。"
+  },
+  "relayInvalid": {
+    "message": "訳文が不完全または形式が無効です。"
+  },
+  "relayFailed": {
+    "message": "翻訳に失敗しました。"
+  },
+  "relayAddressError": {
+    "message": "HTTP ループバックアドレスを入力してください。"
+  },
+  "relayOffline": {
+    "message": "接続できません。アドレスとサービスを確認してください。"
+  },
+  "relayAuth": {
+    "message": "トークンを確認してください。"
+  },
+  "relayForbidden": {
+    "message": "ブラウザと AgentRelay の許可を確認してください。"
+  },
+  "relayConfigError": {
+    "message": "トークン、エンジン、セッションを確認してください。"
+  },
+  "relayUnavailable": {
+    "message": "選択したエンジンは利用できません。"
+  },
+  "relayMissing": {
+    "message": "セッションまたはリクエストが見つかりません。"
+  },
+  "relayRejected": {
+    "message": "AgentRelay が要求を拒否しました。"
+  },
+  "relayStale": {
+    "message": "設定が変更されました。"
+  },
+  "relayPriorPending": {
+    "message": "前の結果が未確認です。再試行前にセッションを確認してください。"
+  },
+  "aiGuide": {
+    "message": "AgentRelay でローカル AI 翻訳を設定"
+  },
+  "replyPreview": {
+    "message": "返信の翻訳"
+  },
+  "replyTarget": {
+    "message": "翻訳先"
+  },
+  "replyAuto": {
+    "message": "投稿に合わせる"
+  },
+  "replyAutoTip": {
+    "message": "返信先の投稿の言語を自動検出し、その言語に翻訳します。"
+  },
+  "replyIntercept": {
+    "message": "送信を置き換える"
+  },
+  "replyEnabled": {
+    "message": "返信を翻訳"
+  },
+  "replyPopupHint": {
+    "message": "入力した原文を保持し、下に訳文を表示します。送信の置き換えが有効な場合、Enter と返信ボタンで訳文を送信します。"
+  },
+  "replyTargetSetting": {
+    "message": "返信の翻訳先"
+  },
+  "replyChooseLanguage": {
+    "message": "投稿の言語を確認できません。翻訳先を選んでください。"
+  },
+  "replySlow": {
+    "message": "AI が翻訳中です。しばらくお待ちください…"
+  },
+  "replyWaitingToSend": {
+    "message": "翻訳が完了すると送信します…"
+  },
+  "replyEnterHint": {
+    "message": "Enter で訳文を送信 · Shift + Enter で改行"
+  },
+  "replyPreviewOnly": {
+    "message": "プレビューのみ · X は入力した原文を送信"
+  },
+  "replySendUnknown": {
+    "message": "送信結果を確認できません。再送する前に返信を確認してください。"
+  },
+  "replySendFailed": {
+    "message": "送信に失敗しました。原文は保持されています。確認してから再試行してください。"
+  },
+  "replySendBusy": {
+    "message": "送信中です。お待ちください…"
+  },
+  "replyDraftChanged": {
+    "message": "下書きまたは返信先が変わりました。準備ができたら再度送信してください。"
+  },
+  "replySenderChanged": {
+    "message": "X の送信処理が変更されました。送信を停止しました。ページを更新してください。"
+  },
+  "replyTooManyPending": {
+    "message": "未確認の翻訳が多すぎます。以前の結果を確認してください。"
+  },
+  "relayNotInstalled": {
+    "message": "このPCに AgentRelay がインストールされていません。"
+  },
+  "relayNotRunning": {
+    "message": "AgentRelay はインストールされていますが、起動していません。"
+  },
+  "relayPortConflict": {
+    "message": "AgentRelay のポートが別のアプリに使用されています。"
+  },
+  "relayGuideNotInstalledBody": {
+    "message": "このPCに AgentRelay をインストールして起動してから「再検出」をクリックしてください。ローカルアドレスとトークンを自動取得します。"
+  },
+  "relayGuideNotRunningBody": {
+    "message": "AgentRelay はインストール済みですが、ローカルサービスが停止しています。AgentRelay を起動してから「再検出」をクリックしてください。"
+  },
+  "relayGuideLearnMore": {
+    "message": "AgentRelay を入手"
+  },
+  "relayGuideRetry": {
+    "message": "再検出"
+  },
+  "close": {
+    "message": "閉じる"
+  },
+  "postEngineLabel": {
+    "message": "投稿翻訳"
+  },
+  "replyEngineLabel": {
+    "message": "返信翻訳"
+  },
+  "chatIncomingEngineLabel": {
+    "message": "受信チャット"
+  },
+  "chatOutgoingEngineLabel": {
+    "message": "送信チャット"
+  },
+  "geminiApiKey": {
+    "message": "Gemini API キー"
+  },
+  "geminiGetKey": {
+    "message": "キーを取得"
+  },
+  "geminiTest": {
+    "message": "テスト"
+  },
+  "geminiKeyHint": {
+    "message": "このブラウザにのみ保存されます。Google AI Studio で無料取得できます。"
+  },
+  "geminiModel": {
+    "message": "Gemini モデル"
+  },
+  "multiEngineScope": {
+    "message": "各機能は選択された翻訳エンジンを独立して使用します。"
+  },
+  "geminiConfigError": {
+    "message": "Gemini API キーを入力してください。"
+  },
+  "geminiPermissionDenied": {
+    "message": "Gemini API を使用するには generativelanguage.googleapis.com へのアクセスを許可してください。"
+  },
+  "geminiConnected": {
+    "message": "Gemini API への接続を確認しました。"
+  },
+  "geminiAuth": {
+    "message": "Gemini API キーが無効または拒否されました。"
+  },
+  "geminiModelError": {
+    "message": "選択した Gemini モデルは利用できません。"
+  },
+  "geminiRateLimit": {
+    "message": "Gemini API が混雑または制限されています。しばらくしてから再試行してください。"
+  },
+  "geminiOffline": {
+    "message": "Gemini API に接続できません。ネットワークを確認してください。"
+  },
+  "geminiFailed": {
+    "message": "Gemini API の翻訳に失敗しました。"
+  },
+  "navProviders": {
+    "message": "翻訳エンジン"
+  },
+  "navScenes": {
+    "message": "エンジン選択"
+  },
+  "navPreferences": {
+    "message": "設定"
+  },
+  "googleDesc": {
+    "message": "無料のクラウド翻訳。設定不要でデフォルト有効です。"
+  },
+  "relayDesc": {
+    "message": "ワンクリックでインストール検出とトークン取得を行うローカル AI ブリッジ。"
+  },
+  "statusEnabled": {
+    "message": "有効"
+  },
+  "statusUnconfigured": {
+    "message": "未設定"
+  },
+  "enableBtn": {
+    "message": "設定"
+  },
+  "collapseBtn": {
+    "message": "閉じる"
+  },
+  "relayAutoEnable": {
+    "message": "ワンクリック有効化"
+  },
+  "testPreview": {
+    "message": "テストプレビュー"
+  },
+  "postSceneHint": {
+    "message": "ホーム、詳細、スレッドの投稿"
+  },
+  "replySceneHint": {
+    "message": "返信欄のリアルタイム翻訳と送信制御"
+  },
+  "chatInSceneHint": {
+    "message": "X Chat で受信したメッセージ"
+  },
+  "chatOutSceneHint": {
+    "message": "X Chat で送信前の翻訳プレビュー"
+  },
+  "saveScenes": {
+    "message": "割り当てを保存"
+  },
+  "themeSetting": {
+    "message": "外観テーマ"
+  },
+  "themeAuto": {
+    "message": "デフォルト"
+  },
+  "themeLight": {
+    "message": "ライト"
+  },
+  "themeDark": {
+    "message": "ダーク"
+  },
+  "basicSettings": {
+    "message": "基本設定"
+  },
+  "advancedSettings": {
+    "message": "詳細設定"
+  },
+  "replyEngineShort": {
+    "message": "エンジン"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "extName": {
+    "message": "X Chat Translator"
+  },
+  "extDesc": {
+    "message": "X のポストを原文と訳文で表示。送信前にメッセージの翻訳を確認でき、受信したチャットも自動翻訳します。"
+  }
+}

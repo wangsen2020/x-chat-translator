@@ -1,0 +1,534 @@
+{
+  "extName": {
+    "message": "Traductor de Twitter (X) – Tweets y mensajes | X Chat Translator"
+  },
+  "extDesc": {
+    "message": "Traduce tweets y mensajes de X (Twitter). Lee publicaciones bilingües y revisa la traducción del chat antes de enviar."
+  },
+  "refreshRequired": {
+    "message": "La extensión se actualizó. Recarga esta página."
+  },
+  "translationFailed": {
+    "message": "No se pudo traducir. Inténtalo de nuevo."
+  },
+  "paused": {
+    "message": "Traducción pausada"
+  },
+  "translating": {
+    "message": "Traduciendo…"
+  },
+  "sending": {
+    "message": "Enviando traducción…"
+  },
+  "enterToSend": {
+    "message": "Presiona Enter para enviar la traducción"
+  },
+  "sendPaused": {
+    "message": "Envío pausado"
+  },
+  "on": {
+    "message": "Activado"
+  },
+  "off": {
+    "message": "Desactivado"
+  },
+  "show": {
+    "message": "Mostrar"
+  },
+  "hide": {
+    "message": "Ocultar"
+  },
+  "collapse": {
+    "message": "Contraer ajustes de traducción"
+  },
+  "expand": {
+    "message": "Expandir ajustes de traducción"
+  },
+  "translationTimeout": {
+    "message": "La traducción tardó demasiado. Inténtalo de nuevo."
+  },
+  "retry": {
+    "message": "Reintentar"
+  },
+  "sendUnconfirmed": {
+    "message": "El envío no está confirmado. Revisa el chat antes de volver a intentarlo."
+  },
+  "sendFailed": {
+    "message": "No se pudo enviar. Revisa el chat antes de reintentar."
+  },
+  "previewLabel": {
+    "message": "Vista previa de traducción"
+  },
+  "settings": {
+    "message": "Ajustes de traducción"
+  },
+  "outgoing": {
+    "message": "Mensajes salientes"
+  },
+  "translateTo": {
+    "message": "Traducir a"
+  },
+  "previewHint": {
+    "message": "Revisa la traducción antes de enviar. Solo se envía cuando está lista."
+  },
+  "sendTranslation": {
+    "message": "Traducir al enviar"
+  },
+  "incoming": {
+    "message": "Mensajes recibidos"
+  },
+  "myLanguage": {
+    "message": "Traducir a mi idioma"
+  },
+  "autoTranslate": {
+    "message": "Traducción automática"
+  },
+  "showOriginal": {
+    "message": "Ver original"
+  },
+  "settingsHint": {
+    "message": "Los ajustes se guardan automáticamente. Las traducciones aparecen debajo del mensaje recibido."
+  },
+  "postFailed": {
+    "message": "No se pudo traducir. Se conservó el original."
+  },
+  "postTranslation": {
+    "message": "Traducción del post"
+  },
+  "translationLabel": {
+    "message": "Traducción · $LANGUAGE$",
+    "placeholders": {
+      "language": {
+        "content": "$1"
+      }
+    }
+  },
+  "multipleSenders": {
+    "message": "Se detectaron varias funciones de envío. Se pausó el envío."
+  },
+  "sendBusy": {
+    "message": "Todavía se está enviando un mensaje. Revisa primero el chat."
+  },
+  "draftChanged": {
+    "message": "Hay cambios sin guardar."
+  },
+  "unsupportedMessage": {
+    "message": "No se puede enviar la traducción con el estado actual del mensaje."
+  },
+  "senderChanged": {
+    "message": "X Chat cambió. Se pausó el envío para proteger tu borrador."
+  },
+  "invalidTranslation": {
+    "message": "Solicitud de traducción no válida."
+  },
+  "serviceError": {
+    "message": "El servicio de traducción devolvió $STATUS$.",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "emptyTranslation": {
+    "message": "La traducción está vacía."
+  },
+  "readSettingsFailed": {
+    "message": "No se pudieron leer los ajustes. Vuelve a abrir la extensión."
+  },
+  "saved": {
+    "message": "Guardado. Las páginas abiertas se actualizan automáticamente."
+  },
+  "saveFailed": {
+    "message": "No se pudo guardar. Inténtalo de nuevo."
+  },
+  "popupSubtitle": {
+    "message": "Revisa al enviar · Traduce al recibir"
+  },
+  "popupIntro": {
+    "message": "Lee los posts con la traducción debajo del original. Escribe un mensaje en X Chat, revisa la traducción y presiona Enter para enviarla."
+  },
+  "postsToggle": {
+    "message": "Posts bilingües"
+  },
+  "readingLanguage": {
+    "message": "Mi idioma (posts y mensajes recibidos)"
+  },
+  "postsHint": {
+    "message": "Se aplica a publicaciones y respuestas visibles. Elige la vista en ajustes."
+  },
+  "openChat": {
+    "message": "Abrir X Chat"
+  },
+  "sidebarHint": {
+    "message": "Los ajustes de chat aparecen a la derecha de X Chat."
+  },
+  "privacyHint": {
+    "message": "Las publicaciones y los borradores de respuesta se envían al servicio elegido. Los mensajes privados usan Google Translate."
+  },
+  "lang_en": {
+    "message": "Inglés"
+  },
+  "lang_es": {
+    "message": "Español"
+  },
+  "lang_ja": {
+    "message": "Japonés"
+  },
+  "lang_ko": {
+    "message": "Coreano"
+  },
+  "lang_fr": {
+    "message": "Francés"
+  },
+  "lang_de": {
+    "message": "Alemán"
+  },
+  "lang_pt": {
+    "message": "Portugués"
+  },
+  "lang_ar": {
+    "message": "Árabe"
+  },
+  "lang_ru": {
+    "message": "Ruso"
+  },
+  "lang_zh_CN": {
+    "message": "Chino simplificado"
+  },
+  "optsTitle": {
+    "message": "Ajustes de traducción"
+  },
+  "readPrefs": {
+    "message": "Preferencias de lectura"
+  },
+  "autoPosts": {
+    "message": "Traducir publicaciones visibles"
+  },
+  "readLang": {
+    "message": "Idioma de lectura"
+  },
+  "displayMode": {
+    "message": "Vista de las publicaciones"
+  },
+  "bilingual": {
+    "message": "Bilingüe"
+  },
+  "replaceMode": {
+    "message": "Reemplazar original"
+  },
+  "postPreview": {
+    "message": "Vista previa"
+  },
+  "sample": {
+    "message": "Ejemplos"
+  },
+  "sharedLang": {
+    "message": "También se usa para mensajes recibidos."
+  },
+  "postEngineTitle": {
+    "message": "Motor para publicaciones"
+  },
+  "translationService": {
+    "message": "Servicio de traducción"
+  },
+  "localAddress": {
+    "message": "Dirección del servicio local"
+  },
+  "accessToken": {
+    "message": "Token de acceso"
+  },
+  "localToken": {
+    "message": "Se guarda solo en este navegador."
+  },
+  "aiProvider": {
+    "message": "Motor de IA"
+  },
+  "existingSession": {
+    "message": "Sesión existente"
+  },
+  "refreshSessions": {
+    "message": "Probar conexión y actualizar sesiones"
+  },
+  "relayScope": {
+    "message": "Las publicaciones se envían a la sesión de IA. Los mensajes privados usan Google Translate."
+  },
+  "googleScope": {
+    "message": "Las publicaciones y los mensajes usan Google Translate."
+  },
+  "saveEngine": {
+    "message": "Guardar motor"
+  },
+  "trialPosts": {
+    "message": "Probar 2 ejemplos"
+  },
+  "trialDone": {
+    "message": "Ambas traducciones están listas."
+  },
+  "trialResults": {
+    "message": "Resultados de prueba"
+  },
+  "detecting": {
+    "message": "Comprobando conexión…"
+  },
+  "pickSession": {
+    "message": "Actualiza y elige una sesión."
+  },
+  "emptySessions": {
+    "message": "Prepara una sesión en AgentRelay y actualiza."
+  },
+  "showTranslation": {
+    "message": "Ver traducción"
+  },
+  "checkResult": {
+    "message": "Consultar resultado"
+  },
+  "slowTranslation": {
+    "message": "La traducción continúa. Puedes seguir leyendo."
+  },
+  "relayUnknown": {
+    "message": "Resultado sin confirmar. Consulta la solicitud original."
+  },
+  "relayInvalid": {
+    "message": "Traducción incompleta o inválida."
+  },
+  "relayFailed": {
+    "message": "No se pudo traducir."
+  },
+  "relayAddressError": {
+    "message": "Ingresa una dirección HTTP local."
+  },
+  "relayOffline": {
+    "message": "No se pudo conectar. Revisa la dirección y el servicio."
+  },
+  "relayAuth": {
+    "message": "Revisa el token de acceso."
+  },
+  "relayForbidden": {
+    "message": "Revisa los permisos del navegador y de AgentRelay."
+  },
+  "relayConfigError": {
+    "message": "Revisa el token, el motor y la sesión."
+  },
+  "relayUnavailable": {
+    "message": "El motor seleccionado no está disponible."
+  },
+  "relayMissing": {
+    "message": "No se encontró la sesión o solicitud."
+  },
+  "relayRejected": {
+    "message": "AgentRelay rechazó la solicitud."
+  },
+  "relayStale": {
+    "message": "Los ajustes cambiaron."
+  },
+  "relayPriorPending": {
+    "message": "Hay una solicitud pendiente. Revisa la sesión antes de reintentar."
+  },
+  "aiGuide": {
+    "message": "Configurar traducción local con IA y AgentRelay"
+  },
+  "replyPreview": {
+    "message": "Traducción de respuesta"
+  },
+  "replyTarget": {
+    "message": "Traducir a"
+  },
+  "replyAuto": {
+    "message": "Seguir post"
+  },
+  "replyAutoTip": {
+    "message": "Detecta automáticamente el idioma de la publicación y traduce tu respuesta a ese idioma."
+  },
+  "replyIntercept": {
+    "message": "Interceptar envío"
+  },
+  "replyEnabled": {
+    "message": "Traducir respuestas"
+  },
+  "replyPopupHint": {
+    "message": "Conserva tu texto y muestra la traducción debajo. Con la interceptación activa, Enter y Responder envían la traducción."
+  },
+  "replyTargetSetting": {
+    "message": "Idioma de las respuestas"
+  },
+  "replyChooseLanguage": {
+    "message": "No se pudo confirmar el idioma. Elige un idioma de destino."
+  },
+  "replySlow": {
+    "message": "La IA sigue traduciendo. Espera…"
+  },
+  "replyWaitingToSend": {
+    "message": "Se enviará cuando la traducción esté lista…"
+  },
+  "replyEnterHint": {
+    "message": "Enter envía la traducción · Shift + Enter agrega una línea"
+  },
+  "replyPreviewOnly": {
+    "message": "Solo vista previa · X envía tu texto original"
+  },
+  "replySendUnknown": {
+    "message": "Envío sin confirmar. Revisa las respuestas antes de reintentar."
+  },
+  "replySendFailed": {
+    "message": "No se pudo enviar. Se conservó tu texto. Revisa antes de reintentar."
+  },
+  "replySendBusy": {
+    "message": "Enviando. Espera…"
+  },
+  "replyDraftChanged": {
+    "message": "Cambió el borrador o la publicación. Vuelve a enviar cuando esté listo."
+  },
+  "replySenderChanged": {
+    "message": "Cambió la interfaz de X. Envío pausado. Actualiza esta página."
+  },
+  "replyTooManyPending": {
+    "message": "Hay demasiadas traducciones sin confirmar. Revisa los resultados anteriores."
+  },
+  "relayNotInstalled": {
+    "message": "AgentRelay no está instalado en este equipo."
+  },
+  "relayNotRunning": {
+    "message": "AgentRelay está instalado, pero no está en ejecución."
+  },
+  "relayPortConflict": {
+    "message": "Otro programa está usando el puerto de AgentRelay."
+  },
+  "relayGuideNotInstalledBody": {
+    "message": "Instala y abre AgentRelay en este equipo y luego haz clic en Reintentar. La extensión obtendrá automáticamente tu dirección local y el token."
+  },
+  "relayGuideNotRunningBody": {
+    "message": "AgentRelay está instalado, pero el servicio local no está activo. Inicia AgentRelay y haz clic en Reintentar."
+  },
+  "relayGuideLearnMore": {
+    "message": "Obtener AgentRelay"
+  },
+  "relayGuideRetry": {
+    "message": "Reintentar detección"
+  },
+  "close": {
+    "message": "Cerrar"
+  },
+  "postEngineLabel": {
+    "message": "Publicaciones"
+  },
+  "replyEngineLabel": {
+    "message": "Respuestas"
+  },
+  "chatIncomingEngineLabel": {
+    "message": "Chat entrante"
+  },
+  "chatOutgoingEngineLabel": {
+    "message": "Chat saliente"
+  },
+  "geminiApiKey": {
+    "message": "Clave API de Gemini"
+  },
+  "geminiGetKey": {
+    "message": "Obtener clave"
+  },
+  "geminiTest": {
+    "message": "Probar"
+  },
+  "geminiKeyHint": {
+    "message": "Se guarda localmente en este navegador. Hay claves gratuitas en Google AI Studio."
+  },
+  "geminiModel": {
+    "message": "Modelo Gemini"
+  },
+  "multiEngineScope": {
+    "message": "Cada área usa de forma independiente el motor elegido."
+  },
+  "geminiConfigError": {
+    "message": "Ingresa tu clave API de Gemini."
+  },
+  "geminiPermissionDenied": {
+    "message": "Permite el acceso a generativelanguage.googleapis.com para usar Gemini API."
+  },
+  "geminiConnected": {
+    "message": "Conexión con Gemini API verificada."
+  },
+  "geminiAuth": {
+    "message": "La clave API de Gemini fue rechazada. Revísala."
+  },
+  "geminiModelError": {
+    "message": "El modelo de Gemini seleccionado no está disponible."
+  },
+  "geminiRateLimit": {
+    "message": "Gemini API está saturada o limitada. Reintenta pronto."
+  },
+  "geminiOffline": {
+    "message": "No se pudo conectar con Gemini API. Revisa tu red."
+  },
+  "geminiFailed": {
+    "message": "Falló la traducción con Gemini API."
+  },
+  "navProviders": {
+    "message": "Motores"
+  },
+  "navScenes": {
+    "message": "Asignación"
+  },
+  "navPreferences": {
+    "message": "Preferencias"
+  },
+  "googleDesc": {
+    "message": "Traducción gratuita en la nube, sin configuración y activa por defecto."
+  },
+  "relayDesc": {
+    "message": "Puente local de IA con detección de instalación y token en un clic."
+  },
+  "statusEnabled": {
+    "message": "Activo"
+  },
+  "statusUnconfigured": {
+    "message": "Sin configurar"
+  },
+  "enableBtn": {
+    "message": "Configurar"
+  },
+  "collapseBtn": {
+    "message": "Ocultar"
+  },
+  "relayAutoEnable": {
+    "message": "Activar en 1 clic"
+  },
+  "testPreview": {
+    "message": "Vista previa"
+  },
+  "postSceneHint": {
+    "message": "Cronología, detalles y respuestas en X"
+  },
+  "replySceneHint": {
+    "message": "Vista previa e intercepción al responder"
+  },
+  "chatInSceneHint": {
+    "message": "Mensajes entrantes recibidos en X Chat"
+  },
+  "chatOutSceneHint": {
+    "message": "Vista previa antes de enviar en X Chat"
+  },
+  "saveScenes": {
+    "message": "Guardar asignación"
+  },
+  "themeSetting": {
+    "message": "Tema"
+  },
+  "themeAuto": {
+    "message": "Predeterminado"
+  },
+  "themeLight": {
+    "message": "Claro"
+  },
+  "themeDark": {
+    "message": "Oscuro"
+  },
+  "basicSettings": {
+    "message": "Básico"
+  },
+  "advancedSettings": {
+    "message": "Avanzado"
+  },
+  "replyEngineShort": {
+    "message": "Motor"
+  }
+}

@@ -1,9 +1,11 @@
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
-  if (message?.type !== 'XCT_TRANSLATE') return;
+  const post = message?.type === 'XCT_POST_GOOGLE';
+  if (!post && message?.type !== 'XCT_TRANSLATE') return;
+  if (post && (_sender?.id !== chrome.runtime.id || !_sender.url?.startsWith('https://x.com/') || _sender.frameId !== 0)) return;
   const text = String(message.text || '').trim();
   const language = String(message.language || 'en');
   if (!text || text.length > 5000 || !/^[a-z]{2}(?:-[A-Z]{2})?$/.test(language)) {
-    sendResponse({ ok: false, error: '翻译参数无效' });
+    sendResponse({ ok: false, errorCode: 'invalidTranslation' });
     return;
   }
   const url = new URL('https://translate.googleapis.com/translate_a/single');
@@ -12,16 +14,29 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   url.searchParams.set('tl', language);
   url.searchParams.set('dt', 't');
   url.searchParams.set('q', text);
-  fetch(url, { signal: AbortSignal.timeout(12000) })
-    .then(async (response) => {
-      if (!response.ok) throw new Error(`翻译服务返回 ${response.status}`);
+  async function translate() {
+    const response = await fetch(url, {signal:AbortSignal.timeout(12000)});
+      if (!response.ok) throw Object.assign(new Error('serviceError'), { status: response.status });
       const data = await response.json();
       const translated = Array.isArray(data?.[0])
         ? data[0].map((segment) => segment?.[0] || '').join('').trim()
         : '';
-      if (!translated) throw new Error('翻译结果为空');
-      sendResponse({ ok: true, text: translated });
-    })
-    .catch((error) => sendResponse({ ok: false, error: error.message || '翻译失败' }));
+      if (!translated) throw new Error('emptyTranslation');
+      return translated;
+  }
+  async function translatePost() {
+    const cache = XCTPostCache;
+    const key = await cache.key(cache.scope(null),language,text);
+    return navigator.locks.request('xct-google:' + key, async () => {
+      const [cached] = await cache.lookup(cache.scope(null),language,[{id:'post',text}]);
+      if (cached.translation) return cached.translation;
+      const translation = await translate();
+      await cache.save([{key,translation}]);
+      return translation;
+    });
+  }
+  (post ? translatePost() : translate())
+    .then(text => sendResponse({ok:true,text}))
+    .catch((error) => sendResponse({ ok: false, errorCode: ['serviceError', 'emptyTranslation'].includes(error.message) ? error.message : 'translationFailed', status: error.status }));
   return true;
 });

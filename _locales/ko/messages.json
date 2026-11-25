@@ -1,0 +1,534 @@
+{
+  "extName": {
+    "message": "트위터 번역기 – X 트윗·DM 자동 번역 | X Chat Translator"
+  },
+  "extDesc": {
+    "message": "X(트위터)의 트윗과 답글을 자동 번역하고 원문과 함께 읽으세요. 받은 DM을 번역하고, 채팅을 보내기 전에 번역문을 미리 확인할 수 있습니다."
+  },
+  "refreshRequired": {
+    "message": "확장 프로그램이 업데이트되었습니다. 페이지를 새로고침하세요."
+  },
+  "translationFailed": {
+    "message": "번역하지 못했습니다. 다시 시도하세요."
+  },
+  "paused": {
+    "message": "번역 일시 중지됨"
+  },
+  "translating": {
+    "message": "번역 중…"
+  },
+  "sending": {
+    "message": "번역문 전송 중…"
+  },
+  "enterToSend": {
+    "message": "Enter 키로 번역문 보내기"
+  },
+  "sendPaused": {
+    "message": "전송 일시 중지됨"
+  },
+  "on": {
+    "message": "켜짐"
+  },
+  "off": {
+    "message": "꺼짐"
+  },
+  "show": {
+    "message": "표시"
+  },
+  "hide": {
+    "message": "숨기기"
+  },
+  "collapse": {
+    "message": "번역 설정 접기"
+  },
+  "expand": {
+    "message": "번역 설정 펼치기"
+  },
+  "translationTimeout": {
+    "message": "번역 시간이 초과되었습니다. 다시 시도하세요."
+  },
+  "retry": {
+    "message": "다시 시도"
+  },
+  "sendUnconfirmed": {
+    "message": "전송 여부를 확인할 수 없습니다. 다시 시도하기 전에 채팅을 확인하세요."
+  },
+  "sendFailed": {
+    "message": "전송하지 못했습니다. 다시 시도하기 전에 채팅을 확인하세요."
+  },
+  "previewLabel": {
+    "message": "번역 미리보기"
+  },
+  "settings": {
+    "message": "번역 설정"
+  },
+  "outgoing": {
+    "message": "보내는 메시지"
+  },
+  "translateTo": {
+    "message": "번역할 언어"
+  },
+  "previewHint": {
+    "message": "보내기 전에 번역을 확인하세요. 번역이 준비된 경우에만 전송됩니다."
+  },
+  "sendTranslation": {
+    "message": "보낼 때 번역"
+  },
+  "incoming": {
+    "message": "받은 메시지"
+  },
+  "myLanguage": {
+    "message": "내 언어로 번역"
+  },
+  "autoTranslate": {
+    "message": "자동 번역"
+  },
+  "showOriginal": {
+    "message": "원문 보기"
+  },
+  "settingsHint": {
+    "message": "설정은 자동으로 저장됩니다. 받은 메시지 아래에 번역문이 표시됩니다."
+  },
+  "postFailed": {
+    "message": "번역하지 못했습니다. 원문은 유지됩니다."
+  },
+  "postTranslation": {
+    "message": "게시물 번역"
+  },
+  "translationLabel": {
+    "message": "번역 · $LANGUAGE$",
+    "placeholders": {
+      "language": {
+        "content": "$1"
+      }
+    }
+  },
+  "multipleSenders": {
+    "message": "여러 전송 함수가 감지되어 전송을 일시 중지했습니다."
+  },
+  "sendBusy": {
+    "message": "이전 메시지를 전송 중입니다. 먼저 채팅을 확인하세요."
+  },
+  "draftChanged": {
+    "message": "저장하지 않은 엔진 설정이 있습니다."
+  },
+  "unsupportedMessage": {
+    "message": "현재 메시지 상태에서는 번역문을 보낼 수 없습니다."
+  },
+  "senderChanged": {
+    "message": "X Chat이 변경되었습니다. 초안을 보호하기 위해 전송을 일시 중지했습니다."
+  },
+  "invalidTranslation": {
+    "message": "유효하지 않은 번역 요청입니다."
+  },
+  "serviceError": {
+    "message": "번역 서비스에서 $STATUS$ 상태를 반환했습니다.",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "emptyTranslation": {
+    "message": "번역 결과가 비어 있습니다."
+  },
+  "readSettingsFailed": {
+    "message": "설정을 불러오지 못했습니다. 확장 프로그램을 다시 여세요."
+  },
+  "saved": {
+    "message": "저장되었습니다. 열린 페이지에도 자동으로 적용됩니다."
+  },
+  "saveFailed": {
+    "message": "저장하지 못했습니다. 다시 시도하세요."
+  },
+  "popupSubtitle": {
+    "message": "보내기 전 확인 · 받은 메시지 번역"
+  },
+  "popupIntro": {
+    "message": "게시물의 원문 아래에 번역문을 표시합니다. X Chat에서 메시지를 입력하고 번역을 확인한 후 Enter 키로 보내세요."
+  },
+  "postsToggle": {
+    "message": "게시물 원문·번역 표시"
+  },
+  "readingLanguage": {
+    "message": "내 언어 (게시물 및 받은 메시지)"
+  },
+  "postsHint": {
+    "message": "보이는 게시물과 답글에 적용됩니다. 설정에서 표시 방식을 선택하세요."
+  },
+  "openChat": {
+    "message": "X Chat 열기"
+  },
+  "sidebarHint": {
+    "message": "채팅 설정은 X Chat 오른쪽에 표시됩니다."
+  },
+  "privacyHint": {
+    "message": "게시물과 답글 초안은 선택한 번역 서비스로 전송됩니다. DM은 Google Translate를 사용합니다."
+  },
+  "lang_en": {
+    "message": "영어"
+  },
+  "lang_es": {
+    "message": "스페인어"
+  },
+  "lang_ja": {
+    "message": "일본어"
+  },
+  "lang_ko": {
+    "message": "한국어"
+  },
+  "lang_fr": {
+    "message": "프랑스어"
+  },
+  "lang_de": {
+    "message": "독일어"
+  },
+  "lang_pt": {
+    "message": "포르투갈어"
+  },
+  "lang_ar": {
+    "message": "아랍어"
+  },
+  "lang_ru": {
+    "message": "러시아어"
+  },
+  "lang_zh_CN": {
+    "message": "중국어 간체"
+  },
+  "optsTitle": {
+    "message": "번역 설정"
+  },
+  "readPrefs": {
+    "message": "읽기 설정"
+  },
+  "autoPosts": {
+    "message": "화면에 보이는 게시물 번역"
+  },
+  "readLang": {
+    "message": "읽기 언어"
+  },
+  "displayMode": {
+    "message": "게시물 표시 방식"
+  },
+  "bilingual": {
+    "message": "원문과 번역"
+  },
+  "replaceMode": {
+    "message": "번역으로 대체"
+  },
+  "postPreview": {
+    "message": "게시물 미리보기"
+  },
+  "sample": {
+    "message": "예시 게시물"
+  },
+  "sharedLang": {
+    "message": "받은 메시지에도 적용됩니다."
+  },
+  "postEngineTitle": {
+    "message": "게시물 번역 엔진"
+  },
+  "translationService": {
+    "message": "번역 서비스"
+  },
+  "localAddress": {
+    "message": "로컬 서비스 주소"
+  },
+  "accessToken": {
+    "message": "액세스 토큰"
+  },
+  "localToken": {
+    "message": "이 브라우저에만 저장됩니다."
+  },
+  "aiProvider": {
+    "message": "AI 엔진"
+  },
+  "existingSession": {
+    "message": "기존 세션"
+  },
+  "refreshSessions": {
+    "message": "연결 확인 및 세션 새로 고침"
+  },
+  "relayScope": {
+    "message": "게시물 본문은 선택한 AI 세션으로 전송됩니다. DM은 Google 번역을 사용합니다."
+  },
+  "googleScope": {
+    "message": "게시물과 DM에 Google 번역을 사용합니다."
+  },
+  "saveEngine": {
+    "message": "엔진 저장"
+  },
+  "trialPosts": {
+    "message": "예시 2 개 번역"
+  },
+  "trialDone": {
+    "message": "번역 2 건을 표시했습니다."
+  },
+  "trialResults": {
+    "message": "시험 번역 결과"
+  },
+  "detecting": {
+    "message": "연결 확인 중…"
+  },
+  "pickSession": {
+    "message": "새로 고친 후 세션을 선택하세요."
+  },
+  "emptySessions": {
+    "message": "AgentRelay에서 번역 세션을 준비한 후 새로 고치세요."
+  },
+  "showTranslation": {
+    "message": "번역 보기"
+  },
+  "checkResult": {
+    "message": "결과 확인"
+  },
+  "slowTranslation": {
+    "message": "번역 중입니다. 원문을 계속 읽을 수 있습니다."
+  },
+  "relayUnknown": {
+    "message": "결과를 확인하지 못했습니다. 기존 요청을 확인하세요."
+  },
+  "relayInvalid": {
+    "message": "번역이 불완전하거나 형식이 잘못되었습니다."
+  },
+  "relayFailed": {
+    "message": "번역에 실패했습니다."
+  },
+  "relayAddressError": {
+    "message": "HTTP 루프백 주소를 입력하세요."
+  },
+  "relayOffline": {
+    "message": "연결할 수 없습니다. 주소와 서비스를 확인하세요."
+  },
+  "relayAuth": {
+    "message": "액세스 토큰을 확인하세요."
+  },
+  "relayForbidden": {
+    "message": "브라우저와 AgentRelay 권한을 확인하세요."
+  },
+  "relayConfigError": {
+    "message": "토큰, AI 엔진 및 세션을 확인하세요."
+  },
+  "relayUnavailable": {
+    "message": "선택한 AI 엔진을 사용할 수 없습니다."
+  },
+  "relayMissing": {
+    "message": "세션 또는 요청을 찾을 수 없습니다."
+  },
+  "relayRejected": {
+    "message": "AgentRelay가 요청을 거절했습니다."
+  },
+  "relayStale": {
+    "message": "설정이 변경되었습니다."
+  },
+  "relayPriorPending": {
+    "message": "이전 요청의 결과가 확인되지 않았습니다. 재시도 전에 세션을 확인하세요."
+  },
+  "aiGuide": {
+    "message": "AgentRelay로 로컬 AI 번역 설정"
+  },
+  "replyPreview": {
+    "message": "답글 번역"
+  },
+  "replyTarget": {
+    "message": "번역 언어"
+  },
+  "replyAuto": {
+    "message": "게시물 따라가기"
+  },
+  "replyAutoTip": {
+    "message": "답글 대상 게시물의 언어를 자동으로 감지하여 해당 언어로 번역합니다."
+  },
+  "replyIntercept": {
+    "message": "번역문으로 전송"
+  },
+  "replyEnabled": {
+    "message": "답글 번역"
+  },
+  "replyPopupHint": {
+    "message": "입력한 원문을 유지하고 아래에 번역을 표시합니다. 전송 가로채기가 켜져 있으면 Enter와 답글 버튼으로 번역문을 보냅니다."
+  },
+  "replyTargetSetting": {
+    "message": "답글 번역 언어"
+  },
+  "replyChooseLanguage": {
+    "message": "게시물 언어를 확인할 수 없습니다. 번역 언어를 선택하세요."
+  },
+  "replySlow": {
+    "message": "AI가 아직 번역 중입니다. 잠시 기다려 주세요…"
+  },
+  "replyWaitingToSend": {
+    "message": "번역이 완료되면 전송합니다…"
+  },
+  "replyEnterHint": {
+    "message": "Enter로 번역문 전송 · Shift + Enter로 줄바꿈"
+  },
+  "replyPreviewOnly": {
+    "message": "미리보기만 · X에서 입력한 원문 전송"
+  },
+  "replySendUnknown": {
+    "message": "전송 결과를 확인할 수 없습니다. 다시 보내기 전에 답글을 확인하세요."
+  },
+  "replySendFailed": {
+    "message": "전송하지 못했습니다. 원문은 유지됩니다. 확인 후 다시 시도하세요."
+  },
+  "replySendBusy": {
+    "message": "전송 중입니다. 잠시 기다려 주세요…"
+  },
+  "replyDraftChanged": {
+    "message": "초안이나 답글 대상이 변경되었습니다. 준비되면 다시 보내세요."
+  },
+  "replySenderChanged": {
+    "message": "X의 게시 인터페이스가 변경되어 전송을 일시 중지했습니다. 페이지를 새로고침하세요."
+  },
+  "replyTooManyPending": {
+    "message": "확인되지 않은 번역이 너무 많습니다. 이전 결과를 먼저 확인하세요."
+  },
+  "relayNotInstalled": {
+    "message": "이 컴퓨터에 AgentRelay가 설치되어 있지 않습니다."
+  },
+  "relayNotRunning": {
+    "message": "AgentRelay가 설치되어 있지만 실행 중이 아닙니다."
+  },
+  "relayPortConflict": {
+    "message": "다른 프로그램이 AgentRelay 포트를 사용 중입니다."
+  },
+  "relayGuideNotInstalledBody": {
+    "message": "이 컴퓨터에 AgentRelay를 설치하고 실행한 뒤 다시 감지를 클릭하세요. 로컬 주소와 토큰을 자동으로 가져옵니다."
+  },
+  "relayGuideNotRunningBody": {
+    "message": "AgentRelay가 설치되어 있지만 로컬 서비스가 실행되고 있지 않습니다. AgentRelay를 실행한 뒤 다시 감지를 클릭하세요."
+  },
+  "relayGuideLearnMore": {
+    "message": "AgentRelay 받기"
+  },
+  "relayGuideRetry": {
+    "message": "다시 감지"
+  },
+  "close": {
+    "message": "닫기"
+  },
+  "postEngineLabel": {
+    "message": "게시물 번역"
+  },
+  "replyEngineLabel": {
+    "message": "답글 번역"
+  },
+  "chatIncomingEngineLabel": {
+    "message": "수신 채팅"
+  },
+  "chatOutgoingEngineLabel": {
+    "message": "발신 채팅"
+  },
+  "geminiApiKey": {
+    "message": "Gemini API 키"
+  },
+  "geminiGetKey": {
+    "message": "키 받기"
+  },
+  "geminiTest": {
+    "message": "테스트"
+  },
+  "geminiKeyHint": {
+    "message": "이 브라우저에만 저장됩니다. Google AI Studio에서 무료로 발급받을 수 있습니다."
+  },
+  "geminiModel": {
+    "message": "Gemini 모델"
+  },
+  "multiEngineScope": {
+    "message": "각 영역은 선택한 번역 엔진을 독립적으로 사용합니다."
+  },
+  "geminiConfigError": {
+    "message": "Gemini API 키를 입력하세요."
+  },
+  "geminiPermissionDenied": {
+    "message": "Gemini API를 사용하려면 generativelanguage.googleapis.com 액세스를 허용하세요."
+  },
+  "geminiConnected": {
+    "message": "Gemini API 연결이 확인되었습니다."
+  },
+  "geminiAuth": {
+    "message": "Gemini API 키가 거부되었습니다. 키를 확인하세요."
+  },
+  "geminiModelError": {
+    "message": "선택한 Gemini 모델을 사용할 수 없습니다."
+  },
+  "geminiRateLimit": {
+    "message": "Gemini API가 혼잡하거나 요청이 제한되었습니다. 잠시 후 다시 시도하세요."
+  },
+  "geminiOffline": {
+    "message": "Gemini API에 연결할 수 없습니다. 네트워크를 확인하세요."
+  },
+  "geminiFailed": {
+    "message": "Gemini API 번역에 실패했습니다."
+  },
+  "navProviders": {
+    "message": "번역 엔진"
+  },
+  "navScenes": {
+    "message": "엔진 선택"
+  },
+  "navPreferences": {
+    "message": "환경설정"
+  },
+  "googleDesc": {
+    "message": "설정 없이 기본 활성화된 무료 클라우드 번역입니다."
+  },
+  "relayDesc": {
+    "message": "원클릭 설치 감지 및 토큰 교환을 지원하는 로컬 AI 브리지입니다."
+  },
+  "statusEnabled": {
+    "message": "활성화됨"
+  },
+  "statusUnconfigured": {
+    "message": "미설정"
+  },
+  "enableBtn": {
+    "message": "설정"
+  },
+  "collapseBtn": {
+    "message": "접기"
+  },
+  "relayAutoEnable": {
+    "message": "원클릭 활성화"
+  },
+  "testPreview": {
+    "message": "테스트 미리보기"
+  },
+  "postSceneHint": {
+    "message": "홈 타임라인, 게시물 상세 및 스레드"
+  },
+  "replySceneHint": {
+    "message": "답글 입력창 실시간 미리보기 및 전송 가로채기"
+  },
+  "chatInSceneHint": {
+    "message": "X Chat에서 수신한 메시지"
+  },
+  "chatOutSceneHint": {
+    "message": "X Chat 전송 전 번역 미리보기"
+  },
+  "saveScenes": {
+    "message": "할당 저장"
+  },
+  "themeSetting": {
+    "message": "테마"
+  },
+  "themeAuto": {
+    "message": "기본값"
+  },
+  "themeLight": {
+    "message": "라이트"
+  },
+  "themeDark": {
+    "message": "다크"
+  },
+  "basicSettings": {
+    "message": "기본 설정"
+  },
+  "advancedSettings": {
+    "message": "고급 설정"
+  },
+  "replyEngineShort": {
+    "message": "엔진"
+  }
+}
