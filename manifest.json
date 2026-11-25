@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "X Chat Translator",
-  "version": "1.0.1",
-  "description": "X 帖子双语翻译、聊天译文预览发送与收到消息自动翻译。",
+  "name": "__MSG_extName__",
+  "version": "1.7.1",
+  "description": "__MSG_extDesc__",
   "icons": {
     "16": "icons/icon-16.png",
     "32": "icons/icon-32.png",
@@ -10,7 +10,7 @@
     "128": "icons/icon-128.png"
   },
   "action": {
-    "default_title": "X Chat Translator",
+    "default_title": "__MSG_extName__",
     "default_icon": {
       "16": "icons/icon-16.png",
       "32": "icons/icon-32.png",
@@ -18,20 +18,55 @@
     },
     "default_popup": "popup.html"
   },
-  "permissions": ["storage"],
-  "host_permissions": ["https://translate.googleapis.com/*"],
-  "background": { "service_worker": "background.js" },
+  "permissions": [
+    "storage",
+    "alarms",
+    "nativeMessaging"
+  ],
+  "host_permissions": [
+    "https://translate.googleapis.com/*"
+  ],
+  "background": {
+    "service_worker": "worker.js"
+  },
   "content_scripts": [
     {
-      "matches": ["https://x.com/*"],
-      "js": ["page-bridge.js"],
+      "matches": [
+        "https://x.com/*"
+      ],
+      "js": [
+        "page-bridge.js",
+        "reply-bridge.js"
+      ],
       "run_at": "document_start",
       "world": "MAIN"
     },
     {
-      "matches": ["https://x.com/*"],
-      "js": ["content.js", "posts.js"],
-      "run_at": "document_idle"
+      "matches": [
+        "https://x.com/*"
+      ],
+      "js": [
+        "i18n.js",
+        "content.js",
+        "relay-client.js",
+        "posts.js",
+        "replies.js"
+      ],
+      "run_at": "document_idle",
+      "css": [
+        "posts.css"
+      ]
     }
-  ]
+  ],
+  "default_locale": "en",
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "optional_host_permissions": [
+    "http://127.0.0.1/*",
+    "http://localhost/*",
+    "https://generativelanguage.googleapis.com/*"
+  ],
+  "homepage_url": "https://goodexts.com/x-chat-translator"
 }

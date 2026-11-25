@@ -30,7 +30,7 @@ assert.equal(resolve({ delegate: sender(reordered) }), null);
 assert.equal(resolve({ delegate: sender(function(e,t,n,r){return abc(this.owner,e,t,n,r)}) }), null);
 const missing = sender(current); delete missing.owner;
 assert.equal(resolve({ delegate: missing }), null);
-assert.throws(() => resolve({ first: sender(current), second: sender(historical) }), /多个/);
+assert.throws(() => resolve({ first: sender(current), second: sender(historical) }), /multipleSenders/);
 const getters = {};
 Object.defineProperty(getters, 'danger', { get() { throw Error('Getter must not run'); } });
 assert.equal(resolve(getters), null);

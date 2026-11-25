@@ -27,7 +27,9 @@ const translate = (text, language = 'zh-CN') => new Promise(resolve => listener(
   response = { ok: true, json: async () => ({ unexpected: true }) };
   assert.equal((await translate('hello')).ok, false);
   response = { ok: false, status: 429 };
-  assert.match((await translate('hello')).error, /429/);
+  const limited = await translate('hello');
+  assert.equal(limited.errorCode, 'serviceError');
+  assert.equal(limited.status, 429);
   failure = 'timeout';
   assert.equal((await translate('hello')).ok, false);
   console.log('PASS: invalid requests, response parsing, empty response, HTTP rate limit, network failure');

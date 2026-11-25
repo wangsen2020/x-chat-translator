@@ -3,46 +3,75 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>X Chat Translator</title>
+  <title data-i18n="extName">X Chat Translator</title>
   <style>
     * { box-sizing: border-box; }
-    body { width: 300px; margin: 0; padding: 20px; color: #e7e9ea; background: #000; font: 13px/1.55 system-ui, -apple-system, "Microsoft YaHei", sans-serif; }
-    header { display: flex; align-items: center; margin-bottom: 17px; }
-    img { width: 48px; height: 48px; margin-right: 11px; }
+    html { color-scheme:dark; }
+    body { width: 320px; margin: 0; padding: 16px; color: #e7e9ea; background: #000; font: 13px/1.5 system-ui, -apple-system, "Microsoft YaHei", sans-serif; }
+    header { display: flex; align-items: center; margin-bottom: 14px; }
+    img { width: 44px; height: 44px; flex: none; margin-right: 10px; }
+    .title-row { display: flex; align-items: center; }
     h1 { margin: 0; font-size: 16px; line-height: 1.2; }
-    .sub { margin-top: 4px; color: #8b98a5; font-size: 11px; }
-    p { margin: 0 0 15px; color: #c7cdd1; }
-    a { display: block; padding: 10px 12px; border-radius: 999px; color: #fff; background: #1d9bf0; text-align: center; text-decoration: none; font-weight: 700; }
+    .title-row .info-tip { margin-left: 6px; }
+    .sub { margin-top: 3px; color: #8b98a5; font-size: 12px; }
+    a { display: block; padding: 8px 12px; border-radius: 999px; color: #0f1419; background: #1d9bf0; text-align: center; text-decoration: none; font-size: 13px; font-weight: 700; }
     a:hover { background: #1785d1; }
-    .hint { margin-top: 13px; color: #8b98a5; font-size: 11px; }
-    .settings { border-top: 1px solid #333; padding-top: 14px; margin-bottom: 16px; }
+    .hint { margin-top: 10px; color: #8b98a5; font-size: 12px; }
+    :is(a,button,input,select,.info-tip):focus-visible { outline: 2px solid #1d9bf0; outline-offset: 2px; }
+    #save-status:empty { display: none; }
+    .settings { border-top: 1px solid #333; padding-top: 12px; margin-bottom: 14px; }
     label { display:block; margin-bottom:10px; }
-    select { width:100%;margin-top:6px;padding:8px;background:#181818;color:#eee;border:1px solid #555;border-radius:6px; }
+    .field-head { display: flex; align-items: center; font-size: 12px; }
+    .field-head .info-tip { margin-left: 6px; }
+    select { appearance:none; width:100%; height:30px; margin-top:6px; padding-inline:10px 28px; background-color:#181818; color:#eee; border:1px solid #555; border-radius:6px; font:12px system-ui; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath fill='%238b98a5' d='M0 0h10L5 6z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-origin: border-box; background-position: right 10px center; background-size: 10px 6px; }
+    select:dir(rtl) { background-position:left 10px center; }
+    @media(forced-colors:active) { select { appearance:auto; background-image:none; padding-inline-end:10px; } }
+    .settings label:has(input) { display:flex; align-items:center; font-size:12px; }
+    .settings label:has(input) input { margin:0 10px 0 0; accent-color:#1d9bf0; }
+    .tabs { display: flex; height: 30px; padding: 2px; margin-bottom: 12px; background: #141619; border: 1px solid #3c4146; border-radius: 6px; }
+    .tabs button { flex: 1; height: 100%; border: 0; border-radius: 4px; background: transparent; color: #8b98a5; font: 600 12px/24px system-ui, "Microsoft YaHei", sans-serif; cursor: pointer; white-space: nowrap; padding: 0 8px; }
+    .tabs button:not(:last-child) { margin-right: 4px; }
+    .tabs button[aria-selected="true"] { background: #283b48; color: #b9e4ff; }
+    .tabs button:hover:not([aria-selected="true"]) { color: #e7e9ea; }
+    .info-tip { position: relative; display: inline-flex; align-items: center; justify-content: center; flex: none; width: 14px; height: 14px; border-radius: 50%; background: #769287; color: #fff; font: 700 10px/1 Arial, sans-serif; border: 0; cursor: help; }
+    .info-tip .tip-pop { display: none; position: absolute; z-index: 10; left: 50%; transform: translateX(-50%); bottom: calc(100% + 6px); width: 230px; padding: 7px 9px; border-radius: 6px; background: #1c1f23; color: #e7e9ea; border: 1px solid #3c4146; font: 400 12px/1.45 system-ui, "Microsoft YaHei", sans-serif; white-space: normal; text-align: start; box-shadow: 0 4px 12px rgba(0,0,0,.45); }
+    .info-tip.tip-down .tip-pop { bottom: auto; top: calc(100% + 6px); right: -12px; left: auto; transform: none; }
+    .info-tip:is(:hover,:focus-visible) .tip-pop { display: block; }
+    .footer-note { display: flex; align-items: center; justify-content: center; margin-top: 10px; color: #8b98a5; font-size: 12px; }
+    .footer-note .info-tip { margin-left: 6px; }
   </style>
 </head>
 <body>
   <header>
-    <img src="icons/icon-48.png" alt="">
-    <div><h1>X Chat Translator</h1><div class="sub">发送前预览 · 收到即翻译</div></div>
+    <img src="icons/icon-48.png" width="44" height="44" alt="">
+    <div>
+      <div class="title-row"><h1>X Chat Translator</h1><span class="info-tip tip-down" tabindex="0" role="note">?<span class="tip-pop" data-i18n="popupIntro">浏览帖子时保留原文，下方显示译文。在 X Chat 输入消息，确认译文后按 Enter 发送。</span></span></div>
+      <div class="sub" data-i18n="popupSubtitle">发送前预览 · 收到即翻译</div>
+    </div>
   </header>
-  <p>浏览帖子时保留原文，下方显示译文。在 X Chat 输入中文，确认译文后按 Enter 发送。</p>
+  <div class="tabs" role="tablist">
+    <button type="button" id="tab-basic" role="tab" aria-selected="true" data-i18n="basicSettings">基础设置</button>
+    <button type="button" id="options" role="tab" aria-selected="false" data-i18n="advancedSettings">高级设置</button>
+  </div>
   <div class="settings">
-    <label><input id="posts-enabled" type="checkbox" disabled> 帖子双语翻译</label>
-    <label for="reading-language">我的语言（帖子与收到的消息）
-      <select id="reading-language" disabled>
-        <option value="zh-CN">简体中文</option><option value="en">英语</option>
-        <option value="es">西班牙语</option><option value="ja">日语</option>
-        <option value="ko">韩语</option><option value="fr">法语</option>
-        <option value="de">德语</option><option value="pt">葡萄牙语</option>
-        <option value="ar">阿拉伯语</option><option value="ru">俄语</option>
-      </select>
+    <label><input id="posts-enabled" type="checkbox" disabled><span data-i18n="postsToggle">帖子双语翻译</span></label>
+    <label><input id="replies-enabled" type="checkbox" disabled><span data-i18n="replyEnabled">评论翻译</span></label>
+    <label for="reply-language">
+      <span class="field-head"><span data-i18n="replyTargetSetting">评论目标语言</span><span class="info-tip" tabindex="0" role="note">?<span class="tip-pop" data-i18n="replyPopupHint">保留输入原文，在下方预览译文。开启拦截后，Enter 和回复按钮发送译文。</span></span></span>
+      <select id="reply-language" disabled></select>
     </label>
-    <div class="hint">适用于首页、推荐、详情及回复。保留原文，自动翻译可见帖子。</div>
+    <label for="reading-language">
+      <span class="field-head"><span data-i18n="readingLanguage">我的语言（帖子与收到的消息）</span><span class="info-tip" tabindex="0" role="note">?<span class="tip-pop" data-i18n="postsHint">适用于首页、推荐、详情及回复。保留原文，自动翻译可见帖子。</span></span></span>
+      <select id="reading-language" disabled></select>
+    </label>
     <div id="save-status" class="hint" role="status"></div>
   </div>
-  <a href="https://x.com/i/chat/" target="_blank" rel="noopener noreferrer">打开 X Chat</a>
-  <div class="hint">设置会在 X Chat 页面右侧显示。</div>
-  <div class="hint">待翻译文字会发送至 Google Translate。翻译缓存仅保留在当前页面内存中，刷新后清空。</div>
+  <a href="https://x.com/i/chat/" target="_blank" rel="noopener noreferrer" data-i18n="openChat">打开 X Chat</a>
+  <div class="footer-note">
+    <span data-i18n="sidebarHint">设置会在 X Chat 页面右侧显示。</span>
+    <span class="info-tip" tabindex="0" role="note">?<span class="tip-pop" data-i18n="privacyHint">待翻译文字会发送至 Google Translate。翻译缓存仅保留在当前页面内存中，刷新后清空。</span></span>
+  </div>
 </body>
+<script src="i18n.js"></script>
 <script src="popup.js"></script>
 </html>

@@ -1,0 +1,26 @@
+[
+  {
+    "url": "https://goodexts.com/x-chat-translator",
+    "status": 200,
+    "ai": true,
+    "privacy": true
+  },
+  {
+    "url": "https://goodexts.com/zh/x-chat-translator",
+    "status": 200,
+    "ai": true,
+    "privacy": true
+  },
+  {
+    "url": "https://goodexts.com/pt-br/x-chat-translator",
+    "status": 200,
+    "ai": true,
+    "privacy": true
+  },
+  {
+    "url": "https://goodexts.com/es/x-chat-translator",
+    "status": 200,
+    "ai": true,
+    "privacy": true
+  }
+]

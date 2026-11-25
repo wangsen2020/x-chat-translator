@@ -44,33 +44,33 @@
         }
       }
     }
-    if (candidates.length > 1) throw new Error('发现多个发送入口，已暂停发送以避免误发');
+    if (candidates.length > 1) throw new Error('multipleSenders');
     return candidates[0] || null;
   }
 
   document.addEventListener(requestEvent, async (event) => {
     const { id, source, translated, conversation } = event.detail || {};
     const reply = (ok, error) => document.dispatchEvent(new CustomEvent(responseEvent, {
-      detail: { id, ok, error },
+      detail: { id, ok, errorCode: error },
     }));
-    if (sending) { reply(false, '上一条消息仍在发送，请先检查会话'); return; }
+    if (sending) { reply(false, 'sendBusy'); return; }
     if (typeof id !== 'string' || typeof source !== 'string' || typeof translated !== 'string') return;
     sending = true;
     try {
       const host = document.querySelector('[data-testid="xchatEmbedRoute"]');
       const input = host?.shadowRoot?.querySelector('[data-testid="dm-composer-textarea"]');
       if (!input || !source || !translated || input.value !== source || location.pathname !== conversation) {
-        throw new Error('会话或中文草稿已变化');
+        throw new Error('draftChanged');
       }
       const composer = findComposer(input);
       const state = composer?.state?.state;
       const attachments = state?.attachments?.asJsReadonlyArrayView?.();
       if (!state || state.currentText !== source || state.editData || state.replyingTo ||
           state.forwardMessage || !Array.isArray(attachments) || attachments.length > 0 || state.isReadOnly) {
-        throw new Error('当前消息状态不支持译文发送');
+        throw new Error('unsupportedMessage');
       }
       const target = findSendMethod(composer);
-      if (!target) throw new Error('X Chat 发送入口已变化');
+      if (!target) throw new Error('senderChanged');
       await target.sender[target.method](translated, state.attachments, null, null, null);
       // Keep the Chinese draft intact until X has accepted the translated send.
       // The native setter plus input event lets React update its composer state.
@@ -80,7 +80,7 @@
       }
       reply(true);
     } catch (error) {
-      reply(false, error?.message || '发送失败');
+      reply(false, ['multipleSenders', 'draftChanged', 'unsupportedMessage', 'senderChanged'].includes(error?.message) ? error.message : 'sendFailed');
     } finally {
       sending = false;
     }

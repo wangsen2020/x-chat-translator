@@ -11,10 +11,13 @@ const path = require('node:path');
     await page.evaluate(() => {
       window.calls = [];
       window.settingsListeners = [];
-      window.chrome = { storage: {
-        local: { get: async () => ({ incomingLanguage: 'zh-CN' }) },
-        onChanged: { addListener: fn => settingsListeners.push(fn), removeListener: fn => settingsListeners.splice(settingsListeners.indexOf(fn), 1) },
-      } };
+      window.chrome = {
+        runtime: { sendMessage: async () => ({}) },
+        storage: {
+          local: { get: async () => ({ incomingLanguage: 'zh-CN' }) },
+          onChanged: { addListener: fn => settingsListeners.push(fn), removeListener: fn => settingsListeners.splice(settingsListeners.indexOf(fn), 1) },
+        },
+      };
       window.xctTranslationService = {
         available: () => true, languages: [['zh-CN', '简体中文'], ['ja', '日语']],
         translate: async (source, language) => {
@@ -26,7 +29,9 @@ const path = require('node:path');
       };
       window.changeSettings = changes => settingsListeners.forEach(fn => fn(changes, 'local'));
     });
+    await page.addScriptTag({ path: path.join(__dirname, '..', 'i18n.js') });
     await page.addScriptTag({ path: path.join(__dirname, '..', 'posts.js') });
+    await page.addStyleTag({ path: path.join(__dirname, '..', 'posts.css') });
     const note = page.locator('.xct-post-translation');
     await page.waitForFunction(() => document.querySelector('.xct-post-translation')?.shadowRoot.querySelector('p').textContent.includes('Hello world'));
     assert.equal(await page.locator('[data-testid="tweetText"]').textContent(), 'Hello world');
@@ -48,13 +53,64 @@ const path = require('node:path');
     await page.evaluate(() => changeSettings({ postsEnabled: { newValue: true }, incomingLanguage: { newValue: 'ja' } }));
     await page.waitForFunction(() => document.querySelector('.xct-post-translation')?.shadowRoot.querySelector('p').textContent.startsWith('ja:'));
     await page.evaluate(() => document.querySelector('[data-testid="tweetText"]').textContent = 'Fail once');
-    await note.getByRole('button', { name: '重试' }).waitFor({ state: 'visible' });
-    await note.getByRole('button', { name: '重试' }).click();
+    await note.getByRole('button', { name: 'Retry' }).waitFor({ state: 'visible' });
+    await note.getByRole('button', { name: 'Retry' }).click();
     await page.waitForFunction(() => document.querySelector('.xct-post-translation')?.shadowRoot.querySelector('p').textContent.includes('Fail once'));
 
     await page.evaluate(() => document.querySelector('[data-testid="tweetText"]').textContent = '😀'.repeat(3000) + 'long post');
     await page.waitForFunction(() => document.querySelector('.xct-post-translation')?.shadowRoot.querySelector('p').textContent.includes('long post'));
     assert.ok(await page.evaluate(() => calls.every(call => call.source.length <= 5000)));
+
+    await page.evaluate(() => {
+      window.forwarded = [];
+      const article = document.querySelector('article[data-testid="tweet"]');
+      const tweetText = document.querySelector('[data-testid="tweetText"]');
+      tweetText.addEventListener('click', e => window.forwarded.push({ on: 'tweetText', target: e.target.dataset.testid, ctrlKey: e.ctrlKey }));
+      article.addEventListener('click', e => window.forwarded.push({ on: 'article', target: e.target.dataset.testid, ctrlKey: e.ctrlKey }));
+    });
+    await note.locator('p').click({ modifiers: ['Control'] });
+    await note.locator('header > span').click();
+    assert.deepEqual(await page.evaluate(() => window.forwarded.splice(0)), [
+      { on: 'tweetText', target: 'tweetText', ctrlKey: true },
+      { on: 'article', target: 'tweetText', ctrlKey: true },
+      { on: 'tweetText', target: 'tweetText', ctrlKey: false },
+      { on: 'article', target: 'tweetText', ctrlKey: false },
+    ]);
+
+    await note.locator('.ai-guide').click();
+    assert.equal(await page.evaluate(() => window.forwarded.length), 0);
+
+    await page.bringToFront();
+    const pBox = await note.locator('p').evaluate(el => el.getBoundingClientRect());
+    await page.mouse.move(pBox.x + 8, pBox.y + 8);
+    await page.mouse.down();
+    await page.mouse.move(pBox.x + 80, pBox.y + 8, { steps: 5 });
+    await page.mouse.up();
+    assert.equal(await page.evaluate(() => window.forwarded.length), 0);
+    await page.evaluate(() => {
+      const sr = document.querySelector('.xct-post-translation').shadowRoot;
+      sr.getSelection?.().removeAllRanges();
+      window.getSelection().removeAllRanges();
+    });
+
+    await page.evaluate(() => changeSettings({ postDisplayMode: { newValue: 'replace' } }));
+    await note.getByRole('button', { name: 'Show original' }).waitFor({ state: 'visible' });
+    assert.equal(await page.locator('[data-testid="tweetText"]').isVisible(), false);
+    await note.locator('p').click();
+    assert.deepEqual(await page.evaluate(() => window.forwarded.splice(0)), [
+      { on: 'tweetText', target: 'tweetText', ctrlKey: false },
+      { on: 'article', target: 'tweetText', ctrlKey: false },
+    ]);
+    await note.getByRole('button', { name: 'Show original' }).click();
+    assert.equal(await page.evaluate(() => window.forwarded.length), 0);
+    await page.evaluate(() => changeSettings({ postDisplayMode: { newValue: 'both' } }));
+
+    await page.evaluate(() => { window.failed = false; document.querySelector('[data-testid="tweetText"]').textContent = 'Fail once'; });
+    await note.getByRole('button', { name: 'Retry' }).waitFor({ state: 'visible' });
+    await note.getByRole('button', { name: 'Retry' }).click();
+    assert.equal(await page.evaluate(() => window.forwarded.length), 0);
+    await page.waitForFunction(() => document.querySelector('.xct-post-translation')?.shadowRoot.querySelector('p').textContent.includes('Fail once'));
+
     await page.evaluate(() => document.querySelector('[data-testid="tweetText"]').setAttribute('lang', 'ja'));
     // A recycled post switches both language and content.
     await page.evaluate(() => document.querySelector('[data-testid="tweetText"]').textContent = 'こんにちは');

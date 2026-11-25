@@ -1,0 +1,534 @@
+{
+  "extName": {
+    "message": "推特翻译助手 – X 帖子双语与私信 | X Chat Translator"
+  },
+  "extDesc": {
+    "message": "自动翻译 X（推特）帖子、推文和回复，保留原文双语对照。收到私信自动翻译，聊天发送前预览译文；支持按会话设置发送语言。"
+  },
+  "refreshRequired": {
+    "message": "插件已更新，请刷新聊天页面"
+  },
+  "translationFailed": {
+    "message": "翻译失败"
+  },
+  "paused": {
+    "message": "翻译已暂停"
+  },
+  "translating": {
+    "message": "正在翻译…"
+  },
+  "sending": {
+    "message": "正在发送译文…"
+  },
+  "enterToSend": {
+    "message": "按 Enter 发送译文"
+  },
+  "sendPaused": {
+    "message": "发送已暂停"
+  },
+  "on": {
+    "message": "已开启"
+  },
+  "off": {
+    "message": "已暂停"
+  },
+  "show": {
+    "message": "显示"
+  },
+  "hide": {
+    "message": "隐藏"
+  },
+  "collapse": {
+    "message": "收起翻译设置"
+  },
+  "expand": {
+    "message": "展开翻译设置"
+  },
+  "translationTimeout": {
+    "message": "翻译超时，请重试"
+  },
+  "retry": {
+    "message": "重试"
+  },
+  "sendUnconfirmed": {
+    "message": "发送结果尚未确认，请先检查会话，勿重复发送"
+  },
+  "sendFailed": {
+    "message": "发送失败"
+  },
+  "previewLabel": {
+    "message": "发送前翻译"
+  },
+  "settings": {
+    "message": "翻译设置"
+  },
+  "outgoing": {
+    "message": "发送消息"
+  },
+  "translateTo": {
+    "message": "译成"
+  },
+  "previewHint": {
+    "message": "发送前预览译文；仅在译文就绪时发送"
+  },
+  "sendTranslation": {
+    "message": "发送翻译"
+  },
+  "incoming": {
+    "message": "收到的消息"
+  },
+  "myLanguage": {
+    "message": "译成我的语言"
+  },
+  "autoTranslate": {
+    "message": "自动翻译"
+  },
+  "showOriginal": {
+    "message": "查看原文"
+  },
+  "settingsHint": {
+    "message": "语言与开关会自动保存。收到的译文显示在原消息下方。"
+  },
+  "postFailed": {
+    "message": "翻译失败，原文已保留"
+  },
+  "postTranslation": {
+    "message": "帖子译文"
+  },
+  "translationLabel": {
+    "message": "译文 · $LANGUAGE$",
+    "placeholders": {
+      "language": {
+        "content": "$1"
+      }
+    }
+  },
+  "multipleSenders": {
+    "message": "发现多个发送入口，已暂停发送以避免误发"
+  },
+  "sendBusy": {
+    "message": "上一条消息仍在发送，请先检查会话"
+  },
+  "draftChanged": {
+    "message": "引擎配置有未保存的更改。"
+  },
+  "unsupportedMessage": {
+    "message": "当前消息状态不支持译文发送"
+  },
+  "senderChanged": {
+    "message": "X Chat 发送入口已变化"
+  },
+  "invalidTranslation": {
+    "message": "翻译参数无效"
+  },
+  "serviceError": {
+    "message": "翻译服务返回 $STATUS$",
+    "placeholders": {
+      "status": {
+        "content": "$1"
+      }
+    }
+  },
+  "emptyTranslation": {
+    "message": "翻译结果为空"
+  },
+  "readSettingsFailed": {
+    "message": "无法读取设置，请重新打开插件"
+  },
+  "saved": {
+    "message": "已保存，已打开的页面自动生效"
+  },
+  "saveFailed": {
+    "message": "保存失败，请重试"
+  },
+  "popupSubtitle": {
+    "message": "发送前预览 · 收到即翻译"
+  },
+  "popupIntro": {
+    "message": "浏览帖子时保留原文，下方显示译文。在 X Chat 输入消息，确认译文后按 Enter 发送。"
+  },
+  "postsToggle": {
+    "message": "帖子双语翻译"
+  },
+  "readingLanguage": {
+    "message": "我的语言（帖子与收到的消息）"
+  },
+  "postsHint": {
+    "message": "适用于可见帖子和回复。可在设置中选择显示方式。"
+  },
+  "openChat": {
+    "message": "打开 X Chat"
+  },
+  "sidebarHint": {
+    "message": "设置会在 X Chat 页面右侧显示。"
+  },
+  "privacyHint": {
+    "message": "帖子与评论草稿发送至所选翻译服务，私信使用 Google Translate。"
+  },
+  "lang_en": {
+    "message": "英语"
+  },
+  "lang_es": {
+    "message": "西班牙语"
+  },
+  "lang_ja": {
+    "message": "日语"
+  },
+  "lang_ko": {
+    "message": "韩语"
+  },
+  "lang_fr": {
+    "message": "法语"
+  },
+  "lang_de": {
+    "message": "德语"
+  },
+  "lang_pt": {
+    "message": "葡萄牙语"
+  },
+  "lang_ar": {
+    "message": "阿拉伯语"
+  },
+  "lang_ru": {
+    "message": "俄语"
+  },
+  "lang_zh_CN": {
+    "message": "简体中文"
+  },
+  "optsTitle": {
+    "message": "翻译设置"
+  },
+  "readPrefs": {
+    "message": "阅读偏好"
+  },
+  "autoPosts": {
+    "message": "自动翻译可见帖子"
+  },
+  "readLang": {
+    "message": "我的阅读语言"
+  },
+  "displayMode": {
+    "message": "帖子显示方式"
+  },
+  "bilingual": {
+    "message": "双语对照"
+  },
+  "replaceMode": {
+    "message": "原位替换"
+  },
+  "postPreview": {
+    "message": "帖子预览"
+  },
+  "sample": {
+    "message": "示例帖子"
+  },
+  "sharedLang": {
+    "message": "阅读语言也用于收到的私信。"
+  },
+  "postEngineTitle": {
+    "message": "帖子翻译引擎"
+  },
+  "translationService": {
+    "message": "翻译服务"
+  },
+  "localAddress": {
+    "message": "本地服务地址"
+  },
+  "accessToken": {
+    "message": "访问令牌"
+  },
+  "localToken": {
+    "message": "令牌仅保存在此浏览器。"
+  },
+  "aiProvider": {
+    "message": "AI 引擎"
+  },
+  "existingSession": {
+    "message": "已有会话"
+  },
+  "refreshSessions": {
+    "message": "检测连接并刷新会话"
+  },
+  "relayScope": {
+    "message": "帖子正文会交给所选 AI 会话。私信使用 Google Translate。"
+  },
+  "googleScope": {
+    "message": "帖子和私信使用 Google Translate。"
+  },
+  "saveEngine": {
+    "message": "保存引擎"
+  },
+  "trialPosts": {
+    "message": "试译 2 条示例"
+  },
+  "trialDone": {
+    "message": "2 条译文已回填。"
+  },
+  "trialResults": {
+    "message": "试译结果"
+  },
+  "detecting": {
+    "message": "正在检测连接…"
+  },
+  "pickSession": {
+    "message": "请刷新并选择会话。"
+  },
+  "emptySessions": {
+    "message": "请在 AgentRelay 准备翻译会话，然后刷新。"
+  },
+  "showTranslation": {
+    "message": "查看译文"
+  },
+  "checkResult": {
+    "message": "查询原任务"
+  },
+  "slowTranslation": {
+    "message": "仍在翻译，可以继续阅读原文。"
+  },
+  "relayUnknown": {
+    "message": "结果待确认，请查询原任务。"
+  },
+  "relayInvalid": {
+    "message": "译文不完整或格式有误。"
+  },
+  "relayFailed": {
+    "message": "翻译失败。"
+  },
+  "relayAddressError": {
+    "message": "请输入 HTTP 回环地址。"
+  },
+  "relayOffline": {
+    "message": "无法连接 AgentRelay，请检查地址和服务。"
+  },
+  "relayAuth": {
+    "message": "请检查访问令牌。"
+  },
+  "relayForbidden": {
+    "message": "请检查浏览器授权及 AgentRelay 来源权限。"
+  },
+  "relayConfigError": {
+    "message": "请检查令牌、AI 引擎及会话。"
+  },
+  "relayUnavailable": {
+    "message": "所选 AI 引擎尚未就绪。"
+  },
+  "relayMissing": {
+    "message": "未找到会话或任务。"
+  },
+  "relayRejected": {
+    "message": "AgentRelay 未受理此请求。"
+  },
+  "relayStale": {
+    "message": "设置已变更。"
+  },
+  "relayPriorPending": {
+    "message": "上一条请求待确认，请先检查所选会话再重试。"
+  },
+  "aiGuide": {
+    "message": "使用 AgentRelay 配置本地 AI 翻译"
+  },
+  "replyPreview": {
+    "message": "评论译文"
+  },
+  "replyTarget": {
+    "message": "译成"
+  },
+  "replyAuto": {
+    "message": "跟随帖子"
+  },
+  "replyAutoTip": {
+    "message": "自动识别当前所回复帖子的语言，并将你的回复翻译为该语言。"
+  },
+  "replyIntercept": {
+    "message": "拦截发送"
+  },
+  "replyEnabled": {
+    "message": "评论翻译"
+  },
+  "replyPopupHint": {
+    "message": "保留输入原文，在下方预览译文。开启拦截后，Enter 和回复按钮发送译文。"
+  },
+  "replyTargetSetting": {
+    "message": "评论目标语言"
+  },
+  "replyChooseLanguage": {
+    "message": "无法确认帖子语言，请选择目标语言。"
+  },
+  "replySlow": {
+    "message": "AI 仍在翻译，请稍候…"
+  },
+  "replyWaitingToSend": {
+    "message": "译文完成后将自动发送…"
+  },
+  "replyEnterHint": {
+    "message": "Enter 发送译文 · Shift + Enter 换行"
+  },
+  "replyPreviewOnly": {
+    "message": "仅预览 · X 发送输入框原文"
+  },
+  "replySendUnknown": {
+    "message": "发送结果未确认，请先检查帖子回复，避免重复发送。"
+  },
+  "replySendFailed": {
+    "message": "发送失败，原文已保留。请检查后重试。"
+  },
+  "replySendBusy": {
+    "message": "正在发送，请稍候…"
+  },
+  "replyDraftChanged": {
+    "message": "草稿或回复对象已变化，就绪后请重新发送。"
+  },
+  "replySenderChanged": {
+    "message": "X 发布入口已变化，已暂停发送。请刷新页面。"
+  },
+  "replyTooManyPending": {
+    "message": "待确认的翻译较多，请先检查之前的结果。"
+  },
+  "relayNotInstalled": {
+    "message": "未在本机检测到 AgentRelay。"
+  },
+  "relayNotRunning": {
+    "message": "已安装 AgentRelay，但本地服务尚未启动。"
+  },
+  "relayPortConflict": {
+    "message": "本地端口被其他程序占用，请检查 AgentRelay 设置。"
+  },
+  "relayGuideNotInstalledBody": {
+    "message": "请先在本机安装并启动 AgentRelay 客户端，然后点击“重新检测”，扩展将自动获取本地地址与访问令牌。"
+  },
+  "relayGuideNotRunningBody": {
+    "message": "已检测到本机安装了 AgentRelay，但本地服务尚未启动。请先打开 AgentRelay，然后点击“重新检测”。"
+  },
+  "relayGuideLearnMore": {
+    "message": "了解与下载 AgentRelay"
+  },
+  "relayGuideRetry": {
+    "message": "重新检测"
+  },
+  "close": {
+    "message": "关闭"
+  },
+  "postEngineLabel": {
+    "message": "帖子翻译"
+  },
+  "replyEngineLabel": {
+    "message": "评论翻译"
+  },
+  "chatIncomingEngineLabel": {
+    "message": "私信收到"
+  },
+  "chatOutgoingEngineLabel": {
+    "message": "私信发送"
+  },
+  "geminiApiKey": {
+    "message": "Gemini API Key"
+  },
+  "geminiGetKey": {
+    "message": "获取 Key"
+  },
+  "geminiTest": {
+    "message": "测试"
+  },
+  "geminiKeyHint": {
+    "message": "密钥仅保存在此浏览器，可在 Google AI Studio 免费申请。"
+  },
+  "geminiModel": {
+    "message": "Gemini 模型"
+  },
+  "multiEngineScope": {
+    "message": "各场景将独立使用各自所选的翻译引擎。"
+  },
+  "geminiConfigError": {
+    "message": "请填写 Gemini API Key。"
+  },
+  "geminiPermissionDenied": {
+    "message": "请允许访问 generativelanguage.googleapis.com 以使用 Gemini API。"
+  },
+  "geminiConnected": {
+    "message": "Gemini API 连接测试成功。"
+  },
+  "geminiAuth": {
+    "message": "Gemini API Key 无效或被拒绝，请检查。"
+  },
+  "geminiModelError": {
+    "message": "所选 Gemini 模型不可用。"
+  },
+  "geminiRateLimit": {
+    "message": "Gemini API 当前繁忙或触发限流，请稍后重试。"
+  },
+  "geminiOffline": {
+    "message": "无法连接 Gemini API，请检查网络。"
+  },
+  "geminiFailed": {
+    "message": "Gemini API 翻译失败。"
+  },
+  "navProviders": {
+    "message": "翻译引擎"
+  },
+  "navScenes": {
+    "message": "引擎选择"
+  },
+  "navPreferences": {
+    "message": "偏好设置"
+  },
+  "googleDesc": {
+    "message": "官方云端免费直连，免配置，默认启用。"
+  },
+  "relayDesc": {
+    "message": "连接本机 AI 客户端，支持一键自动检测安装并交换令牌。"
+  },
+  "statusEnabled": {
+    "message": "已启用"
+  },
+  "statusUnconfigured": {
+    "message": "未配置"
+  },
+  "enableBtn": {
+    "message": "启用"
+  },
+  "collapseBtn": {
+    "message": "收起"
+  },
+  "relayAutoEnable": {
+    "message": "一键启用"
+  },
+  "testPreview": {
+    "message": "测试预览"
+  },
+  "postSceneHint": {
+    "message": "X 首页、详情页与时间线推文"
+  },
+  "replySceneHint": {
+    "message": "发评输入框实时预览与拦截发送"
+  },
+  "chatInSceneHint": {
+    "message": "X Chat 收到的对方私信消息"
+  },
+  "chatOutSceneHint": {
+    "message": "X Chat 输入框发送前译文预览"
+  },
+  "saveScenes": {
+    "message": "保存场景分配"
+  },
+  "themeSetting": {
+    "message": "外观主题"
+  },
+  "themeAuto": {
+    "message": "跟随默认"
+  },
+  "themeLight": {
+    "message": "白天"
+  },
+  "themeDark": {
+    "message": "黑夜"
+  },
+  "basicSettings": {
+    "message": "基础设置"
+  },
+  "advancedSettings": {
+    "message": "高级设置"
+  },
+  "replyEngineShort": {
+    "message": "引擎"
+  }
+}

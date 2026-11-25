@@ -1,0 +1,23 @@
+Responde a clientes y comunidades de X en el idioma de la publicación. Escribe en tu idioma y revisa la traducción debajo del cuadro de respuesta. El borrador original se conserva. Presiona Enter o haz clic en Responder para enviar la traducción. Puedes elegir otro idioma o desactivar la interceptación del envío para ver solo la vista previa. Los borradores se traducen con Google Translate o AgentRelay, según tu configuración, y las traducciones se pueden reutilizar desde la caché local.
+
+X Chat Translator traduce publicaciones, respuestas y mensajes privados en X (Twitter).
+
+Lee publicaciones en vista bilingüe o reemplaza el texto con la traducción. Puedes consultar el original de cada publicación. Funciona con contenido visible, respuestas y textos largos. El original sigue disponible mientras esperas.
+
+Google Translate es el servicio predeterminado. Para publicaciones, puedes usar AgentRelay local con Codex o Antigravity y seleccionar una sesión existente. Varias publicaciones se agrupan en una solicitud y cada traducción vuelve al texto correspondiente mediante su ID. Los mensajes privados siguen usando Google Translate.
+
+La página de ajustes tiene dos columnas para lectura y motor de traducción. Comprueba la conexión, elige una sesión, prueba 2 ejemplos y guarda. El icono de IA junto a la traducción abre la guía.
+
+Las traducciones de publicaciones se guardan en IndexedDB local, hasta 4,096 segmentos. La caché distingue dirección del servicio, motor, sesión, idioma y texto original, para reutilizar resultados al recargar o volver a abrir.
+
+En mensajes salientes, escribe en tu idioma, revisa la vista previa y confirma el envío. Los mensajes recibidos pueden traducirse automáticamente. El idioma de envío puede guardarse por conversación.
+
+La interfaz incluye inglés, chino simplificado, español latinoamericano, japonés y coreano.
+
+Datos y requisitos
+Los textos se envían a Google Translate o, para publicaciones configuradas con AgentRelay, al servicio local y al proveedor de IA elegido. Debes instalar y ejecutar AgentRelay por separado e iniciar sesión. La sesión de IA puede conservar los textos. El token se guarda en el almacenamiento local de la extensión. No hay un servicio propio de analítica. Las traducciones locales permanecen hasta ser reemplazadas o desinstalar la extensión.
+
+No traduce imágenes ni subtítulos y no funciona sin conexión. La calidad depende del servicio. Los cambios de X pueden afectar el envío de mensajes. Si el resultado es incierto, revisa la conversación antes de repetir.
+
+Producto y guía: https://goodexts.com/es/x-chat-translator#agentrelay
+Extensión independiente, sin afiliación con X ni Google.

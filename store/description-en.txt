@@ -1,0 +1,21 @@
+X Chat Translator translates posts, replies and direct messages on X (Twitter).
+
+Read visible posts in bilingual view or replace the text with a translation. You can show the original for each post. Dynamic timelines, replies and long posts are supported. Loading keeps the original readable while translation runs.
+
+Google Translate is the default service. For posts, you can choose a local AgentRelay service, connect Codex or Antigravity, and select an existing translation session. Several visible posts are grouped into one request and results are mapped back by item ID. DMs continue to use Google Translate.
+
+The options page groups reading preferences and translation-engine settings in two columns. Check your local service connection, choose a session, try two sample posts and save the configuration. Click the AI icon beside a post translation to open the setup guide.
+
+Successful post translations are cached in browser-local IndexedDB, up to 4,096 segments. Cache entries are separated by service address, AI engine, session, target language and original text. Refreshing or reopening a page can reuse matching translations.
+
+For outgoing DMs, type in your own language, review the translation preview, then confirm sending. Incoming text messages can be translated into your reading language. Chat language preferences can be saved per conversation.
+
+The interface follows your browser language, with English, Simplified Chinese, Latin American Spanish, Japanese and Korean. Reading and sending target languages are configured separately.
+
+Data and requirements
+Enabled translation sends the relevant text to Google Translate or, for posts configured to use AgentRelay, to your local service and selected AI provider. AgentRelay must be installed, running and authenticated separately. AI session history may retain posts and translations. The token is stored only in the extension's local storage. The extension has no developer-run analytics service. Cached post translations persist locally until replaced or the extension is removed.
+
+Text in images, video subtitles and offline translation are not supported. Translation quality and availability depend on the service. Changes to X can affect DM sending. If sending cannot be verified, check the conversation before retrying.
+
+Product and setup guide: https://goodexts.com/x-chat-translator#agentrelay
+This independent extension is not affiliated with X or Google.

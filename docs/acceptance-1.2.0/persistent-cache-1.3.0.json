@@ -1,0 +1,38 @@
+{
+  "port": 9222,
+  "extensionId": "peaggfbpdbpofbohencpdabfaogcpdcb",
+  "version": "1.3.0",
+  "statusId": "2122210753763832276",
+  "sourceHash": "15e63c5098249924ec",
+  "translationHash": "3d1d759f8a0d1687cb",
+  "storedHash": "3d1d759f8a0d1687cb",
+  "firstJob": "2211b7f6-ffd4-494e-87ed-060dc9581565",
+  "requestsContainingSource": [
+    {
+      "phase": "first",
+      "count": 1
+    },
+    {
+      "phase": "reopen",
+      "count": 0
+    },
+    {
+      "phase": "refresh",
+      "count": 0
+    }
+  ],
+  "postRequestsObserved": [
+    {
+      "phase": "first",
+      "count": 2
+    },
+    {
+      "phase": "reopen",
+      "count": 0
+    },
+    {
+      "phase": "refresh",
+      "count": 0
+    }
+  ]
+}

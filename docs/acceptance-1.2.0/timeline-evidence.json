@@ -1,0 +1,118 @@
+{
+  "port": 9222,
+  "version": "1.2.0",
+  "extensionId": "peaggfbpdbpofbohencpdabfaogcpdcb",
+  "login": true,
+  "scroll1": {
+    "before": 0,
+    "after": 655,
+    "ms": 27621
+  },
+  "scroll2": {
+    "before": 719,
+    "after": 2899,
+    "ms": 44270
+  },
+  "states": [
+    {
+      "state": "waiting",
+      "ids": [
+        "2122118351841542275",
+        "2122210753763832276"
+      ],
+      "labels": [
+        "仍在翻译，可以继续阅读原文。",
+        "仍在翻译，可以继续阅读原文。"
+      ],
+      "ms": 27168
+    }
+  ],
+  "farEnough": true,
+  "jobs": [
+    {
+      "id": "db9c2ba8-9cb4-40d7-9062-4684a1bc4394",
+      "postObserved": true,
+      "count": 2,
+      "completed": true,
+      "distinctStatusIds": [
+        "2122118351841542275",
+        "2122210753763832276"
+      ]
+    },
+    {
+      "id": "65fd2c10-77ac-4572-9487-3b0794469e55",
+      "postObserved": true,
+      "count": 2,
+      "completed": true,
+      "distinctStatusIds": [
+        "2121971590384820603",
+        "2121986785626771506"
+      ]
+    },
+    {
+      "id": "7d005108-34fd-48e9-9e84-e818fb78d399",
+      "postObserved": true,
+      "count": 1,
+      "completed": true,
+      "distinctStatusIds": [
+        "2122004993205248452"
+      ]
+    },
+    {
+      "id": "54a2a810-9b09-4351-986b-cae7ace0127e",
+      "postObserved": true,
+      "count": 1,
+      "completed": false,
+      "distinctStatusIds": [
+        "2122174055155380442"
+      ]
+    }
+  ],
+  "matched": [
+    {
+      "statusId": "2122118351841542275",
+      "jobId": "db9c2ba8-9cb4-40d7-9062-4684a1bc4394",
+      "item": "p1",
+      "sourceHash": "52d67436c6e339b806",
+      "translationHash": "418c420cb4fac057bb",
+      "inViewport": false,
+      "afterScroll": true
+    },
+    {
+      "statusId": "2122210753763832276",
+      "jobId": "db9c2ba8-9cb4-40d7-9062-4684a1bc4394",
+      "item": "p2",
+      "sourceHash": "15e63c5098249924ec",
+      "translationHash": "3d1d759f8a0d1687cb",
+      "inViewport": true,
+      "afterScroll": true
+    },
+    {
+      "statusId": "2121971590384820603",
+      "jobId": "65fd2c10-77ac-4572-9487-3b0794469e55",
+      "item": "p3",
+      "sourceHash": "3fa4a7f793e6a86e79",
+      "translationHash": "1455b668b7cfbbda34",
+      "inViewport": false,
+      "afterScroll": true
+    },
+    {
+      "statusId": "2121986785626771506",
+      "jobId": "65fd2c10-77ac-4572-9487-3b0794469e55",
+      "item": "p4",
+      "sourceHash": "0936f7a3cd7f69a3b8",
+      "translationHash": "ceb8ed73e861a01cfe",
+      "inViewport": false,
+      "afterScroll": true
+    },
+    {
+      "statusId": "2122004993205248452",
+      "jobId": "7d005108-34fd-48e9-9e84-e818fb78d399",
+      "item": "p5",
+      "sourceHash": "a83c6a068c2e95977a",
+      "translationHash": "8c8a3fcf15175df1d2",
+      "inViewport": true,
+      "afterScroll": true
+    }
+  ]
+}

@@ -1,9 +1,5 @@
 (() => {
-  const LANGUAGES = [
-    ['en', '英语'], ['es', '西班牙语'], ['ja', '日语'], ['ko', '韩语'],
-    ['fr', '法语'], ['de', '德语'], ['pt', '葡萄牙语'], ['ar', '阿拉伯语'],
-    ['ru', '俄语'], ['zh-CN', '简体中文'],
-  ];
+  const { t, languages: LANGUAGES, readingLanguage } = globalThis.XCTI18n;
   const requestEvent = 'xct:send-request';
   const responseEvent = 'xct:send-response';
   let mounted = null;
@@ -12,9 +8,11 @@
   let settingsOpen = true;
   let enabled = true;
   let incomingEnabled = true;
-  let incomingLanguage = 'zh-CN';
+  let incomingLanguage = readingLanguage;
   let showOriginal = true;
   let incomingSequence = 0;
+  let chatIncomingEngine = { kind: 'google' };
+  let chatOutgoingEngine = { kind: 'google' };
   const translationCache = new Map();
   const translationRequests = new Map();
   const queuedIncoming = new Map();
@@ -64,18 +62,44 @@
     translationCache.set(key, text);
     if (translationCache.size > 500) translationCache.delete(translationCache.keys().next().value);
   }
-  function requestTranslation(source, language) {
-    const key = translationKey(source, language);
+  function requestTranslation(source, language, post = false, scene = 'chatOutgoing') {
+    const activeEngine = post ? { kind: 'google' } : (scene === 'chatIncoming' ? chatIncomingEngine : chatOutgoingEngine);
+    const engineTag = `${activeEngine.kind || 'google'}:${activeEngine.revision || ''}:`;
+    const key = (post ? 'post:' : engineTag) + translationKey(source, language);
     const cached = cachedTranslation(key);
     if (cached !== null) return Promise.resolve(cached);
     if (translationRequests.has(key)) return translationRequests.get(key);
-    if (!runtimeAvailable()) return Promise.reject(new Error('插件已更新，请刷新聊天页面'));
+    if (!runtimeAvailable()) return Promise.reject(new Error(t('refreshRequired')));
     const request = Promise.resolve()
-      .then(() => chrome.runtime.sendMessage({ type: 'XCT_TRANSLATE', text: source, language }))
-      .then((response) => {
-        if (!response?.ok) throw new Error(response?.error || '翻译失败');
-        rememberTranslation(key, response.text);
+      .then(async () => {
+        if (activeEngine.kind === 'gemini') {
+          const response = await chrome.runtime.sendMessage({
+            type: 'XCT_GEMINI_TRANSLATE',
+            text: source,
+            language,
+            scene,
+            revision: activeEngine.revision,
+          });
+          if (!response?.ok) throw new Error(t(response?.error || 'translationFailed'));
+          return response.value;
+        }
+        if (activeEngine.kind === 'relay' && globalThis.XCTRelay) {
+          const items = await XCTRelay.run(
+            crypto.randomUUID(),
+            { items: [{ id: 'chat_0', text: source }], language, revision: activeEngine.revision, scene },
+            () => !disposed
+          );
+          const translated = items?.[0]?.translation?.trim();
+          if (!translated) throw new Error(t('emptyTranslation'));
+          return translated;
+        }
+        const response = await chrome.runtime.sendMessage({ type: post ? 'XCT_POST_GOOGLE' : 'XCT_TRANSLATE', text: source, language });
+        if (!response?.ok) throw new Error(t(response?.errorCode || 'translationFailed', response?.status ? String(response.status) : []));
         return response.text;
+      })
+      .then((text) => {
+        rememberTranslation(key, text);
+        return text;
       });
     translationRequests.set(key, request);
     request.then(() => translationRequests.delete(key), () => translationRequests.delete(key));
@@ -95,25 +119,28 @@
     }
     const { ui, settingsUi } = mounted;
     const languageName = LANGUAGES.find(([code]) => code === selectedLanguage)?.[1] || selectedLanguage;
-    const message = !enabled ? '翻译已暂停' :
+    const message = !enabled ? t('paused') :
       status === 'ready' ? preview :
-      status === 'translating' ? '正在翻译…' :
-      status === 'sending' ? '正在发送译文…' :
+      status === 'translating' ? t('translating') :
+      status === 'sending' ? t('sending') :
       status === 'error' ? statusText :
       '';
     ui.querySelector('.xct-preview').textContent = message;
-    ui.querySelector('.xct-state').textContent = status === 'ready' ? '按 Enter 发送译文' :
-      status === 'error' ? '发送已暂停' :
+    ui.querySelector('.xct-state').textContent = status === 'ready' ? t('enterToSend') :
+      status === 'error' ? t('sendPaused') :
       '';
     ui.querySelector('.xct-language').textContent = languageName;
     ui.querySelector('.xct-card').dataset.state = status;
     ui.querySelector('.xct-card').hidden = !draft.trim();
-    settingsUi.querySelector('.xct-toggle').textContent = enabled ? '已开启' : '已暂停';
-    settingsUi.querySelector('.xct-incoming-toggle').textContent = incomingEnabled ? '已开启' : '已暂停';
-    settingsUi.querySelector('.xct-original-toggle').textContent = showOriginal ? '显示' : '隐藏';
+    settingsUi.querySelector('.xct-toggle').textContent = enabled ? t('on') : t('off');
+    settingsUi.querySelector('.xct-incoming-toggle').textContent = incomingEnabled ? t('on') : t('off');
+    settingsUi.querySelector('.xct-original-toggle').textContent = showOriginal ? t('show') : t('hide');
     settingsUi.querySelector('.xct-target').value = selectedLanguage;
     settingsUi.querySelector('.xct-incoming-target').value = incomingLanguage;
-    settingsUi.querySelector('.xct-collapse').setAttribute('aria-label', settingsOpen ? '收起翻译设置' : '展开翻译设置');
+    settingsUi.querySelector('.xct-collapse').setAttribute('aria-label', settingsOpen ? t('collapse') : t('expand'));
+    settingsUi.querySelector('.xct-collapse').dataset.tip = t(settingsOpen ? 'collapse' : 'expand');
+    settingsUi.querySelector('.xct-collapse').setAttribute('aria-expanded', String(settingsOpen));
+    for (const [selector, active] of [['.xct-toggle', enabled], ['.xct-incoming-toggle', incomingEnabled], ['.xct-original-toggle', showOriginal]]) settingsUi.querySelector(selector).setAttribute('aria-pressed', String(active));
     settingsUi.querySelector('.xct-settings-body').hidden = !settingsOpen;
     ui.querySelector('.xct-retry').hidden = status !== 'error';
     positionSettings();
@@ -163,8 +190,8 @@
   async function translate(version, source, language, conversation) {
     try {
       const response = await Promise.race([
-        requestTranslation(source, language),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('翻译超时，请重试')), 15000)),
+        requestTranslation(source, language, false, 'chatOutgoing'),
+        new Promise((_, reject) => setTimeout(() => reject(new Error(t('translationTimeout'))), 15000)),
       ]);
       if (version !== sequence || source !== draft || language !== selectedLanguage || conversation !== conversationKey()) return;
       preview = response;
@@ -173,7 +200,7 @@
       if (!runtimeAvailable()) { dispose(); return; }
       if (version !== sequence) return;
       status = 'error';
-      statusText = error.message || '翻译失败';
+      statusText = error.message || t('translationFailed');
     }
     render();
   }
@@ -204,13 +231,15 @@
   }
 
   async function loadPreferences() {
-    const data = await readStorage(['settingsOpen', 'incomingLanguage', 'incomingEnabled', 'showOriginal', 'sendEnabled']);
+    const data = await readStorage(['settingsOpen', 'incomingLanguage', 'incomingEnabled', 'showOriginal', 'sendEnabled', 'chatIncomingEngine', 'chatOutgoingEngine']);
     if (!data || disposed || !mounted) return;
     if (typeof data.settingsOpen === 'boolean') settingsOpen = data.settingsOpen;
     if (LANGUAGES.some(([code]) => code === data.incomingLanguage)) incomingLanguage = data.incomingLanguage;
     if (typeof data.incomingEnabled === 'boolean') incomingEnabled = data.incomingEnabled;
     if (typeof data.showOriginal === 'boolean') showOriginal = data.showOriginal;
     if (typeof data.sendEnabled === 'boolean') enabled = data.sendEnabled;
+    if (data.chatIncomingEngine) chatIncomingEngine = data.chatIncomingEngine;
+    if (data.chatOutgoingEngine) chatOutgoingEngine = data.chatOutgoingEngine;
     render();
     refreshIncoming();
   }
@@ -219,7 +248,7 @@
     while (incomingActive < 4 && incomingQueue.length) {
       const job = incomingQueue.shift();
       incomingActive++;
-      requestTranslation(job.source, job.language)
+      requestTranslation(job.source, job.language, job.post, job.post ? 'post' : 'chatIncoming')
         .then(job.resolve)
         .catch((error) => {
           if (!runtimeAvailable()) dispose();
@@ -229,13 +258,13 @@
     }
   }
 
-  function incomingTranslation(source, language) {
-    const key = translationKey(source, language);
+  function incomingTranslation(source, language, post = false) {
+    const key = (post ? 'post:' : '') + translationKey(source, language);
     const cached = cachedTranslation(key);
     if (cached !== null) return Promise.resolve(cached);
     if (queuedIncoming.has(key)) return queuedIncoming.get(key);
     const pending = new Promise((resolve, reject) => {
-      incomingQueue.push({ key, source, language, resolve, reject });
+      incomingQueue.push({ key, source, language, post, resolve, reject });
       runIncomingQueue();
     });
     queuedIncoming.set(key, pending);
@@ -266,7 +295,7 @@
       const note = document.createElement('div');
       note.className = 'xct-incoming-note';
       note.dataset.key = key;
-      note.textContent = '翻译中…';
+      note.textContent = t('translating');
       bubble.appendChild(note);
       const version = incomingSequence;
       incomingTranslation(source, incomingLanguage).then((translated) => {
@@ -277,10 +306,10 @@
       }).catch(() => {
         if (version !== incomingSequence || !note.isConnected) return;
         sourceNode?.removeAttribute('hidden');
-        note.textContent = '翻译失败 ';
+        note.textContent = t('translationFailed') + ' ';
         const retry = document.createElement('button');
         retry.type = 'button';
-        retry.textContent = '重试';
+        retry.textContent = t('retry');
         retry.style.cssText = 'color:inherit;background:transparent;border:1px solid currentColor;border-radius:8px;cursor:pointer;';
         retry.addEventListener('click', (event) => {
           event.preventDefault();
@@ -319,7 +348,7 @@
       };
       const timer = setTimeout(() => {
         document.removeEventListener(responseEvent, listener);
-        resolve({ ok: false, error: '发送结果尚未确认，请先检查会话，勿重复发送' });
+        resolve({ ok: false, errorCode: 'sendUnconfirmed' });
       }, 15000);
       document.addEventListener(responseEvent, listener);
     });
@@ -337,7 +366,7 @@
       return;
     } else {
       status = 'error';
-      statusText = outcome.error || '发送失败';
+      statusText = t(outcome.errorCode || 'sendFailed');
     }
     render();
   }
@@ -361,15 +390,15 @@
         *{box-sizing:border-box}.xct-wrap{display:flex;align-items:flex-end;justify-content:flex-end;pointer-events:none}
         .xct-card{pointer-events:auto;background:var(--xct-card);backdrop-filter:blur(12px);border:1px solid var(--xct-card-border);box-shadow:0 10px 30px var(--xct-shadow);border-radius:14px;width:100%;padding:10px 13px}
         .xct-card[hidden]{display:none}
-        .xct-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;color:var(--xct-muted);font-size:12px}
+        .xct-top{display:flex;flex-wrap:wrap;row-gap:4px;column-gap:12px;align-items:center;justify-content:space-between;margin-bottom:5px;color:var(--xct-muted);font-size:12px}
         .xct-top strong{color:var(--xct-heading);font-weight:650}.xct-preview{white-space:pre-wrap;word-break:break-word;color:var(--xct-text)}
-        .xct-card[data-state="error"] .xct-preview{color:var(--xct-error)}.xct-state{font-size:11px;color:var(--xct-state);white-space:nowrap}
+        .xct-card[data-state="error"] .xct-preview{color:var(--xct-error)}.xct-state{font-size:11px;color:var(--xct-state);white-space:normal}
         button,select{font:inherit}button{cursor:pointer;border:0;background:transparent;color:var(--xct-accent);padding:1px 4px}
         button:hover{text-decoration:underline}button:disabled{color:var(--xct-disabled);cursor:not-allowed}button[hidden]{display:none}
       </style>
       <div class="xct-wrap">
         <div class="xct-card" data-state="idle">
-          <div class="xct-top"><strong>发送前翻译 · <span class="xct-language">英语</span></strong><span><span class="xct-state"></span><button class="xct-retry" hidden>重试</button></span></div>
+          <div class="xct-top"><strong>${t('previewLabel')} · <span class="xct-language"></span></strong><span><span class="xct-state"></span><button class="xct-retry" hidden>${t('retry')}</button></span></div>
           <div class="xct-preview"></div>
         </div>
       </div>`;
@@ -391,14 +420,17 @@
         .xct-head{display:flex;align-items:center;justify-content:space-between;font-weight:650;min-height:48px}
         :host([data-open="false"]) .xct-head{justify-content:center}
         :host([data-open="false"]) .xct-title{display:none}
-        .xct-collapse{display:flex;align-items:center;justify-content:center;min-width:30px;min-height:34px;font-size:25px;line-height:1}
+        .xct-collapse{position:relative;display:flex;align-items:center;justify-content:center;min-width:30px;min-height:34px;font-size:25px;line-height:1}
+        .xct-collapse:hover::after,.xct-collapse:focus-visible::after{content:attr(data-tip);position:fixed;right:4px;top:44px;max-width:280px;padding:6px 9px;border:1px solid var(--xct-control-border);border-radius:6px;background:var(--xct-bg);color:var(--xct-text);font:12px/1.5 system-ui;z-index:1}
         .xct-translate-icon{display:none;position:relative;width:24px;height:24px;font-size:15px;font-weight:700;line-height:1}
         .xct-translate-icon span:first-child{position:absolute;left:0;top:0;color:var(--xct-text)}
         .xct-translate-icon span:last-child{position:absolute;right:0;bottom:0;color:var(--xct-accent);background:var(--xct-icon-bg);border-radius:3px;padding:1px;font-size:13px}
         :host([data-open="false"]) .xct-collapse-arrow{display:none}
         :host([data-open="false"]) .xct-translate-icon{display:block}
         label{display:block;font-size:12px;color:var(--xct-muted);margin:14px 0 5px}
-        select{font:inherit;width:100%;height:36px;border:1px solid var(--xct-control-border);border-radius:8px;background:var(--xct-control-bg);color:var(--xct-text);padding:0 7px}
+        select{appearance:none;box-sizing:border-box;font:12px system-ui;width:100%;height:30px;border:1px solid var(--xct-control-border);border-radius:6px;background-color:var(--xct-control-bg);color:var(--xct-text);padding-inline:10px 28px;background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath fill='%238b98a5' d='M0 0h10L5 6z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-origin: border-box; background-position: right 10px center; background-size: 10px 6px;}
+        select:dir(rtl){background-position:left 10px center}
+        @media(forced-colors:active){select{appearance:auto;background-image:none;padding-inline-end:10px}}
         p{font-size:11px;color:var(--xct-subtle);margin:9px 0 12px}.xct-section{border-top:1px solid var(--xct-border);padding:12px 0}
         .xct-row{display:flex;align-items:center;justify-content:space-between;margin:10px 0;font-size:12px}
         button{font:inherit;cursor:pointer;border:0;background:transparent;color:var(--xct-accent);padding:2px 4px}
@@ -407,21 +439,21 @@
         [hidden]{display:none!important}
       </style>
       <div class="xct-settings">
-        <div class="xct-head"><span class="xct-title">翻译设置</span><button class="xct-collapse" aria-label="收起翻译设置"><span class="xct-collapse-arrow">‹</span><span class="xct-translate-icon" aria-hidden="true"><span>文</span><span>A</span></span></button></div>
+        <div class="xct-head"><span class="xct-title">${t('settings')}</span><button class="xct-collapse" aria-label="${t('collapse')}"><span class="xct-collapse-arrow">‹</span><span class="xct-translate-icon" aria-hidden="true"><span>文</span><span>A</span></span></button></div>
         <div class="xct-settings-body">
-          <div class="xct-section"><strong>发送消息</strong>
-            <label for="xct-target">译成</label>
+          <div class="xct-section"><strong>${t('outgoing')}</strong>
+            <label for="xct-target">${t('translateTo')}</label>
             <select id="xct-target" class="xct-target">${LANGUAGES.map(([code, label]) => `<option value="${escapeHtml(code)}">${escapeHtml(label)}</option>`).join('')}</select>
-            <p>发送前预览译文；仅在译文就绪时发送</p>
-            <div class="xct-row"><span>发送翻译</span><button class="xct-toggle">已开启</button></div>
+            <p>${t('previewHint')}</p>
+            <div class="xct-row"><span>${t('sendTranslation')}</span><button class="xct-toggle">${t('on')}</button></div>
           </div>
-          <div class="xct-section"><strong>收到的消息</strong>
-            <label for="xct-incoming-target">译成我的语言</label>
+          <div class="xct-section"><strong>${t('incoming')}</strong>
+            <label for="xct-incoming-target">${t('myLanguage')}</label>
             <select id="xct-incoming-target" class="xct-incoming-target">${LANGUAGES.map(([code, label]) => `<option value="${escapeHtml(code)}">${escapeHtml(label)}</option>`).join('')}</select>
-            <div class="xct-row"><span>自动翻译</span><button class="xct-incoming-toggle">已开启</button></div>
-            <div class="xct-row"><span>显示原文</span><button class="xct-original-toggle">显示</button></div>
+            <div class="xct-row"><span>${t('autoTranslate')}</span><button class="xct-incoming-toggle">${t('on')}</button></div>
+            <div class="xct-row"><span>${t('showOriginal')}</span><button class="xct-original-toggle">${t('show')}</button></div>
           </div>
-          <p>语言与开关会自动保存。收到的译文显示在原消息下方。</p>
+          <p>${t('settingsHint')}</p>
         </div>
       </div>`;
     settingsUi.querySelector('.xct-collapse').addEventListener('click', () => {
@@ -563,7 +595,13 @@
   function onPreferencesChanged(changes, area) {
     if (area !== 'local' || !mounted) return;
     const translationChanged = (changes.incomingLanguage && changes.incomingLanguage.newValue !== incomingLanguage) ||
-      (changes.incomingEnabled && changes.incomingEnabled.newValue !== incomingEnabled);
+      (changes.incomingEnabled && changes.incomingEnabled.newValue !== incomingEnabled) ||
+      Boolean(changes.chatIncomingEngine);
+    if (changes.chatIncomingEngine) chatIncomingEngine = changes.chatIncomingEngine.newValue || { kind: 'google' };
+    if (changes.chatOutgoingEngine) {
+      chatOutgoingEngine = changes.chatOutgoingEngine.newValue || { kind: 'google' };
+      scheduleTranslation();
+    }
     if (translationChanged) {
       incomingSequence++;
       mounted.root.querySelectorAll('.xct-incoming-note:not([data-ready])').forEach(note => note.remove());
@@ -575,7 +613,7 @@
   chrome.storage.onChanged.addListener(onPreferencesChanged);
   document.addEventListener('keydown', onDocumentKeyDown, true);
   // Shared only inside the extension's isolated world, including the bounded queue and LRU.
-  globalThis.xctTranslationService = { translate: incomingTranslation, available: runtimeAvailable, languages: LANGUAGES };
+  globalThis.xctTranslationService = { translate: (source, language) => incomingTranslation(source, language, true), available: runtimeAvailable, languages: LANGUAGES };
   document.addEventListener('click', onDocumentClick, true);
   scanTimer = setInterval(scan, 500);
   scan();
