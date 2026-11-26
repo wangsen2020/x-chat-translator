@@ -65,7 +65,7 @@
   function requestTranslation(source, language, post = false, scene = 'chatOutgoing') {
     const activeEngine = post ? { kind: 'google' } : (scene === 'chatIncoming' ? chatIncomingEngine : chatOutgoingEngine);
     const engineTag = `${activeEngine.kind || 'google'}:${activeEngine.revision || ''}:`;
-    const key = (post ? 'post:' : engineTag) + translationKey(source, language);
+    const key = (post ? scene + ':' : engineTag) + translationKey(source, language);
     const cached = cachedTranslation(key);
     if (cached !== null) return Promise.resolve(cached);
     if (translationRequests.has(key)) return translationRequests.get(key);
@@ -93,7 +93,7 @@
           if (!translated) throw new Error(t('emptyTranslation'));
           return translated;
         }
-        const response = await chrome.runtime.sendMessage({ type: post ? 'XCT_POST_GOOGLE' : 'XCT_TRANSLATE', text: source, language });
+        const response = await chrome.runtime.sendMessage({ type: post ? 'XCT_POST_GOOGLE' : 'XCT_TRANSLATE', text: source, language, scene });
         if (!response?.ok) throw new Error(t(response?.errorCode || 'translationFailed', response?.status ? String(response.status) : []));
         return response.text;
       })
@@ -248,7 +248,7 @@
     while (incomingActive < 4 && incomingQueue.length) {
       const job = incomingQueue.shift();
       incomingActive++;
-      requestTranslation(job.source, job.language, job.post, job.post ? 'post' : 'chatIncoming')
+      requestTranslation(job.source, job.language, job.post, job.scene)
         .then(job.resolve)
         .catch((error) => {
           if (!runtimeAvailable()) dispose();
@@ -258,13 +258,13 @@
     }
   }
 
-  function incomingTranslation(source, language, post = false) {
-    const key = (post ? 'post:' : '') + translationKey(source, language);
+  function incomingTranslation(source, language, post = false, scene = post ? 'post' : 'chatIncoming') {
+    const key = (post ? scene + ':' : '') + translationKey(source, language);
     const cached = cachedTranslation(key);
     if (cached !== null) return Promise.resolve(cached);
     if (queuedIncoming.has(key)) return queuedIncoming.get(key);
     const pending = new Promise((resolve, reject) => {
-      incomingQueue.push({ key, source, language, post, resolve, reject });
+      incomingQueue.push({ key, source, language, post, scene, resolve, reject });
       runIncomingQueue();
     });
     queuedIncoming.set(key, pending);
@@ -613,7 +613,7 @@
   chrome.storage.onChanged.addListener(onPreferencesChanged);
   document.addEventListener('keydown', onDocumentKeyDown, true);
   // Shared only inside the extension's isolated world, including the bounded queue and LRU.
-  globalThis.xctTranslationService = { translate: (source, language) => incomingTranslation(source, language, true), available: runtimeAvailable, languages: LANGUAGES };
+  globalThis.xctTranslationService = { translate: (source, language, scene = 'post') => incomingTranslation(source, language, true, scene), available: runtimeAvailable, languages: LANGUAGES };
   document.addEventListener('click', onDocumentClick, true);
   scanTimer = setInterval(scan, 500);
   scan();

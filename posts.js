@@ -7,9 +7,24 @@
   const pending = new Set();
   const cache = new Map();
   const selector = 'article[data-testid="tweet"] [data-testid="tweetText"]';
+  const articleSelector = '[data-testid="primaryColumn"] [data-testid="twitterArticleReadView"] [data-testid="twitterArticleRichTextView"] [data-block="true"]';
+  const articleNodes = new Set();
+  let articlePath = '', articlesDirty = true;
   let engine = {kind:'google'}, mode = 'both', enabled = true, language = readingLanguage;
+  let articleEngine = null;
+  let skipNativeLanguage = true;
   let ready = false, stopped = false, scanning, collecting, running = false, itemId = 0;
   function inChat() { return /^\/(?:i\/chat|messages)(?:\/|$)/.test(location.pathname); }
+  function articleDetail() { return /^\/(?:[^/]+\/(?:status|article)|i\/articles)\/\d+\/?$/.test(location.pathname); }
+  function visible(node) {
+    const box = node.getBoundingClientRect();
+    return box.width > 0 && box.height > 0 && box.bottom > 0 && box.top < innerHeight && box.right > 0 && box.left < innerWidth;
+  }
+  function mayRequest(r) {
+    if (!r.article || visible(r.node) || !r.host.hidden && visible(r.host)) return true;
+    r.deferred = true;
+    return false;
+  }
   function sourceText(node) {
     const copy = node.cloneNode(true);
     copy.querySelectorAll('img[alt]').forEach(img => img.replaceWith(img.alt));
@@ -17,11 +32,13 @@
   }
   function current(r) {
     return !stopped && enabled && !inChat() && records.get(r.node) === r && r.node.isConnected &&
-      r.host.previousElementSibling === r.node && r.language === language && sourceText(r.node) === r.source;
+      (!r.article || articleDetail() && articleNodes.has(r.node)) &&
+      r.marked === r.node.lang && r.host.previousElementSibling === r.node && r.language === language && sourceText(r.node) === r.source;
   }
   function remove(r) {
     clearTimeout(r.slow);
     r.node.removeAttribute('data-xct-original-hidden');
+    if (r.article) r.node.removeAttribute('data-xct-article-block');
     r.host.remove(); records.delete(r.node);
     for (const part of r.parts || []) pending.delete(part);
   }
@@ -54,6 +71,7 @@
   }
   function loading(r) {
     clearTimeout(r.slow);
+    r.host.hidden = false;
     r.host.dataset.busy = 'true';
     r.body.setAttribute('aria-busy','true');
     r.retry.hidden = true; r.label.textContent = t('translating');
@@ -65,7 +83,7 @@
       const result = [];
       for (const [chunk] of r.source.matchAll(/[\s\S]{1,2000}/gu)) {
         if (!current(r)) return;
-        result.push(await service.translate(chunk,r.language));
+        result.push(await service.translate(chunk,r.language,r.scene));
       }
       success(r,result.join(''));
     } catch { if (!service.available()) stop(); else fail(r); }
@@ -73,8 +91,18 @@
   function scheduleBatch(ms = 350) {
     if (!collecting && !running && pending.size) collecting = setTimeout(drain,ms);
   }
-  function enqueue(r) {
-    if (engine.kind === 'google') { google(r); return; }
+  async function enqueue(r) {
+    if (!mayRequest(r)) return;
+    r.deferred = false;
+    if (skipNativeLanguage && await XCTI18n.matchesLanguage(r.source, r.language, r.node.lang)) {
+      if (current(r)) { settle(r); r.host.hidden = true; }
+      return;
+    }
+    if (!current(r)) return;
+    // Language detection is async: scrolling away while it runs must not
+    // cause an unseen article block to be submitted afterwards.
+    if (!mayRequest(r)) return;
+    if (r.engine.kind === 'google') { google(r); return; }
     if (r.parts) for (const part of r.parts) delete part.error;
     loading(r);
     if (!r.parts) r.parts = XCTRelay.split(r.source).map(text=>({r,text,id:'p' + (++itemId),value:text.trim() ? undefined : text}));
@@ -92,14 +120,17 @@
   async function drain() {
     collecting = null; running = true;
     const groups = new Map(), items = [];
-    let receipt;
+    let receipt, batchEngine, scene;
     try {
       for (const part of pending) {
         if (!current(part.r)) { pending.delete(part); continue; }
+        if (!mayRequest(part.r)) { pending.delete(part); continue; }
+        batchEngine ||= part.r.engine; scene ||= part.r.scene;
+        if (part.r.scene !== scene || part.r.engine.kind !== batchEngine.kind || part.r.engine.revision !== batchEngine.revision) continue;
         // Retry of an uncertain job queries that job only.
         if (receipt && part.receipt !== receipt || items.length && !receipt && part.receipt) continue;
         if (part.receipt) receipt = part.receipt;
-        const key = JSON.stringify([engine.revision,language,part.text]);
+        const key = JSON.stringify([scene,batchEngine.kind,batchEngine.revision,language,part.text]);
         if (cache.has(key)) {
           part.value = cache.get(key); delete part.error; pending.delete(part); updateRecord(part.r); continue;
         }
@@ -114,8 +145,8 @@
       const active = () => [...groups.values()].some(group=>group.parts.some(part=>current(part.r)));
       let translations, error;
       try {
-        const payload = {items,language,revision:engine.revision,scene:'post'};
-        if (engine.kind === 'gemini') {
+        const payload = {items,language,revision:batchEngine.revision,scene};
+        if (batchEngine.kind === 'gemini') {
           const fresh = await XCTRelay.message('XCT_GEMINI_BATCH', payload);
           translations = new Map(fresh.map(item=>[item.id,item.translation]));
         } else {
@@ -150,9 +181,11 @@
       }
     } finally { running = false; scheduleBatch(0); }
   }
-  function mount(node,source) {
+  function mount(node,source,article = false) {
     const host = document.createElement('div');
     host.className = 'xct-post-translation';
+    if (article) node.setAttribute('data-xct-article-block','');
+    host.hidden = true;
     const root = host.attachShadow({mode:'open'});
     root.innerHTML = `<style>
       :host{display:block;margin:8px 0 4px;color:inherit}:host([hidden]),[hidden]{display:none!important}
@@ -170,7 +203,7 @@
       p{margin:3px 0 0;white-space:pre-wrap;overflow-wrap:anywhere;font:inherit}
       @media(prefers-reduced-motion:no-preference){:host([data-busy=false]) p:not(:empty){animation:appear .18s ease-out}@keyframes appear{from{opacity:.5}to{opacity:1}}}
     </style><section><header><span role="status"></span><button hidden></button><button hidden></button></header><p dir="auto"></p></section>`;
-    root.querySelector('section').setAttribute('aria-label',t('postTranslation'));
+    root.querySelector('section').setAttribute('aria-label',t(article ? 'articleTranslation' : 'postTranslation'));
     const [retry,toggle] = root.querySelectorAll('button');
     const guide = document.createElement('button');
     guide.type = 'button';guide.className = 'ai-guide';
@@ -179,7 +212,7 @@
     guide.querySelector('span').textContent = t('aiGuide');
     guide.onclick = () => { chrome.runtime.sendMessage({type:'XCT_OPEN_GUIDE'}).catch(()=>{}); };
     root.querySelector('header').append(guide);
-    const r = {node,source,host,language,retry,toggle,label:root.querySelector('span'),body:root.querySelector('p')};
+    const r = {node,source,host,language,article,scene:article ? 'article' : 'post',engine:article ? articleEngine || engine : engine,marked:node.lang,retry,toggle,label:root.querySelector('span'),body:root.querySelector('p')};
     host.addEventListener('click',e=>{
       e.stopPropagation();e.preventDefault();
       if (e.composedPath().some(el => el instanceof Element && root.contains(el) && el.matches('button,a,input,select,textarea,[role="button"],[role="link"]'))) return;
@@ -201,44 +234,89 @@
     toggle.onclick = () => {r.original = !r.original;render(r);};
     node.after(host); records.set(node,r); enqueue(r);
   }
+  function readArticleBlock(node) {
+    if (!enabled || !articleDetail() || !articleNodes.has(node) || !visible(node)) return;
+    const record = records.get(node);
+    if (record) { if (record.deferred) enqueue(record); return; }
+    const source = sourceText(node);
+    if (source && /\p{L}/u.test(source)) mount(node,source,true);
+  }
+  const articleObserver = new IntersectionObserver(entries => {
+    if (stopped || !ready) return;
+    for (const entry of entries) if (entry.isIntersecting) readArticleBlock(entry.target);
+  }, {rootMargin:'0px',threshold:0});
+  function discoverArticles() {
+    if (articlePath !== location.pathname) { articlePath = location.pathname; articlesDirty = true; }
+    if (!articlesDirty) return;
+    articlesDirty = false;
+    const candidates = new Set();
+    if (enabled && articleDetail()) {
+      document.querySelectorAll(articleSelector).forEach(block => {
+        // Media/embed sections can contain captions or nested posts. Only
+        // direct textual Draft blocks own article translation, never parents.
+        if (!block.matches('div,li,h1,h2,h3,h4,h5,h6,blockquote') ||
+            block.parentElement.closest('[data-block="true"]') || block.closest('[contenteditable="true"]')) return;
+        const node = block.querySelector(':scope > .public-DraftStyleDefault-block');
+        if (node) candidates.add(node);
+      });
+    }
+    for (const node of articleNodes) {
+      if (candidates.has(node)) continue;
+      articleObserver.unobserve(node); articleNodes.delete(node);
+      const record = records.get(node); if (record) remove(record);
+    }
+    for (const node of candidates) {
+      if (articleNodes.has(node)) continue;
+      articleNodes.add(node); articleObserver.observe(node);
+    }
+  }
   function scan() {
     if (stopped || !ready) return;
     if (!service.available()) {stop();return;}
+    discoverArticles();
     for (const r of records.values()) {
-      if (!current(r) || sameLanguage(r.node)) remove(r);
+      if (!current(r)) {remove(r);if (r.article) readArticleBlock(r.node);}
+      else if (r.article && r.deferred) readArticleBlock(r.node);
     }
     if (!enabled || inChat()) return;
     document.querySelectorAll(selector).forEach(node=>{
-      if (records.has(node) || sameLanguage(node) || node.closest('[contenteditable="true"]')) return;
+      if (records.has(node) || node.closest('[contenteditable="true"], [data-testid="twitterArticleRichTextView"]')) return;
       const box = node.getBoundingClientRect();
       if (!box.width || !box.height || box.bottom < 0 || box.top > innerHeight) return;
       const source = sourceText(node);
       if (source && /\p{L}/u.test(source)) mount(node,source);
     });
   }
-  function sameLanguage(node) { return node.lang.toLowerCase().split('-')[0] === language.toLowerCase().split('-')[0]; }
   function schedule() {
     if (!stopped && !scanning) scanning = setTimeout(()=>{scanning=null;scan();},180);
   }
   function onSettings(changes,area) {
     if (area !== 'local') return;
     if (changes.postDisplayMode) {mode=changes.postDisplayMode.newValue;for (const r of records.values()) render(r);}
+    if (changes.skipNativeLanguage) skipNativeLanguage = changes.skipNativeLanguage.newValue !== false;
     if (changes.postsEnabled) enabled = changes.postsEnabled.newValue !== false;
     if (changes.incomingLanguage) language = changes.incomingLanguage.newValue || readingLanguage;
     if (changes.postEngine) {engine=changes.postEngine.newValue || {kind:'google'};cache.clear();}
-    if (changes.postsEnabled || changes.incomingLanguage || changes.postEngine) {clear();schedule();}
+    if (changes.articleEngine) {articleEngine=changes.articleEngine.newValue || null;cache.clear();}
+    if (changes.skipNativeLanguage || changes.postsEnabled || changes.incomingLanguage || changes.postEngine || changes.articleEngine) {
+      clear(); articlesDirty = true;
+      for (const node of articleNodes) articleObserver.unobserve(node);
+      articleNodes.clear(); schedule();
+    }
   }
-  const observer = new MutationObserver(schedule);
+  const observer = new MutationObserver(() => {articlesDirty = true;schedule();});
   function stop() {
-    stopped=true;clearTimeout(scanning);clearTimeout(collecting);observer.disconnect();
+    stopped=true;clearTimeout(scanning);clearTimeout(collecting);observer.disconnect();articleObserver.disconnect();articleNodes.clear();
     removeEventListener('scroll',schedule,true);removeEventListener('resize',schedule);
     try {chrome.storage.onChanged.removeListener(onSettings);} catch {}
     clear();
   }
   globalThis.xctPostTranslations = {stop};
   chrome.storage.onChanged.addListener(onSettings);
-  chrome.storage.local.get(['postsEnabled','incomingLanguage','postEngine','postDisplayMode']).then(data=>{
+  chrome.storage.local.get(['postsEnabled','incomingLanguage','postEngine','articleEngine','postDisplayMode','skipNativeLanguage']).then(data=>{
     if (stopped) return;
+    skipNativeLanguage=data.skipNativeLanguage !== false;
+    articleEngine=data.articleEngine || null;
     enabled=data.postsEnabled !== false; language=data.incomingLanguage || readingLanguage;
     engine=data.postEngine || {kind:'google'};mode=data.postDisplayMode || 'both';ready=true;
     observer.observe(document.body,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['lang']});

@@ -4,6 +4,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (post && (_sender?.id !== chrome.runtime.id || !_sender.url?.startsWith('https://x.com/') || _sender.frameId !== 0)) return;
   const text = String(message.text || '').trim();
   const language = String(message.language || 'en');
+  const scene = message.scene === 'article' ? 'article' : 'post';
   if (!text || text.length > 5000 || !/^[a-z]{2}(?:-[A-Z]{2})?$/.test(language)) {
     sendResponse({ ok: false, errorCode: 'invalidTranslation' });
     return;
@@ -26,9 +27,9 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   }
   async function translatePost() {
     const cache = XCTPostCache;
-    const key = await cache.key(cache.scope(null),language,text);
+    const key = await cache.key(cache.scope(null,scene),language,text);
     return navigator.locks.request('xct-google:' + key, async () => {
-      const [cached] = await cache.lookup(cache.scope(null),language,[{id:'post',text}]);
+      const [cached] = await cache.lookup(cache.scope(null,scene),language,[{id:'post',text}]);
       if (cached.translation) return cached.translation;
       const translation = await translate();
       await cache.save([{key,translation}]);

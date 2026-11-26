@@ -18,8 +18,11 @@ globalThis.XCTPostCache = (() => {
     });
     return opening;
   }
-  function scope(config) {
-    return config ? ['agentrelay',config.address,config.provider,config.sessionId] : ['google'];
+  function scope(config, scene = 'post') {
+    const provider = config ? ['agentrelay',config.address,config.provider,config.sessionId] : ['google'];
+    // Keep historical post/reply keys intact. Article blocks have a separate
+    // namespace in the same bounded primary-key cache, without a migration.
+    return scene === 'article' ? [...provider, 'article'] : provider;
   }
   async function key(scope, language, source) {
     const bytes = new TextEncoder().encode(JSON.stringify([1,scope,language,source]));

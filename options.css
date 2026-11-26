@@ -167,6 +167,20 @@ article + article { border-top: 1px solid var(--border-soft); }
 .hint { margin: 5px 0 0; }
 .reading-note { margin-top: 12px; }
 
+/* Preferences: keep each control and its help together, with a consistent
+   larger gap between independent settings. Reuse the shared control tokens. */
+.preferences-form { display: grid; gap: 20px; }
+.preference-field { display: grid; gap: 8px; min-width: 0; }
+.preference-toggle { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 30px; margin: 0; cursor: pointer; }
+.preference-copy { display: grid; gap: 4px; min-width: 0; }
+.preference-toggle--described { align-items: flex-start; }
+.preference-toggle--described .switch { margin-top: 2px; }
+.preferences-form label, .preferences-form legend { margin: 0; font-size: 13px; line-height: 20px; }
+.preferences-form .hint { margin: 0; max-width: 66ch; font-size: 12px; font-weight: 400; line-height: 1.6; overflow-wrap: anywhere; }
+.preferences-form fieldset { margin: 0; }
+.preferences-form fieldset .segments { margin-top: 8px; }
+.preferences-form .segments label { font-size: 12px; line-height: 24px; }
+
 #binding > label, #gemini-config > label, .pair { margin-top: 12px; }
 .engines-grid { margin-top: 0; }
 .key-row { display: flex; align-items: center; }

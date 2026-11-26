@@ -1,3 +1,13 @@
+# 1.8.0 · XTrans
+
+- Add an Article translation category: collect only visible text blocks in article details, reuse per-block persistent caches, and keep article/post cache namespaces and engine assignments separate. Existing configurations inherit the post engine.
+
+- Refine Preferences spacing and label/help grouping; keep reading-language guidance next to its selector and retain shared switch, focus and control styles.
+- Rename the visible brand to XTrans and describe translation across X posts, replies, quote comments, and DMs. Existing extension identity, settings, and URLs are retained.
+- Add a default-on Preferences switch to skip posts in the reading language and reply/quote drafts already in the target language before making translation requests.
+- Keep programmatic publishing clicks, including XFollower follow-queue quotes, on the original-text path; only direct user clicks or Enter opt into translated sending.
+- Support quote-post comment previews and native-send interception with draft/target validation and unknown-result replay protection.
+
 # 版本记录
 
 ## 1.7.5

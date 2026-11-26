@@ -1,4 +1,5 @@
 [data-testid="tweetText"][data-xct-original-hidden] { display: none !important; }
+[data-xct-article-block][data-xct-original-hidden] { display: none !important; }
 
 /* Preserve X's scrollable icon rail and increase the gap only in reply composers. */
 [data-xct-reply-toolbar] [data-testid="ScrollSnap-List"] {

@@ -1,21 +1,17 @@
-X Chat Translator translates posts, replies and direct messages on X (Twitter).
+XTrans – X (Twitter) Translator for Posts, Replies & DMs
 
-Read visible posts in bilingual view or replace the text with a translation. You can show the original for each post. Dynamic timelines, replies and long posts are supported. Loading keeps the original readable while translation runs.
+Translate X posts, articles, replies and DMs. Read bilingually, preview drafts, and cache article blocks as you scroll.
 
-Google Translate is the default service. For posts, you can choose a local AgentRelay service, connect Codex or Antigravity, and select an existing translation session. Several visible posts are grouped into one request and results are mapped back by item ID. DMs continue to use Google Translate.
+Translate posts, replies, quote-post comments and DMs on X. Read bilingually and preview translations before sending.
 
-The options page groups reading preferences and translation-engine settings in two columns. Check your local service connection, choose a session, try two sample posts and save the configuration. Click the AI icon beside a post translation to open the setup guide.
+Keep your reply or quote comment in the original editor and preview its translation below. Optional interception sends the translation.
 
-Successful post translations are cached in browser-local IndexedDB, up to 4,096 segments. Cache entries are separated by service address, AI engine, session, target language and original text. Refreshing or reopening a page can reuse matching translations.
+Skip posts and replies already in your reading language. Reply and quote drafts are skipped only if they already match the target language.
 
-For outgoing DMs, type in your own language, review the translation preview, then confirm sending. Incoming text messages can be translated into your reading language. Chat language preferences can be saved per conversation.
+Assign Google Translate, Gemini API (your own key), or local AI through AgentRelay independently to posts, replies, incoming DMs, and outgoing DMs.
 
-The interface follows your browser language, with English, Simplified Chinese, Latin American Spanish, Japanese and Korean. Reading and sending target languages are configured separately.
+Privacy and limits: text is sent to the selected translation service. Gemini requires your own API key; AgentRelay must be installed and running separately. Providers may retain text in conversation history. See the privacy policy. Image text and video subtitles are not translated. Check X before retrying an unknown sending result.
 
-Data and requirements
-Enabled translation sends the relevant text to Google Translate or, for posts configured to use AgentRelay, to your local service and selected AI provider. AgentRelay must be installed, running and authenticated separately. AI session history may retain posts and translations. The token is stored only in the extension's local storage. The extension has no developer-run analytics service. Cached post translations persist locally until replaced or the extension is removed.
+Articles translate one visible text block at a time, only in article details. Unseen blocks are not collected in advance. The separate Article category reuses a bounded local cache when you scroll back or reopen an article; matching text, target language and engine settings reuse the result. Article translation can choose its own engine and initially inherits your post engine.
 
-Text in images, video subtitles and offline translation are not supported. Translation quality and availability depend on the service. Changes to X can affect DM sending. If sending cannot be verified, check the conversation before retrying.
-
-Product and setup guide: https://goodexts.com/x-chat-translator#agentrelay
-This independent extension is not affiliated with X or Google.
+https://goodexts.com/x-chat-translator

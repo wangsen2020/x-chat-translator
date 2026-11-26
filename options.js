@@ -44,6 +44,7 @@ function applyTheme(theme) {
   document.documentElement.dataset.theme = resolved;
 }
 function readPrefs(data) {
+  el('skip-native-language').checked = data.skipNativeLanguage !== false;
   el('enabled').checked = data.postsEnabled !== false;
   el('language').value = data.incomingLanguage || readingLanguage;
   document.querySelector('[name=mode][value=' + (data.postDisplayMode === 'replace' ? 'replace' : 'both') + ']').checked = true;
@@ -84,6 +85,7 @@ function draft() {
 function sceneEngines() {
   return {
     post: el('engine').value,
+    article: el('engine-article').value,
     reply: el('engine-reply').value,
     chatIncoming: el('engine-chat-incoming').value,
     chatOutgoing: el('engine-chat-outgoing').value,
@@ -136,7 +138,7 @@ function serviceView() {
   el('relay-badge').classList.toggle('ready', relayOn);
 
   const states = { google: googleOn, gemini: geminiOn, relay: relayOn };
-  for (const id of ['engine', 'engine-reply', 'engine-chat-incoming', 'engine-chat-outgoing']) {
+  for (const id of ['engine', 'engine-article', 'engine-reply', 'engine-chat-incoming', 'engine-chat-outgoing']) {
     for (const opt of el(id).options) {
       opt.disabled = !states[opt.value] && el(id).value !== opt.value;
     }
@@ -171,7 +173,7 @@ el('relay-auto').onclick = async () => {
   await connectRelay(false);
 };
 
-for (const id of ['engine', 'engine-reply', 'engine-chat-incoming', 'engine-chat-outgoing']) {
+for (const id of ['engine', 'engine-article', 'engine-reply', 'engine-chat-incoming', 'engine-chat-outgoing']) {
   el(id).onchange = () => {
     editBinding('scenes-feedback');
     serviceView();
@@ -409,8 +411,9 @@ el('trial').onclick = async () => {
 async function setPref(key,value) {
   if(key === 'optionsTheme') applyTheme(value);
   else if(key !== 'postDisplayMode') {resetTrial();notify(dirty?'draftChanged':'');} else draw();
-  try{await chrome.storage.local.set({[key]:value});}catch{notify('saveFailed',true);readPrefs(await chrome.storage.local.get(['postsEnabled','incomingLanguage','postDisplayMode','optionsTheme']));draw();}
+  try{await chrome.storage.local.set({[key]:value});}catch{notify('saveFailed',true);readPrefs(await chrome.storage.local.get(['postsEnabled','incomingLanguage','postDisplayMode','optionsTheme','skipNativeLanguage']));draw();}
 }
+el('skip-native-language').onchange=()=>setPref('skipNativeLanguage',el('skip-native-language').checked);
 el('enabled').onchange=()=>setPref('postsEnabled',el('enabled').checked);
 el('language').onchange=()=>setPref('incomingLanguage',el('language').value);
 document.querySelectorAll('[name=mode]').forEach(r=>r.onchange=()=>setPref('postDisplayMode',r.value));
@@ -418,6 +421,7 @@ document.querySelectorAll('[name=theme]').forEach(r=>r.onchange=()=>setPref('opt
 chrome.storage.onChanged.addListener((changes,area)=>{
   if(area!=='local')return;
   let invalid=false;
+  if(changes.skipNativeLanguage)el('skip-native-language').checked=changes.skipNativeLanguage.newValue!==false;
   if(changes.postsEnabled && el('enabled').checked !== (changes.postsEnabled.newValue!==false)){el('enabled').checked=changes.postsEnabled.newValue!==false;invalid=true;}
   if(changes.incomingLanguage && el('language').value !== changes.incomingLanguage.newValue){el('language').value=changes.incomingLanguage.newValue||readingLanguage;invalid=true;}
   if(changes.postDisplayMode)document.querySelector('[value='+ (changes.postDisplayMode.newValue==='replace'?'replace':'both') +']').checked=true;
@@ -431,13 +435,14 @@ chrome.storage.onChanged.addListener((changes,area)=>{
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
 
 (async()=>{
-  localize();document.title=t('optsTitle')+' · X Chat Translator';document.documentElement.lang=XCTI18n.language;
+  localize();document.title=t('optsTitle')+' · XTrans';document.documentElement.lang=XCTI18n.language;
   document.documentElement.dir=chrome.i18n.getMessage('@@bidi_dir')||'ltr';
   el('language').replaceChildren(...languages.map(([code,label])=>new Option(label,code)));emptyList();
-  const [prefs,config]=await Promise.all([chrome.storage.local.get(['postsEnabled','incomingLanguage','postDisplayMode','optionsTheme','enabledProviders']),XCTRelay.message('XCT_RELAY_READ')]);
+  const [prefs,config]=await Promise.all([chrome.storage.local.get(['postsEnabled','incomingLanguage','postDisplayMode','optionsTheme','skipNativeLanguage','enabledProviders']),XCTRelay.message('XCT_RELAY_READ')]);
   readPrefs(prefs);
   const scenes = config.scenes || {};
   el('engine').value = scenes.post?.kind || config.state?.kind || 'google';
+  el('engine-article').value = scenes.article?.kind || el('engine').value;
   el('engine-reply').value = scenes.reply?.kind || el('engine').value;
   el('engine-chat-incoming').value = scenes.chatIncoming?.kind || 'google';
   el('engine-chat-outgoing').value = scenes.chatOutgoing?.kind || 'google';

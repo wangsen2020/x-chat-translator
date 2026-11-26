@@ -118,6 +118,7 @@ async function providers(draft) {
 }
 const SCENE_KEYS = {
   post: 'postEngine',
+  article: 'articleEngine',
   reply: 'replyEngine',
   chatIncoming: 'chatIncomingEngine',
   chatOutgoing: 'chatOutgoingEngine',
@@ -126,6 +127,10 @@ const VALID_KINDS = new Set(['google', 'gemini', 'relay']);
 
 async function settings(scene = 'post') {
   const key = SCENE_KEYS[scene] || 'postEngine';
+  if (scene === 'article') {
+    const data = await chrome.storage.local.get(['articleEngine','postEngine']);
+    return data.articleEngine || data.postEngine || {kind:'google'};
+  }
   return (await chrome.storage.local.get(key))[key] || {kind:'google'};
 }
 async function allSettings() {
@@ -134,6 +139,7 @@ async function allSettings() {
   const post = data.postEngine || { kind: 'google' };
   return {
     post,
+    article: data.articleEngine || post,
     reply: data.replyEngine || post,
     chatIncoming: data.chatIncomingEngine || { kind: 'google' },
     chatOutgoing: data.chatOutgoingEngine || { kind: 'google' },
@@ -143,12 +149,13 @@ async function save(message) {
   return navigator.locks.request('xct-settings', async () => {
     const previous = await allSettings();
     const revision = crypto.randomUUID();
-    const scenes = message.scenes || {
+    const scenes = {...(message.scenes || {
       post: message.kind,
       reply: message.kind,
       chatIncoming: message.kind,
       chatOutgoing: message.kind,
-    };
+    })};
+    scenes.article ||= scenes.post;
     for (const scene of Object.keys(SCENE_KEYS)) {
       if (!VALID_KINDS.has(scenes[scene])) throw Error('relayConfigError');
     }
@@ -181,6 +188,7 @@ async function save(message) {
     if (writes.length) await write(writes);
     await chrome.storage.local.set({
       postEngine: { kind: scenes.post, revision },
+      articleEngine: { kind: scenes.article, revision },
       replyEngine: { kind: scenes.reply, revision },
       chatIncomingEngine: { kind: scenes.chatIncoming, revision },
       chatOutgoingEngine: { kind: scenes.chatOutgoing, revision },
@@ -278,7 +286,7 @@ async function start(m, owner, options) {
       return {status:'query'};
     }
     // Reopening the same page while a slow batch is running must reattach.
-    const inputs = JSON.stringify([owner,slot,options ? config.token : m.revision,m.language,m.items.map(item=>item.text)]);
+    const inputs = JSON.stringify([owner,slot,options ? config.token : m.revision,m.scene || 'post',m.language,m.items.map(item=>item.text)]);
     const digest = new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(inputs)));
     const signature = 'repeat:' + Array.from(digest,b=>b.toString(16).padStart(2,'0')).join('');
     const originalId = await get(signature);
@@ -286,7 +294,7 @@ async function start(m, owner, options) {
     if (original && (original.status === 'pending' || (!options && original.status === 'completed'))) {
       return {status:'query',jobId:originalId,ids:original.ids};
     }
-    const readCache = async () => options ? [] : XCTPostCache.lookup(XCTPostCache.scope(config),m.language,m.items);
+    const readCache = async () => options ? [] : XCTPostCache.lookup(XCTPostCache.scope(config,m.scene),m.language,m.items);
     let cached = await readCache();
     const asHits = () => cached.filter(e=>e.translation).map(({id,translation})=>({id,translation}));
     if (cached.length && asHits().length === m.items.length) return {status:'completed',items:asHits()};
@@ -382,7 +390,7 @@ chrome.runtime.onMessage.addListener((m,sender,reply) => {
       const state = await settings(m.scene || 'post');
       if (!post || state.kind !== 'relay' || state.revision !== m.revision) throw Error('relayStale');
       const config = binding(await get('binding:' + state.revision));
-      const rows = await XCTPostCache.lookup(XCTPostCache.scope(config),m.language,m.items);
+      const rows = await XCTPostCache.lookup(XCTPostCache.scope(config,m.scene),m.language,m.items);
       return rows.filter(entry=>entry.translation).map(({id,translation})=>({id,translation}));
     }
     if (!/^[0-9a-f-]{36}$/.test(m.jobId)) throw Error('relayInvalid');

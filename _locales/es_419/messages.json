@@ -1,9 +1,9 @@
 {
   "extName": {
-    "message": "Traductor de Twitter (X) – Tweets y mensajes | X Chat Translator"
+    "message": "XTrans – Traductor de X (Twitter): publicaciones, respuestas y MD"
   },
   "extDesc": {
-    "message": "Traduce tweets y mensajes de X (Twitter). Lee publicaciones bilingües y revisa la traducción del chat antes de enviar."
+    "message": "Traduce posts, artículos, respuestas y MD en X. Lee en modo bilingüe, revisa borradores y guarda bloques al desplazarte."
   },
   "refreshRequired": {
     "message": "La extensión se actualizó. Recarga esta página."
@@ -142,19 +142,19 @@
     "message": "No se pudo guardar. Inténtalo de nuevo."
   },
   "popupSubtitle": {
-    "message": "Revisa al enviar · Traduce al recibir"
+    "message": "Posts · Artículos · Respuestas · MD"
   },
   "popupIntro": {
-    "message": "Lee los posts con la traducción debajo del original. Escribe un mensaje en X Chat, revisa la traducción y presiona Enter para enviarla."
+    "message": "Traduce publicaciones, bloques de artículos, respuestas, comentarios de citas y MD en X. Revisa la traducción antes de enviar."
   },
   "postsToggle": {
-    "message": "Posts bilingües"
+    "message": "Traducir publicaciones y artículos"
   },
   "readingLanguage": {
     "message": "Mi idioma (posts y mensajes recibidos)"
   },
   "postsHint": {
-    "message": "Se aplica a publicaciones y respuestas visibles. Elige la vista en ajustes."
+    "message": "Publicaciones y respuestas visibles. Los artículos abiertos se traducen por bloques visibles, con caché."
   },
   "openChat": {
     "message": "Abrir X Chat"
@@ -163,7 +163,7 @@
     "message": "Los ajustes de chat aparecen a la derecha de X Chat."
   },
   "privacyHint": {
-    "message": "Las publicaciones y los borradores de respuesta se envían al servicio elegido. Los mensajes privados usan Google Translate."
+    "message": "El texto se envía al motor de cada escenario: Google Translate, Gemini API o IA mediante AgentRelay. El contenido omitido no genera solicitudes de traducción."
   },
   "lang_en": {
     "message": "Inglés"
@@ -202,7 +202,7 @@
     "message": "Preferencias de lectura"
   },
   "autoPosts": {
-    "message": "Traducir publicaciones visibles"
+    "message": "Traducir publicaciones y artículos visibles"
   },
   "readLang": {
     "message": "Idioma de lectura"
@@ -343,13 +343,13 @@
     "message": "Interceptar envío"
   },
   "replyEnabled": {
-    "message": "Traducir respuestas"
+    "message": "Traducir respuestas y citas"
   },
   "replyPopupHint": {
-    "message": "Conserva tu texto y muestra la traducción debajo. Con la interceptación activa, Enter y Responder envían la traducción."
+    "message": "Conserva el borrador de tu respuesta o cita y revisa la traducción debajo. La intercepción opcional envía la traducción."
   },
   "replyTargetSetting": {
-    "message": "Idioma de las respuestas"
+    "message": "Idioma de respuestas y citas"
   },
   "replyChooseLanguage": {
     "message": "No se pudo confirmar el idioma. Elige un idioma de destino."
@@ -499,7 +499,7 @@
     "message": "Cronología, detalles y respuestas en X"
   },
   "replySceneHint": {
-    "message": "Vista previa e intercepción al responder"
+    "message": "Vista previa e intercepción opcional para respuestas y comentarios de citas"
   },
   "chatInSceneHint": {
     "message": "Mensajes entrantes recibidos en X Chat"
@@ -530,5 +530,20 @@
   },
   "replyEngineShort": {
     "message": "Motor"
+  },
+  "skipNativeLanguage": {
+    "message": "Omitir mi idioma"
+  },
+  "skipNativeLanguageHint": {
+    "message": "Omite publicaciones y respuestas en tu idioma de lectura. Los borradores de respuestas y citas se omiten solo si coinciden con el idioma de destino."
+  },
+  "articleEngineLabel": {
+    "message": "Traducción de artículos"
+  },
+  "articleSceneHint": {
+    "message": "Solo en el artículo abierto. Traduce y guarda cada bloque al desplazarte."
+  },
+  "articleTranslation": {
+    "message": "Traducción de bloque del artículo"
   }
 }

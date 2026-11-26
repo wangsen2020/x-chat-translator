@@ -16,7 +16,7 @@ foreach ($script in @('i18n.js', 'background.js', 'content.js', 'posts.js', 'rep
 }
 $releaseDir = Join-Path $projectRoot 'release'
 New-Item -ItemType Directory -Force -Path $releaseDir | Out-Null
-$destination = Join-Path $releaseDir "X-Chat-Translator-$version.zip"
+$destination = Join-Path $releaseDir "XTrans-$version.zip"
 if (Test-Path -LiteralPath $destination) { throw "Package already exists: $destination" }
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
