@@ -167,6 +167,32 @@ const output = process.env.XCT_REPLY_OUTPUT;
     await key();await page.waitForFunction(n => wire.length === n, wrappedCount + 1);await page.evaluate(()=>nativePromise);
     assert.equal((await page.evaluate(()=>wire.at(-1))).data.variables.tweet_text,'en: Wrapped fetch and reset XHR');
     assert.ok(await page.evaluate(()=>window.sentryCalls >= 1));
+    // @mention / #hashtag typeahead open: Enter must pass through to X.com without sending the reply.
+    // Stale aria-activedescendant alone (which X.com leaves set when closed) must NOT block Enter.
+    await page.evaluate(() => {
+      const input = document.querySelector('[contenteditable]');
+      input.setAttribute('aria-activedescendant', 'typeaheadFocus-0.123');
+      input.setAttribute('aria-expanded', 'true');
+      setDraft('@grok');
+    });
+    await page.clock.runFor(450);
+    const beforeTypeaheadWire = await count();
+    const beforeTypeaheadKeys = await page.evaluate(() => nativeKeyCount);
+    await key();
+    await page.waitForTimeout(50);
+    assert.equal(await count(), beforeTypeaheadWire);
+    assert.equal(await page.evaluate(() => nativeKeyCount), beforeTypeaheadKeys + 1);
+    await page.evaluate(() => {
+      document.querySelector('[contenteditable]').removeAttribute('aria-expanded');
+      setDraft('@grok hello');
+    });
+    await page.clock.runFor(450);
+    await ready('en: @grok hello');
+    await key();
+    await page.waitForFunction(n => wire.length === n, beforeTypeaheadWire + 1);
+    assert.equal((await page.evaluate(() => wire.at(-1))).data.variables.tweet_text, 'en: @grok hello');
+    await page.evaluate(() => document.querySelector('[contenteditable]').removeAttribute('aria-activedescendant'));
+
     await page.evaluate(()=>{
       Object.defineProperty(window, 'fetch', { value: async () => new Response('{}'), writable: false, configurable: true });
     });
@@ -231,7 +257,8 @@ const output = process.env.XCT_REPLY_OUTPUT;
     await page.clock.runFor(500);
     await ready('vi: Hello vi');
 
-    await page.evaluate(()=>xctReplyTranslations.stop());assert.equal(await card.count(),0);
+    await page.evaluate(() => { delete window.chrome.storage; xctReplyTranslations.stop(); });
+    assert.equal(await card.count(), 0);
     console.log('PASS: original and multiline retained; fetch/XHR payload only; reply binding; Enter, button, IME and Shift+Enter; preview-only and master switches; cache reuse; stale draft cancellation; no replay after unknown; slow AI/reduced motion; query-only recovery; target persistence; responsive preview.');
     // Popup uses the same persisted settings and leaves the incoming-language selection independent.
     const popup=await context.newPage();await popup.setContent(fs.readFileSync(path.join(root,'popup.html'),'utf8').replace(/<script[\s\S]*?<\/script>/g,''));

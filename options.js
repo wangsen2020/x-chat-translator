@@ -103,6 +103,12 @@ function hasPermission(address) {
   const host = new URL(XCTRelay.origin(address)).hostname;
   return chrome.permissions.contains({origins:['http://' + host + '/*']});
 }
+function nativePermission() {
+  return chrome.permissions?.request ? chrome.permissions.request({ permissions: ['nativeMessaging'] }) : true;
+}
+function hasNativePermission() {
+  return chrome.permissions?.contains ? chrome.permissions.contains({ permissions: ['nativeMessaging'] }) : true;
+}
 function showGuide(kind) {
   const dialog = el('relay-guide');
   if (!dialog) return;
@@ -250,7 +256,12 @@ for (const id of ['address', 'token']) {
 
 async function connectRelay(silent = false) {
   if (!silent) notify('detecting');
-  const probe = await XCTRelay.message('XCT_RELAY_PROBE').catch(() => null);
+  const nativeAllowed = silent ? await hasNativePermission().catch(() => false) : await nativePermission().catch(() => false);
+  if (!nativeAllowed && !silent) {
+    notify('relayForbidden', true);
+    return false;
+  }
+  const probe = nativeAllowed ? await XCTRelay.message('XCT_RELAY_PROBE').catch(() => null) : null;
   if (probe?.status === 'not_installed' || probe?.status === 'installed_not_running') {
     if (!silent) {
       showGuide(probe.status);

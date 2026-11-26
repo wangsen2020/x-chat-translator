@@ -28,6 +28,9 @@ async function write(entries) {
 }
 const NATIVE_HOST = 'com.goodexts.agentrelay';
 async function probeNative() {
+  if (typeof chrome.runtime?.sendNativeMessage !== 'function') {
+    return { status: 'permission_required' };
+  }
   try {
     const res = await chrome.runtime.sendNativeMessage(NATIVE_HOST, {
       id: crypto.randomUUID(),

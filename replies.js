@@ -336,10 +336,15 @@
   function schedule() {if (!stopped && !scanning) scanning = setTimeout(scan, 60);}
   const observer = new MutationObserver(schedule);
   const prevent = event => {event.preventDefault(); event.stopImmediatePropagation();};
+  function hasTypeahead(input) {
+    if (input.getAttribute('aria-expanded') === 'true') return true;
+    const option = document.querySelector('[data-testid^="typeaheadDropdown"] [role="option"], [data-testid="TypeaheadUser"]');
+    return Boolean(option && option.getBoundingClientRect().height > 0);
+  }
   function onKey(event) {
     if (!enabled || !intercept || event.key !== 'Enter' || event.shiftKey || event.altKey || event.isComposing || event.keyCode === 229) return;
     const input = event.target.closest?.('[contenteditable="true"][data-testid^="tweetTextarea_"]');
-    if (!input) return;
+    if (!input || hasTypeahead(input)) return;
     if (!ready) {if (refreshInput(input)?.context.source.trim()) prevent(event); return;}
     const r = refreshInput(input);
     if (r && r.context.source.trim()) {prevent(event); send(r);}
@@ -404,7 +409,7 @@
     document.removeEventListener('compositionend', schedule, true);
     document.removeEventListener('keydown', onKey, true);
     document.removeEventListener('click', onClick, true);
-    chrome.storage.onChanged.removeListener(onSettings);
+    try {chrome.storage?.onChanged?.removeListener(onSettings);} catch {}
   }
   document.addEventListener(responseEvent, onResponse);
   document.addEventListener('input', schedule, true);
