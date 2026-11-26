@@ -16,7 +16,7 @@ const output = process.env.XCT_REPLY_OUTPUT;
     await page.goto('https://xct-reply-fixture.test/');
     await page.clock.install();
     await page.evaluate(() => {
-      window.prefs = {}; window.listeners = new Set(); window.translationCalls = []; window.wire = []; window.nativeCalls = 0; window.geminiCalls = [];
+      window.prefs = {skipNativeLanguage:false}; window.listeners = new Set(); window.translationCalls = []; window.wire = []; window.nativeCalls = 0; window.geminiCalls = [];
       window.nativeKeyCount = 0; window.nativeText = ''; window.postId = '123456789'; window.relayAnswer = {status:'running'}; window.relayCalls = [];
       self.LanguageDetector = {
         availability: async () => window.mockDetectorAvailability || 'unavailable',
@@ -52,6 +52,7 @@ const output = process.env.XCT_REPLY_OUTPUT;
       const input = document.querySelector('[contenteditable]');
       const fiber = {memoizedProps:{editorState:{getCurrentContent:()=>({getPlainText:()=>nativeText})}},return:{memoizedProps:{get inReplyToStatusId(){return postId},get inReplyToStatus(){return{id_str:postId,lang:'en',full_text:'Thank you for sharing your experience with this translation tool.'}}}}};
       input.__reactFiber$fixture = fiber;
+      window.composerProps = fiber.return.memoizedProps;
       window.setDraft = text => {nativeText=text;input.textContent=text;input.dispatchEvent(new InputEvent('input',{bubbles:true}));};
       window.setCharDataDraft = text => {nativeText=text;input.firstChild.data=text;};
       input.addEventListener('input',()=>{nativeText=input.innerText;});
@@ -60,6 +61,7 @@ const output = process.env.XCT_REPLY_OUTPUT;
         const data = JSON.parse(init.body); wire.push({data,sourceAtWire:nativeText,inputAtWire:input.innerText});
         return new Response(JSON.stringify(responseData()),{status:200,headers:{'Content-Type':'application/json'}});
       };
+      window.fixtureFetch = window.fetch;
       class XHR extends EventTarget {
         open() {}
         send(body) {wire.push({data:JSON.parse(body),sourceAtWire:nativeText,inputAtWire:input.innerText});this.status=200;this.responseText=JSON.stringify(responseData());queueMicrotask(()=>this.dispatchEvent(new Event('loadend')));}
@@ -67,7 +69,7 @@ const output = process.env.XCT_REPLY_OUTPUT;
       window.XMLHttpRequest = XHR;
       document.querySelector('[data-testid="tweetButtonInline"]').onclick = () => {
         nativeCalls++;
-        const body=JSON.stringify({variables:{tweet_text:window.overrideText || nativeText,reply:{in_reply_to_tweet_id:postId},media:{media_entities:[]}},features:{fixture:true}});
+        const body=JSON.stringify({variables:{tweet_text:window.overrideText || nativeText,...(window.quoteMode ? {attachment_url:'https://x.com/author/status/'+postId} : {reply:{in_reply_to_tweet_id:postId}}),media:{media_entities:[]}},features:{fixture:true}});
         if(window.useXHR){const xhr=new XMLHttpRequest();xhr.open('POST','/i/api/graphql/fixture/CreateTweet');try{xhr.send(body)}catch(e){window.nativeError=e.message};return;}
         window.nativePromise=fetch('/i/api/graphql/fixture/CreateTweet',{method:'POST',body}).catch(error=>{window.nativeError=error.message;});
       };
@@ -75,7 +77,10 @@ const output = process.env.XCT_REPLY_OUTPUT;
     for (const name of ['i18n.js','relay-client.js','reply-bridge.js','replies.js']) await page.addScriptTag({path:path.join(root,name)});
     const card = page.locator('.xct-reply-preview');
     const draft = async text => {await page.evaluate(text=>setDraft(text),text);await page.clock.runFor(1000);};
-    const ready = text => page.waitForFunction(text=>document.querySelector('.xct-reply-preview')?.shadowRoot.querySelector('p').textContent===text,text);
+    const ready = async text => {
+      try { await page.waitForFunction(text=>document.querySelector('.xct-reply-preview')?.shadowRoot.querySelector('p').textContent===text,text); }
+      catch(error) { console.log(await page.evaluate(()=>({preview:document.querySelector('.xct-reply-preview')?.shadowRoot.innerHTML,translationCalls,prefs,nativeError:window.nativeError}))); throw error; }
+    };
     const key = () => page.locator('[contenteditable]').press('Enter');
     const count = () => page.evaluate(()=>wire.length);
     await draft('谢谢分享\n这个方法很有帮助。'); await ready('en: 谢谢分享\n这个方法很有帮助。');
@@ -194,6 +199,7 @@ const output = process.env.XCT_REPLY_OUTPUT;
     await page.evaluate(() => document.querySelector('[contenteditable]').removeAttribute('aria-activedescendant'));
 
     await page.evaluate(()=>{
+      window.beforeFrozenFetch = window.fetch;
       Object.defineProperty(window, 'fetch', { value: async () => new Response('{}'), writable: false, configurable: true });
     });
     await draft('Frozen fetch');await ready('en: Frozen fetch');
@@ -257,6 +263,56 @@ const output = process.env.XCT_REPLY_OUTPUT;
     await page.clock.runFor(500);
     await ready('vi: Hello vi');
 
+    // Focused native-language and quote-comment increment. No external publishing traffic.
+    await page.evaluate(async () => {
+      Object.defineProperty(window,'fetch',{value:window.fixtureFetch,writable:true,configurable:true});
+      window.mockDetectorAvailability='unavailable';
+      window.detected={isReliable:true,languages:[{language:'zh',percentage:100}]};
+      await setPrefs({skipNativeLanguage:true,replyEngine:{kind:'google'},replyTargetLanguage:'zh-CN'});
+    });
+    const nativeBefore = await page.evaluate(()=>translationCalls.length);
+    await draft('这是母语草稿，不需要翻译。'); await ready('这是母语草稿，不需要翻译。');
+    assert.equal(await page.evaluate(()=>translationCalls.length),nativeBefore);
+    await page.evaluate(()=>setPrefs({skipNativeLanguage:false}));
+    await page.clock.runFor(1000);await ready('zh-CN: 这是母语草稿，不需要翻译。');
+    const cachedNativeCalls=await page.evaluate(()=>translationCalls.length);
+    await page.evaluate(()=>setPrefs({skipNativeLanguage:true}));
+    await page.clock.runFor(1000);await ready('这是母语草稿，不需要翻译。');
+    assert.equal(await page.evaluate(()=>translationCalls.length),cachedNativeCalls);
+    await page.evaluate(()=>setPrefs({replyTargetLanguage:'en'}));
+    await page.clock.runFor(1000); await ready('en: 这是母语草稿，不需要翻译。');
+    assert.equal(await page.evaluate(()=>translationCalls.length),cachedNativeCalls+1);
+    await page.evaluate(async ()=> {
+      delete composerProps.inReplyToStatusId; delete composerProps.inReplyToStatus;
+      composerProps.quotedStatusId=postId;
+      composerProps.quotedStatus={id_str:postId,lang:'en',full_text:'A quote worth discussing.'};
+      window.quoteMode=true;
+      window.overrideText=''; window.useXHR=false;
+      await setPrefs({replyTargetLanguage:'es',replyInterceptEnabled:true});
+    });
+    await draft('引用转帖的中文评论。'); await ready('es: 引用转帖的中文评论。');
+    assert.equal(await page.locator('[contenteditable]').innerText(),'引用转帖的中文评论。');
+    const quoteBefore=await count();
+    // XFollower publishes through executeScript -> send.click(), which is an
+    // untrusted DOM event. It must send the reviewed source verbatim even
+    // while XTrans has a different-language preview ready.
+    await page.evaluate(()=>document.querySelector('[data-testid="tweetButtonInline"]').click());
+    await page.evaluate(()=>nativePromise);
+    assert.equal(await count(),quoteBefore+1);
+    assert.equal((await page.evaluate(()=>wire.at(-1))).data.variables.tweet_text,'引用转帖的中文评论。');
+    await draft('手动发布的引用评论。'); await ready('es: 手动发布的引用评论。');
+    const manualBefore=await count();
+    await key();
+    try {await page.waitForFunction(n=>wire.length===n+1,manualBefore, {timeout:3000});}
+    catch(error){console.log(await page.evaluate(()=>({nativeError:window.nativeError,nativeCalls,wire,prefs,body:document.querySelector('.xct-reply-preview')?.shadowRoot.textContent})));throw error;}
+    await page.evaluate(()=>nativePromise);
+    const quote=await page.evaluate(()=>wire.at(-1));
+    assert.equal(quote.data.variables.tweet_text,'es: 手动发布的引用评论。');
+    assert.equal(quote.data.variables.attachment_url,await page.evaluate(()=>'https://x.com/author/status/'+postId));
+    assert.equal(quote.data.variables.reply,undefined);
+    assert.equal(quote.sourceAtWire,'手动发布的引用评论。');
+    assert.deepEqual(quote.data.variables.media,{media_entities:[]});
+    console.log('PASS: native-language drafts make zero translation calls; Chinese drafts still translate to foreign targets; quote comment preview, original preservation and native quote payload.');
     await page.evaluate(() => { delete window.chrome.storage; xctReplyTranslations.stop(); });
     assert.equal(await card.count(), 0);
     console.log('PASS: original and multiline retained; fetch/XHR payload only; reply binding; Enter, button, IME and Shift+Enter; preview-only and master switches; cache reuse; stale draft cancellation; no replay after unknown; slow AI/reduced motion; query-only recovery; target persistence; responsive preview.');

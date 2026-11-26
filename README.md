@@ -1,17 +1,17 @@
-# X Chat Translator
+# XTrans
 
 **English** | [简体中文](README.zh-CN.md) | [日本語](README.ja.md) | [Español](README.es.md)
 
-**Version:** `1.7.5` · **Chrome Web Store:** [Twitter Translator for X – Tweets & DMs](https://chromewebstore.google.com/detail/dlijcpgpcmbnenmhpgijjhlhedhkmbmk) · **Website:** [goodexts.com/x-chat-translator](https://goodexts.com/x-chat-translator)
+**Version:** `1.8.0` · **Chrome Web Store:** [Twitter Translator for X – Tweets & DMs](https://chromewebstore.google.com/detail/dlijcpgpcmbnenmhpgijjhlhedhkmbmk) · **Website:** [goodexts.com/x-chat-translator](https://goodexts.com/x-chat-translator)
 
-A Chrome MV3 extension for **X (Twitter)** that keeps your original text intact while translating **timeline posts**, **reply drafts**, **incoming DMs**, and **outgoing DMs** — with independent engine routing across all four scenes.
+A Chrome MV3 extension for **X (Twitter)** that keeps your original text intact while translating **timeline posts**, **reply drafts**, **incoming DMs**, and **outgoing DMs** — with independent engine routing across all five scenes.
 
 ---
 
 ## Screenshots
 
 ### Two-Column Engine Configuration & Scene Assignment
-Configure **Google Translate**, **Gemini API (BYOK)**, and **AgentRelay** independently, test with live sample previews, and assign a separate engine to each of the four scenes (Posts, Replies, Chat Incoming, Chat Outgoing).
+Configure **Google Translate**, **Gemini API (BYOK)**, and **AgentRelay** independently, test with live sample previews, and assign a separate engine to each of the five scenes (Posts, Articles, Replies, Chat Incoming, Chat Outgoing).
 
 | Translation Engines | Scene Assignments |
 | :---: | :---: |
@@ -28,7 +28,12 @@ Quick toggles and language selectors with `?` hover tooltips in the toolbar popu
 
 ## Core Features
 
-- **4-Scene Independent Engine Routing**: Choose different engines for **Posts**, **Replies**, **Chat Incoming**, and **Chat Outgoing** (plus a quick engine switcher directly inside the X.com reply preview).
+- **Lazy article blocks**: Article details use the same translation and bounded cache pipeline as posts, under a separate **Article** category. Only visible text blocks are collected; scrolling back or reopening can reuse cached blocks. Posts and articles have independent engine assignments; existing users initially inherit their post engine. Media, feed cards, and editors are excluded.
+
+- **Skip your language (default on)**: Reading posts and replies already in your reading language makes no translation request. Outgoing reply and quote-post drafts skip translation only when their language matches the selected target. Turn this off in Preferences when needed.
+- **Quote-post comments**: Translation previews and optional send interception also work in the quote-post dialog, keeping your original draft and quote attachment intact.
+
+- **5-Scene Independent Engine Routing**: Choose different engines for **Posts**, **Articles**, **Replies**, **Chat Incoming**, and **Chat Outgoing** (plus a quick engine switcher directly inside the X.com reply preview).
 - **3 Translation Engines**:
   - **Google Translate**: Free cloud translation, zero setup, enabled by default.
   - **Gemini API (BYOK)**: Bring your own Google AI Studio key, test connectivity in one click, choose models (default `gemini-flash-lite-latest`), and reuse persistent IndexedDB batch caching.

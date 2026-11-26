@@ -5,6 +5,7 @@
   if (!service) return;
   const records = new Map(), translations = new Map(), callbacks = new Map();
   let enabled = true, intercept = true, target = 'auto', engine = {kind:'google'}, hasReplyEngine = false;
+  let skipNativeLanguage = true;
   let ready = false, stopped = false, scanning, aiBusy = false;
   const requestEvent = 'xct:reply-request', responseEvent = 'xct:reply-response';
   const refreshIcon = '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6 7a7 7 0 0 1 12-1l2 6M4 12l2 6a7 7 0 0 0 12-1"/></svg>';
@@ -32,7 +33,7 @@
     return code === 'zh' ? 'zh-CN' : code;
   }
   function language(r) {return target === 'auto' ? r.autoLanguage : target;}
-  function signature(r) {return JSON.stringify([r.context.postId, r.context.source, language(r), engine.kind, engine.revision]);}
+  function signature(r) {return JSON.stringify([r.context.kind, r.context.postId, r.context.source, language(r), engine.kind, engine.revision, skipNativeLanguage]);}
   function current(r, key) {
     return !stopped && enabled && records.get(r.input) === r && r.input.isConnected && r.key === key && signature(r) === key;
   }
@@ -144,6 +145,14 @@
   async function translate(r) {
     const key = r.key, selected = language(r), source = r.context.source.trim();
     if (!current(r, key) || !source || !selected || r.state === 'sending') return;
+    if (skipNativeLanguage && await XCTI18n.matchesLanguage(source, selected)) {
+      if (!current(r, key)) return;
+      r.translation = r.context.source; r.state = 'ready'; r.error = '';
+      clearTimeout(r.slowTimer); render(r);
+      if (r.pendingSend && intercept) send(r);
+      return;
+    }
+    if (!current(r, key)) return;
     const cacheKey = JSON.stringify([engine.kind, engine.revision, selected, source]);
     let entry = translations.get(cacheKey);
     if (!entry) {
@@ -183,7 +192,7 @@
     if (enabled && source && selected) {
       const cacheKey = JSON.stringify([engine.kind, engine.revision, selected, source]);
       const cached = translations.get(cacheKey);
-      if (cached?.text) {
+      if (cached?.text && !skipNativeLanguage) {
         translations.delete(cacheKey); translations.set(cacheKey, cached);
         r.entry = cached; r.translation = cached.text; r.state = 'ready';
         render(r);
@@ -197,7 +206,7 @@
   function send(r) {
     if (!enabled || !intercept || ['sending','sent'].includes(r.state) || r.error === 'replySendUnknown') return;
     const latest = context(r.input);
-    if (!latest || latest.postId !== r.context.postId || latest.source !== r.context.source) {
+    if (!latest || latest.postId !== r.context.postId || latest.kind !== r.context.kind || latest.source !== r.context.source) {
       if (latest) {r.context = latest; update(r);}
       return;
     }
@@ -208,7 +217,7 @@
     r.pendingSend = false; r.state = 'sending'; render(r);
     r.nativeDispatch = true;
     r.requestId = bridge({action:'send', editorId:r.input.dataset.xctReplyId, source:r.context.source,
-      postId:r.context.postId, translation:r.translation}, outcome => {
+      postId:r.context.postId, kind:r.context.kind, translation:r.translation}, outcome => {
       clearTimeout(r.sendTimer);
       r.state = outcome.ok ? 'sent' : 'error';
       r.error = outcome.ok ? '' : outcome.errorCode || 'replySendUnknown';
@@ -328,7 +337,7 @@
       if (!info) {if (r) remove(r); return;}
       if (!r) {alignToolbar(mount(input, info)); return;}
       alignToolbar(r);
-      const changedPost = r.context.postId !== info.postId;
+      const changedPost = r.context.postId !== info.postId || r.context.kind !== info.kind;
       r.context = info; update(r);
       if (changedPost) detect(r);
     });
@@ -350,7 +359,9 @@
     if (r && r.context.source.trim()) {prevent(event); send(r);}
   }
   function onClick(event) {
-    if (!enabled || !intercept) return;
+    // Automation (including XFollower's quote publisher) already owns its
+    // reviewed text. Only a direct user click opts into translated sending.
+    if (!event.isTrusted || !enabled || !intercept) return;
     const button = event.target.closest?.('[data-testid="tweetButton"],[data-testid="tweetButtonInline"]');
     if (!button) return;
     scan();
@@ -371,6 +382,7 @@
   }
   function onSettings(changes, area) {
     if (area !== 'local') return;
+    if (changes.skipNativeLanguage) skipNativeLanguage = changes.skipNativeLanguage.newValue !== false;
     if (changes.replyTranslationEnabled) enabled = changes.replyTranslationEnabled.newValue !== false;
     if (changes.replyInterceptEnabled) intercept = changes.replyInterceptEnabled.newValue !== false;
     if (changes.replyTargetLanguage) target = changes.replyTargetLanguage.newValue || 'auto';
@@ -386,12 +398,12 @@
       engine = changes.postEngine.newValue || {kind:'google'};
       engineChanged = true;
     }
-    if (!engineChanged && !['replyTranslationEnabled','replyInterceptEnabled','replyTargetLanguage'].some(key => changes[key])) return;
+    if (!engineChanged && !['skipNativeLanguage','replyTranslationEnabled','replyInterceptEnabled','replyTargetLanguage'].some(key => changes[key])) return;
     configureBridge();
     for (const r of records.values()) {
       if (changes.replyTranslationEnabled) alignToolbar(r);
       if (!intercept || !enabled) r.pendingSend = false;
-      update(r, engineChanged || !!changes.replyTranslationEnabled || !!changes.replyTargetLanguage);
+      update(r, !!changes.skipNativeLanguage || engineChanged || !!changes.replyTranslationEnabled || !!changes.replyTargetLanguage);
       render(r);
     }
     schedule();
@@ -418,8 +430,9 @@
   document.addEventListener('click', onClick, true);
   chrome.storage.onChanged.addListener(onSettings);
   globalThis.xctReplyTranslations = {stop};
-  chrome.storage.local.get(['replyTranslationEnabled','replyInterceptEnabled','replyTargetLanguage','replyEngine','postEngine']).then(data => {
+  chrome.storage.local.get(['replyTranslationEnabled','replyInterceptEnabled','replyTargetLanguage','replyEngine','postEngine','skipNativeLanguage']).then(data => {
     if (stopped) return;
+    skipNativeLanguage = data.skipNativeLanguage !== false;
     enabled = data.replyTranslationEnabled !== false; intercept = data.replyInterceptEnabled !== false;
     target = data.replyTargetLanguage || 'auto';
     hasReplyEngine = Boolean(data.replyEngine);

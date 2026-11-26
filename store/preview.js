@@ -26,8 +26,8 @@ window.chrome={i18n:{getMessage,getUILanguage:()=>uiLanguage},runtime:{id:'store
 document.documentElement.lang=uiLanguage;
 document.querySelector('#headline').textContent=copy[isPosts?2:0];
 document.querySelector('#subtitle').textContent=copy[isPosts?3:1];
-document.querySelector('.tag').textContent='X Chat Translator · '+copy[4];
-document.querySelector('.foot').textContent=copy[7];
+document.querySelector('.tag').textContent='XTrans · '+copy[4];
+document.querySelector('.foot').textContent='XTrans 1.8.0 · '+copy[7];
 if(isPosts){
  document.body.classList.add('posts-view');document.querySelector('main').remove();document.querySelector('#posts').hidden=false;
  document.querySelectorAll('.person').forEach((e,i)=>e.textContent=['Design Notes','Travel Journal'][i]+' · '+copy[5]);

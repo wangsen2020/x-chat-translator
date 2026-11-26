@@ -1,9 +1,9 @@
 {
   "extName": {
-    "message": "X（Twitter）自動翻訳 – ツイート・DM | X Chat Translator"
+    "message": "XTrans – X（Twitter）のポスト・返信・DM翻訳"
   },
   "extDesc": {
-    "message": "X（Twitter）のツイートや返信を自動翻訳し、原文と訳文を対訳表示。DMの受信メッセージを翻訳し、送信前に訳文をプレビューできます。"
+    "message": "Xのポスト、記事、返信、DMを翻訳。記事は表示中の本文ブロックごとに翻訳してキャッシュを再利用。原文と訳文の併記、送信前プレビュー、母語のスキップに対応。"
   },
   "refreshRequired": {
     "message": "拡張機能が更新されました。ページを再読み込みしてください。"
@@ -142,19 +142,19 @@
     "message": "保存できませんでした。再試行してください。"
   },
   "popupSubtitle": {
-    "message": "送信前に確認 · 受信時に翻訳"
+    "message": "ポスト · 記事 · 返信 · DM"
   },
   "popupIntro": {
-    "message": "ポストの原文の下に訳文を表示します。X Chat でメッセージを入力し、訳文を確認してから Enter で送信できます。"
+    "message": "Xのポスト、記事の本文ブロック、返信、引用コメント、DMを翻訳。原文と比較し、送信前に訳文を確認できます。"
   },
   "postsToggle": {
-    "message": "ポストの対訳表示"
+    "message": "ポストと記事を翻訳"
   },
   "readingLanguage": {
     "message": "自分の言語（ポストと受信メッセージ）"
   },
   "postsHint": {
-    "message": "表示中のポストと返信が対象です。設定で表示方法を選べます。"
+    "message": "表示中のポストと返信を翻訳。記事は詳細画面で見えている本文ブロックごとに翻訳し、結果をキャッシュします。"
   },
   "openChat": {
     "message": "X Chat を開く"
@@ -163,7 +163,7 @@
     "message": "チャットの設定は X Chat の右側に表示されます。"
   },
   "privacyHint": {
-    "message": "投稿と返信の下書きは選択した翻訳サービスへ送信されます。DM は Google Translate を使用します。"
+    "message": "テキストは各場面で選択したGoogle翻訳、Gemini API、AgentRelay経由のAIに送信されます。スキップした母語のテキストは翻訳サービスに送信されません。"
   },
   "lang_en": {
     "message": "英語"
@@ -202,7 +202,7 @@
     "message": "閲覧設定"
   },
   "autoPosts": {
-    "message": "表示中のポストを翻訳"
+    "message": "表示中のポストと記事を翻訳"
   },
   "readLang": {
     "message": "読む言語"
@@ -343,13 +343,13 @@
     "message": "送信を置き換える"
   },
   "replyEnabled": {
-    "message": "返信を翻訳"
+    "message": "返信・引用コメントを翻訳"
   },
   "replyPopupHint": {
-    "message": "入力した原文を保持し、下に訳文を表示します。送信の置き換えが有効な場合、Enter と返信ボタンで訳文を送信します。"
+    "message": "返信や引用コメントの原稿を残し、下に訳文を表示します。送信インターセプトを有効にすると訳文を送信します。"
   },
   "replyTargetSetting": {
-    "message": "返信の翻訳先"
+    "message": "返信・引用コメントの翻訳先"
   },
   "replyChooseLanguage": {
     "message": "投稿の言語を確認できません。翻訳先を選んでください。"
@@ -499,7 +499,7 @@
     "message": "ホーム、詳細、スレッドの投稿"
   },
   "replySceneHint": {
-    "message": "返信欄のリアルタイム翻訳と送信制御"
+    "message": "返信と引用コメントの翻訳プレビューおよび任意の送信インターセプト"
   },
   "chatInSceneHint": {
     "message": "X Chat で受信したメッセージ"
@@ -530,5 +530,20 @@
   },
   "replyEngineShort": {
     "message": "エンジン"
+  },
+  "skipNativeLanguage": {
+    "message": "母語は翻訳しない"
+  },
+  "skipNativeLanguageHint": {
+    "message": "閲覧言語と同じポストや返信をスキップします。返信・引用コメントの原稿は、翻訳先の言語と同じ場合にのみスキップします。"
+  },
+  "articleEngineLabel": {
+    "message": "記事の翻訳"
+  },
+  "articleSceneHint": {
+    "message": "記事の詳細画面のみ。スクロールした本文ブロックを翻訳し、キャッシュを再利用します。"
+  },
+  "articleTranslation": {
+    "message": "記事ブロックの翻訳"
   }
 }

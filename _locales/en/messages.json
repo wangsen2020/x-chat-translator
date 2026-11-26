@@ -1,9 +1,9 @@
 {
   "extName": {
-    "message": "Twitter Translator for X – Tweets & DMs | X Chat Translator"
+    "message": "XTrans – X (Twitter) Translator for Posts, Replies & DMs"
   },
   "extDesc": {
-    "message": "Auto-translate tweets and replies on X (Twitter). Read bilingual posts and translate DMs with a preview before sending."
+    "message": "Translate X posts, articles, replies and DMs. Read bilingually, preview drafts, and cache article blocks as you scroll."
   },
   "refreshRequired": {
     "message": "Extension updated. Refresh this page."
@@ -142,19 +142,19 @@
     "message": "Could not save. Please retry."
   },
   "popupSubtitle": {
-    "message": "Preview outgoing · Translate incoming"
+    "message": "Posts · Articles · Replies · DMs"
   },
   "popupIntro": {
-    "message": "Read posts with translations below the original. Type a message in X Chat, check the translation, then press Enter to send."
+    "message": "Translate posts, article blocks, replies, quote comments and DMs on X. Read bilingually and preview before sending."
   },
   "postsToggle": {
-    "message": "Bilingual posts"
+    "message": "Translate posts & articles"
   },
   "readingLanguage": {
     "message": "My language (posts and incoming messages)"
   },
   "postsHint": {
-    "message": "Applies to visible posts and replies. Choose the display mode in settings."
+    "message": "Visible posts and replies. Article details translate by visible block, with cached results."
   },
   "openChat": {
     "message": "Open X Chat"
@@ -163,7 +163,7 @@
     "message": "Chat settings appear on the right side of X Chat."
   },
   "privacyHint": {
-    "message": "Posts and reply drafts are sent to the selected translation service. DMs use Google Translate."
+    "message": "Text is sent to the engine selected for each scenario: Google Translate, Gemini API, or AI through AgentRelay. Skipped native-language text makes no translation request."
   },
   "lang_en": {
     "message": "English"
@@ -202,7 +202,7 @@
     "message": "Reading preferences"
   },
   "autoPosts": {
-    "message": "Translate visible posts"
+    "message": "Translate visible posts & articles"
   },
   "readLang": {
     "message": "Reading language"
@@ -343,13 +343,13 @@
     "message": "Intercept sending"
   },
   "replyEnabled": {
-    "message": "Translate replies"
+    "message": "Translate replies & quotes"
   },
   "replyPopupHint": {
-    "message": "Keep your original text and preview the translation below. With interception on, Enter and Reply send the translation."
+    "message": "Keep your reply or quote comment in the original editor and preview its translation below. Optional interception sends the translation."
   },
   "replyTargetSetting": {
-    "message": "Reply target language"
+    "message": "Reply & quote target language"
   },
   "replyChooseLanguage": {
     "message": "Post language is uncertain. Choose a target language."
@@ -499,7 +499,7 @@
     "message": "Home timeline, post details, and thread tweets"
   },
   "replySceneHint": {
-    "message": "Live preview and send interception in reply composer"
+    "message": "Translation preview and optional send interception for replies and quote-post comments"
   },
   "chatInSceneHint": {
     "message": "Incoming messages received in X Chat"
@@ -530,5 +530,20 @@
   },
   "replyEngineShort": {
     "message": "Engine"
+  },
+  "skipNativeLanguage": {
+    "message": "Skip my language"
+  },
+  "skipNativeLanguageHint": {
+    "message": "Skip posts and replies already in your reading language. Reply and quote drafts are skipped only if they already match the target language."
+  },
+  "articleEngineLabel": {
+    "message": "Article translation"
+  },
+  "articleSceneHint": {
+    "message": "Article details only. Translate and cache blocks as you scroll."
+  },
+  "articleTranslation": {
+    "message": "Article block translation"
   }
 }

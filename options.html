@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#101214"><title>翻译设置 · X Chat Translator</title>
+<meta name="theme-color" content="#101214"><title>翻译设置 · XTrans</title>
 <link rel="stylesheet" href="options.css"><script src="i18n.js" defer></script><script src="relay-client.js" defer></script><script src="options.js" defer></script>
 </head>
 <body>
@@ -13,7 +13,7 @@
 <symbol id="play" viewBox="0 0 24 24"><path d="m7 4 13 8-13 8z"/></symbol>
 <symbol id="refresh-icon" viewBox="0 0 24 24"><path d="M20 7a9 9 0 1 0 1 8M20 2v6h-6"/></symbol>
 </defs></svg>
-<header class="bar"><div class="bar-inner"><div class="brand"><img src="icons/icon-48.png" alt="" width="34" height="34"> X Chat Translator</div></div></header>
+<header class="bar"><div class="bar-inner"><div class="brand"><img src="icons/icon-48.png" alt="" width="34" height="34"> XTrans</div></div></header>
 <main inert><h1 data-i18n="optsTitle">翻译设置</h1>
 <div class="shell">
 <nav class="sidebar" aria-label="Settings sections">
@@ -83,6 +83,7 @@
 <p class="hint scenes-intro" data-i18n="multiEngineScope">各场景将独立使用各自所选的翻译引擎。</p>
 <div class="scene-list">
 <div class="scene-row"><div><label for="engine" data-i18n="postEngineLabel">帖子翻译</label><p class="hint" data-i18n="postSceneHint">X 首页、详情页与时间线推文</p></div><select id="engine"><option value="google">Google Translate</option><option value="gemini">Gemini API</option><option value="relay">AgentRelay</option></select></div>
+<div class="scene-row"><div><label for="engine-article" data-i18n="articleEngineLabel">文章翻译</label><p class="hint" data-i18n="articleSceneHint">仅文章详情，按滚动到的正文块翻译并缓存</p></div><select id="engine-article"><option value="google">Google Translate</option><option value="gemini">Gemini API</option><option value="relay">AgentRelay</option></select></div>
 <div class="scene-row"><div><label for="engine-reply" data-i18n="replyEngineLabel">评论翻译</label><p class="hint" data-i18n="replySceneHint">发评输入框实时预览与拦截发送</p></div><select id="engine-reply"><option value="google">Google Translate</option><option value="gemini">Gemini API</option><option value="relay">AgentRelay</option></select></div>
 <div class="scene-row"><div><label for="engine-chat-incoming" data-i18n="chatIncomingEngineLabel">私信收到</label><p class="hint" data-i18n="chatInSceneHint">X Chat 收到的对方私信消息</p></div><select id="engine-chat-incoming"><option value="google">Google Translate</option><option value="gemini">Gemini API</option><option value="relay">AgentRelay</option></select></div>
 <div class="scene-row"><div><label for="engine-chat-outgoing" data-i18n="chatOutgoingEngineLabel">私信发送</label><p class="hint" data-i18n="chatOutSceneHint">X Chat 输入框发送前译文预览</p></div><select id="engine-chat-outgoing"><option value="google">Google Translate</option><option value="gemini">Gemini API</option><option value="relay">AgentRelay</option></select></div>
@@ -93,9 +94,17 @@
 
 <section class="panel tab-panel" id="tab-preferences" aria-labelledby="read-title" hidden>
 <h2 id="read-title"><svg aria-hidden="true"><use href="#book"/></svg><span data-i18n="navPreferences">偏好设置</span></h2>
-<label class="toggle-row"><span data-i18n="autoPosts">自动翻译可见帖子</span><input id="enabled" type="checkbox" checked role="switch"></label>
+<div class="preferences-form">
+<label class="preference-toggle"><span data-i18n="autoPosts">自动翻译可见帖子</span><input id="enabled" class="switch" type="checkbox" checked role="switch"></label>
+<div class="preference-field">
 <label for="language" data-i18n="readLang">我的阅读语言</label>
-<select id="language"></select>
+<select id="language" aria-describedby="reading-language-hint"></select>
+<p id="reading-language-hint" class="hint" data-i18n="sharedLang">阅读语言也用于收到的私信。</p>
+</div>
+<label class="preference-toggle preference-toggle--described">
+<span class="preference-copy"><span id="skip-native-label" data-i18n="skipNativeLanguage">母语不翻译</span><span id="skip-native-hint" class="hint" data-i18n="skipNativeLanguageHint"></span></span>
+<input id="skip-native-language" class="switch" aria-labelledby="skip-native-label" aria-describedby="skip-native-hint" type="checkbox" checked role="switch">
+</label>
 <fieldset><legend data-i18n="displayMode">帖子显示方式</legend><div class="segments">
 <label><input type="radio" name="mode" value="both" checked><span data-i18n="bilingual">双语对照</span></label>
 <label><input type="radio" name="mode" value="replace"><span data-i18n="replaceMode">原位替换</span></label>
@@ -105,7 +114,7 @@
 <label><input type="radio" name="theme" value="light"><span data-i18n="themeLight">白天</span></label>
 <label><input type="radio" name="theme" value="dark"><span data-i18n="themeDark">黑夜</span></label>
 </div></fieldset>
-<p class="hint reading-note" data-i18n="sharedLang">阅读语言也用于收到的私信。</p>
+</div>
 </section>
 </div>
 </div>

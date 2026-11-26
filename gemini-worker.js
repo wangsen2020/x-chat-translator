@@ -9,6 +9,7 @@
   ];
   const SCENE_KEYS = {
     post: 'postEngine',
+    article: 'articleEngine',
     reply: 'replyEngine',
     chatIncoming: 'chatIncomingEngine',
     chatOutgoing: 'chatOutgoingEngine',
@@ -74,8 +75,8 @@
   async function verifyScene(scene, revision) {
     const key = SCENE_KEYS[scene || 'post'];
     if (!key) throw Error('geminiConfigError');
-    const stored = await chrome.storage.local.get(key);
-    const engine = stored[key] || { kind: 'google' };
+    const stored = await chrome.storage.local.get(scene === 'article' ? [key,'postEngine'] : key);
+    const engine = stored[key] || (scene === 'article' ? stored.postEngine : null) || { kind: 'google' };
     if (engine.kind !== 'gemini' || (revision && engine.revision !== revision)) throw Error('relayStale');
   }
 
@@ -104,8 +105,9 @@
     }
     await verifyScene(m.scene || 'chatOutgoing', m.revision);
     const config = normalizeConfig(await readConfig());
-    const useCache = m.scene === 'post' || m.scene === 'reply';
-    const scope = { address: 'gemini', provider: config.model, sessionId: 'api' };
+    const useCache = ['post','article','reply'].includes(m.scene);
+    const providerScope = { address: 'gemini', provider: config.model, sessionId: 'api' };
+    const scope = m.scene === 'article' ? [providerScope,'article'] : providerScope;
     if (useCache) {
       const [cached] = await XCTPostCache.lookup(scope, language, [{ id: 'single', text }]);
       if (cached?.translation) return cached.translation;
@@ -128,7 +130,8 @@
     }
     if (!options) await verifyScene(m.scene || 'post', m.revision);
     const config = normalizeConfig(options && m.draft ? m.draft : await readConfig());
-    const scope = { address: 'gemini', provider: config.model, sessionId: 'api' };
+    const providerScope = { address: 'gemini', provider: config.model, sessionId: 'api' };
+    const scope = m.scene === 'article' ? [providerScope,'article'] : providerScope;
     const cachedRows = await XCTPostCache.lookup(scope, m.language, m.items);
     const hits = cachedRows.filter(e => e.translation).map(({ id, translation }) => ({ id, translation }));
     const hitIds = new Set(hits.map(h => h.id));

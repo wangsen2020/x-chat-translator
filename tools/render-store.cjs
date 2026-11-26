@@ -34,7 +34,7 @@ const root=path.resolve(__dirname,'..');
    await page.locator('#reading-language').selectOption('es');await page.waitForFunction(()=>window.saved?.incomingLanguage==='es');
    assert.equal(await page.locator('#save-status').textContent(),catalog.saved.message);
    await page.screenshot({path:path.join(root,`store/qa-popup-${locale}.jpg`),type:'jpeg',clip:{x:0,y:0,width:320,height:Math.ceil(await page.evaluate(()=>document.body.getBoundingClientRect().height))}});
-   await page.unroute('**/popup.html');
+   await page.unroute('**/popup.html*');
    console.log('PASS render and interact',locale);
   }
   assert.deepEqual(errors,[]);console.log('PASS all rendered locales, keyboard collapse/expand, 640px sidebar, popup persistence, no page errors');

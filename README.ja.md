@@ -1,17 +1,17 @@
-# X Chat Translator
+# XTrans
 
 [English](README.md) | [简体中文](README.zh-CN.md) | **日本語** | [Español](README.es.md)
 
-**バージョン:** `1.7.5` · **Chrome ウェブストア:** [Twitter Translator for X – Tweets & DMs](https://chromewebstore.google.com/detail/dlijcpgpcmbnenmhpgijjhlhedhkmbmk) · **公式サイト:** [goodexts.com/x-chat-translator](https://goodexts.com/x-chat-translator)
+**バージョン:** `1.8.0` · **Chrome ウェブストア:** [Twitter Translator for X – Tweets & DMs](https://chromewebstore.google.com/detail/dlijcpgpcmbnenmhpgijjhlhedhkmbmk) · **公式サイト:** [goodexts.com/x-chat-translator](https://goodexts.com/x-chat-translator)
 
-**X (Twitter)** 向けの Chrome MV3 翻訳拡張機能です。原文を保持したまま、**タイムライン投稿のバイリンガル翻訳**、**返信下書きの送信前プレビュー**、**X Chat の受信・送信 DM 翻訳**に対応し、4 つのシーンごとに翻訳エンジンを個別に設定できます。
+**X (Twitter)** 向けの Chrome MV3 翻訳拡張機能です。原文を保持したまま、**タイムライン投稿のバイリンガル翻訳**、**返信下書きの送信前プレビュー**、**X Chat の受信・送信 DM 翻訳**に対応し、5 つのシーンごとに翻訳エンジンを個別に設定できます。
 
 ---
 
 ## スクリーンショット
 
 ### 2 カラム設定画面（翻訳エンジン＆シーン割り当て）
-**Google Translate**、**Gemini API (BYOK)**、**AgentRelay** を個別に設定・テストでき、投稿・返信・DM 受信・DM 送信の 4 シーンに異なるエンジンを自由に割り当てられます。
+**Google Translate**、**Gemini API (BYOK)**、**AgentRelay** を個別に設定・テストでき、投稿・記事・返信・DM 受信・DM 送信の 5 シーンに異なるエンジンを自由に割り当てられます。
 
 | 翻訳エンジン設定 | シーン別エンジン割り当て |
 | :---: | :---: |
@@ -28,7 +28,7 @@
 
 ## 主な機能
 
-- **4 シーン独立エンジン設定**：投稿・返信・DM 受信・DM 送信ごとに最適な翻訳エンジンを選択可能。返信プレビュー上部から即座にエンジンを切り替えて再翻訳もできます。
+- **5 シーン独立エンジン設定**：投稿・記事・返信・DM 受信・DM 送信ごとに最適な翻訳エンジンを選択可能。返信プレビュー上部から即座にエンジンを切り替えて再翻訳もできます。
 - **3 種類の翻訳エンジン**：
   - **Google Translate**：設定不要・無料でデフォルト有効。
   - **Gemini API (BYOK)**：API キーをブラウザにローカル保存し、接続テスト・モデル選択・IndexedDB 永続キャッシュに対応。

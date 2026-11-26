@@ -115,7 +115,15 @@ const path = require('node:path');
     // A recycled post switches both language and content.
     await page.evaluate(() => document.querySelector('[data-testid="tweetText"]').textContent = 'こんにちは');
     await page.waitForTimeout(300);
-    assert.equal(await note.count(), 0);
+    assert.equal(await page.locator('.xct-post-translation:visible').count(), 0);
+    const nativeCalls = await page.evaluate(() => calls.length);
+    await page.evaluate(() => changeSettings({skipNativeLanguage:{newValue:false}}));
+    await page.waitForFunction(() => calls.length > 0 && document.querySelector('.xct-post-translation')?.shadowRoot.querySelector('p').textContent.includes('こんにちは'));
+    assert.equal(await page.evaluate(() => calls.length), nativeCalls + 1);
+    await page.evaluate(() => changeSettings({skipNativeLanguage:{newValue:true}}));
+    await page.waitForTimeout(300);
+    assert.equal(await page.locator('.xct-post-translation:visible').count(), 0);
+    assert.equal(await page.evaluate(() => calls.length), nativeCalls + 1);
     await page.evaluate(() => xctPostTranslations.stop());
     assert.equal(await page.evaluate(() => settingsListeners.length), 0);
     console.log('PASS: original retained, dedupe, recycled DOM/stale response, settings, retry, long text, same language, cleanup');

@@ -1,71 +1,11 @@
 // Classic script shared by extension pages and isolated content scripts.
 (() => {
   const fallback = {
-
-  "replyPreview": {
-    "message": "Reply translation"
-  },
-  "replyTarget": {
-    "message": "Translate to"
-  },
-  "replyAuto": {
-    "message": "Follow post"
-  },
-  "replyAutoTip": {
-    "message": "Automatically detects the post's language and translates your reply into it."
-  },
-  "replyIntercept": {
-    "message": "Intercept sending"
-  },
-  "replyEnabled": {
-    "message": "Translate replies"
-  },
-  "replyPopupHint": {
-    "message": "Keep your original text and preview the translation below. With interception on, Enter and Reply send the translation."
-  },
-  "replyTargetSetting": {
-    "message": "Reply target language"
-  },
-  "replyChooseLanguage": {
-    "message": "Post language is uncertain. Choose a target language."
-  },
-  "replySlow": {
-    "message": "AI is still translating. Please wait…"
-  },
-  "replyWaitingToSend": {
-    "message": "Will send when the translation is ready…"
-  },
-  "replyEnterHint": {
-    "message": "Enter sends translation · Shift + Enter adds a line"
-  },
-  "replyPreviewOnly": {
-    "message": "Preview only · X sends your original text"
-  },
-  "replySendUnknown": {
-    "message": "Sending is unconfirmed. Check the replies before trying again."
-  },
-  "replySendFailed": {
-    "message": "Sending failed. Your original text is retained. Check before retrying."
-  },
-  "replySendBusy": {
-    "message": "Sending. Please wait…"
-  },
-  "replyDraftChanged": {
-    "message": "The draft or reply target changed. Send again when ready."
-  },
-  "replySenderChanged": {
-    "message": "X’s publishing interface changed. Sending paused. Refresh this page."
-  },
-  "replyTooManyPending": {
-    "message": "Too many unconfirmed translations. Check earlier results first."
-  }
-,
-
   "extName": {
-    "message": "Twitter Translator for X – Tweets & DMs | X Chat Translator"
+    "message": "XTrans – X (Twitter) Translator for Posts, Replies & DMs"
   },
   "extDesc": {
-    "message": "Auto-translate tweets and replies on X (Twitter). Read bilingual posts and translate DMs with a preview before sending."
+    "message": "Translate X posts, articles, replies and DMs. Read bilingually, preview drafts, and cache article blocks as you scroll."
   },
   "refreshRequired": {
     "message": "Extension updated. Refresh this page."
@@ -204,19 +144,19 @@
     "message": "Could not save. Please retry."
   },
   "popupSubtitle": {
-    "message": "Preview outgoing · Translate incoming"
+    "message": "Posts · Articles · Replies · DMs"
   },
   "popupIntro": {
-    "message": "Read posts with translations below the original. Type a message in X Chat, check the translation, then press Enter to send."
+    "message": "Translate posts, article blocks, replies, quote comments and DMs on X. Read bilingually and preview before sending."
   },
   "postsToggle": {
-    "message": "Bilingual posts"
+    "message": "Translate posts & articles"
   },
   "readingLanguage": {
     "message": "My language (posts and incoming messages)"
   },
   "postsHint": {
-    "message": "Applies to visible posts and replies. Choose the display mode in settings."
+    "message": "Visible posts and replies. Article details translate by visible block, with cached results."
   },
   "openChat": {
     "message": "Open X Chat"
@@ -225,7 +165,7 @@
     "message": "Chat settings appear on the right side of X Chat."
   },
   "privacyHint": {
-    "message": "Posts and reply drafts are sent to the selected translation service. DMs use Google Translate."
+    "message": "Text is sent to the engine selected for each scenario: Google Translate, Gemini API, or AI through AgentRelay. Skipped native-language text makes no translation request."
   },
   "lang_en": {
     "message": "English"
@@ -264,7 +204,7 @@
     "message": "Reading preferences"
   },
   "autoPosts": {
-    "message": "Translate visible posts"
+    "message": "Translate visible posts & articles"
   },
   "readLang": {
     "message": "Reading language"
@@ -389,6 +329,63 @@
   "aiGuide": {
     "message": "Set up local AI translation with AgentRelay"
   },
+  "replyPreview": {
+    "message": "Reply translation"
+  },
+  "replyTarget": {
+    "message": "Translate to"
+  },
+  "replyAuto": {
+    "message": "Follow post"
+  },
+  "replyAutoTip": {
+    "message": "Automatically detects the post's language and translates your reply into it."
+  },
+  "replyIntercept": {
+    "message": "Intercept sending"
+  },
+  "replyEnabled": {
+    "message": "Translate replies & quotes"
+  },
+  "replyPopupHint": {
+    "message": "Keep your reply or quote comment in the original editor and preview its translation below. Optional interception sends the translation."
+  },
+  "replyTargetSetting": {
+    "message": "Reply & quote target language"
+  },
+  "replyChooseLanguage": {
+    "message": "Post language is uncertain. Choose a target language."
+  },
+  "replySlow": {
+    "message": "AI is still translating. Please wait…"
+  },
+  "replyWaitingToSend": {
+    "message": "Will send when the translation is ready…"
+  },
+  "replyEnterHint": {
+    "message": "Enter sends translation · Shift + Enter adds a line"
+  },
+  "replyPreviewOnly": {
+    "message": "Preview only · X sends your original text"
+  },
+  "replySendUnknown": {
+    "message": "Sending is unconfirmed. Check the replies before trying again."
+  },
+  "replySendFailed": {
+    "message": "Sending failed. Your original text is retained. Check before retrying."
+  },
+  "replySendBusy": {
+    "message": "Sending. Please wait…"
+  },
+  "replyDraftChanged": {
+    "message": "The draft or reply target changed. Send again when ready."
+  },
+  "replySenderChanged": {
+    "message": "X’s publishing interface changed. Sending paused. Refresh this page."
+  },
+  "replyTooManyPending": {
+    "message": "Too many unconfirmed translations. Check earlier results first."
+  },
   "relayNotInstalled": {
     "message": "AgentRelay is not installed on this computer."
   },
@@ -504,7 +501,7 @@
     "message": "Home timeline, post details, and thread tweets"
   },
   "replySceneHint": {
-    "message": "Live preview and send interception in reply composer"
+    "message": "Translation preview and optional send interception for replies and quote-post comments"
   },
   "chatInSceneHint": {
     "message": "Incoming messages received in X Chat"
@@ -535,6 +532,21 @@
   },
   "replyEngineShort": {
     "message": "Engine"
+  },
+  "skipNativeLanguage": {
+    "message": "Skip my language"
+  },
+  "skipNativeLanguageHint": {
+    "message": "Skip posts and replies already in your reading language. Reply and quote drafts are skipped only if they already match the target language."
+  },
+  "articleEngineLabel": {
+    "message": "Article translation"
+  },
+  "articleSceneHint": {
+    "message": "Article details only. Translate and cache blocks as you scroll."
+  },
+  "articleTranslation": {
+    "message": "Article block translation"
   }
 };
   const cache = new Map();
@@ -568,5 +580,24 @@
       });
     }
   }
-  globalThis.XCTI18n = { t, language, readingLanguage, languages, localize };
+  async function matchesLanguage(text, target, marked = '') {
+    const base = value => String(value || '').toLowerCase().split(/[-_]/)[0];
+    try {
+      const clean = text.replace(/https?:\/\/\S+/g, '').trim();
+      const result = await chrome.i18n.detectLanguage(clean);
+      const best = result.languages?.[0];
+      if (result.isReliable && best?.percentage >= 80) return base(best.language) === base(target);
+      // CLD marks short Chinese text unreliable even at 100%. Require both
+      // its Chinese result and predominantly Han script; mixed or kana text
+      // must keep translating rather than being skipped on a weak guess.
+      const letters = clean.match(/\p{L}/gu) || [];
+      const han = clean.match(/\p{Script=Han}/gu) || [];
+      if (base(best?.language) === 'zh' && best.percentage >= 90 && letters.length &&
+          han.length / letters.length >= 0.8 && !/[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u.test(clean)) {
+        return base(target) === 'zh';
+      }
+    } catch {}
+    return Boolean(marked && base(marked) !== 'und' && base(marked) === base(target));
+  }
+  globalThis.XCTI18n = { t, language, readingLanguage, languages, localize, matchesLanguage };
 })();

@@ -1,17 +1,37 @@
-# X Chat Translator 隐私说明
+# XTrans Privacy / 隐私说明
 
-更新日期：2026-11-19
+Updated / 更新日期：2026-11-26
 
-评论翻译默认开启，读取被回复帖子的正文和语言用于识别目标语言。评论草稿发送到当前选择的 Google 或 AgentRelay 引擎；AgentRelay 将草稿发送到用户已选择的 AI 会话。成功译文复用现有扩展本地 IndexedDB 缓存。浮窗中的“拦截发送”默认开启，仅在用户按 Enter 或点击原生回复按钮时，将本次原生发布请求的正文替换成译文；输入框保留原文。关闭拦截仅保留翻译预览，关闭评论翻译则停止新增评论翻译请求。
+XTrans translates text on X (Twitter): posts, article-detail blocks, reply/quote drafts and incoming/outgoing DMs. Each of these five scenarios can use Google Translate, your Gemini API key, or an existing AI conversation through your separately installed AgentRelay service. Article text is collected only when a block enters the viewport; the extension does not submit an entire article in advance. “Skip my language” avoids translation requests for matching reading content or drafts already in their target language.
 
-插件在 X 页面读取待翻译的帖子正文、聊天中收到的文字，以及用户输入的待发送草稿。使用默认 Google 引擎时，这些文字和目标语言会发送至 Google Translate 的 `translate.googleapis.com` 接口以取得译文。发送翻译默认开启，帖子翻译和接收翻译默认开启；各自可以在工具栏弹窗或聊天设置中关闭。
+The relevant text and target language are sent to the selected service. Google uses `translate.googleapis.com`; Gemini uses `generativelanguage.googleapis.com`. AgentRelay passes explicit tasks to the selected AI conversation over a user-approved local connection. Local connection does not imply offline inference: providers may process text in the cloud and retain conversation history under their own policies.
 
-插件不运行自有数据服务器，不包含分析统计或广告追踪代码。语言选择、功能开关、面板展开状态和按会话记忆的发送语言存储在浏览器本地 `chrome.storage.local` 中；会话设置键包含 X 聊天页面路径。私信译文及对应原文仅缓存在当前页面内存中，刷新或关闭页面后清空。帖子和评论的成功译文会保存在扩展本地 IndexedDB（最多 4,096 段，写满后替换最早写入的条目）；缓存保存服务与正文组合的 SHA-256 摘要及译文，不保存可读原文、访问令牌或账号名称。缓存不会同步到其他设备，卸载扩展会清除缓存。
+XTrans has no developer-operated data server, analytics or advertising tracking. Preferences and per-chat sending languages are saved in `chrome.storage.local`; chat keys include the X chat path. Service credentials, Gemini keys and conversation bindings are stored locally in the extension origin, used only for the configured service, and are not submitted to the GoodExts website.
 
-可选 AgentRelay 接收帖子正文或评论草稿、目标语言和批内条目标识，将它们发送到用户选择的 AI 会话。私信继续使用 Google。令牌和绑定保存在扩展自己的本地 IndexedDB。请求发送前暂存任务收据及原文，后台通过原任务 ID 恢复查询；终态清除请求正文与令牌快照，结果约 10 分钟后清除。未确认任务最多保留约 24 小时，浏览器关闭期间到期的数据在重新运行后清理。AI 引擎可能保留会话历史。
+Completed translations use a bounded local IndexedDB cache of up to 4,096 segments, with separate article keys and oldest-slot replacement. Keys are SHA-256 digests of the service/context, category, target language and source. Completed entries contain translations, without readable source text, credentials or account names. Page memory also caches results. Some AI DM paths use this cache or task recovery records. Data is not synced to other devices; uninstalling removes extension-local data.
 
-Google 如何处理收到的文字取决于其自身政策。本插件无法替用户控制第三方服务的数据保留。不要将不希望提供给翻译服务的内容用于自动翻译；关闭相应开关后再浏览或输入这些内容。已经发出的翻译请求不会因关闭开关被撤回。
+Before an AgentRelay task is sent, a temporary recovery record stores the source, task receipt and necessary credential snapshot so the original task can be queried after interruption. Completion clears the request body and token snapshot; results expire after about 10 minutes. Unconfirmed records are retained for at most about 24 hours, with cleanup on the next extension run if the browser was closed. These records are separate from completed translation caches.
 
-权限用途：`storage` 用于保存设置；X 页面权限用于读取正文和添加翻译界面；Google Translate 域名权限用于请求译文；按需申请本机回环地址权限连接 AgentRelay，alarms 用于恢复和清理原任务。不请求 cookies、历史记录或任意站点访问权限。
+Reply/quote previews retain the original draft. With interception enabled, direct user clicks or Enter can submit the reviewed translation. Programmatic publishing clicks, including XFollower quotes, retain the original request text. Disabling a feature stops new translation requests; it cannot recall sent requests or delete posts/messages already in X. Check X before retrying an unconfirmed sending result.
 
-关闭翻译不会删除 X 中已有消息；卸载扩展会清除其浏览器本地设置。插件不是 X 或 Google 的官方产品。
+Permissions: `storage` saves settings; `alarms` resumes and cleans up original tasks; X content scripts read supported text and add translation UI. Google host access requests translations. Optional Gemini host access, loopback-host access and `nativeMessaging` are requested as needed for the configured API/local service, including native discovery and local connection exchange. Cookies, browsing history and arbitrary website access are not requested. Executable code ships in the package; translation responses are data, never executed remote code.
+
+Do not automatically translate content you do not want to share with the selected provider. Third-party retention is outside this extension's control. XTrans is independent of X, Google and the supported AI providers.
+
+## 中文说明
+
+XTrans 翻译 X（Twitter）的帖子、文章详情正文块、回复/引用评论草稿，以及收到和发送的私信。五场景可独立选择 Google 翻译、自己的 Gemini API 密钥，或通过单独安装的 AgentRelay 连接已有 AI 会话。文章仅在正文块进入视口后采集，不提前发送整篇；「母语不翻译」会跳过已匹配阅读语言的内容和已是目标语言的草稿。
+
+待翻译文字和目标语言发送至所选服务。Google 使用 `translate.googleapis.com`，Gemini 使用 `generativelanguage.googleapis.com`；AgentRelay 将显式任务交给所选 AI 会话。本机连接不等于离线推理，服务商可能在云端处理并按自身政策保留会话历史。
+
+插件没有开发者自营数据服务器、统计分析或广告追踪。偏好和每个聊天的发送语言保存在 `chrome.storage.local`，会话键包含 X 聊天路径。服务凭据、Gemini 密钥和会话绑定保存在扩展本地，仅用于所配置服务，不提交给 GoodExts 官网。
+
+已完成译文使用有界 IndexedDB 缓存，最多 4,096 段，文章类别单独隔离，满后替换旧槽位。缓存键由服务/上下文、类别、目标语言和原文生成 SHA-256 摘要；已完成条目只保存译文，不保存可读原文、凭据或账号名。页面内存也缓存结果，部分私信 AI 路径可能使用此缓存或任务恢复记录。不跨设备同步，卸载扩展会清除本地数据。
+
+AgentRelay 发送前临时保存原文、收据及必要凭据快照，以便中断后查询原任务。终态清除请求正文和令牌快照，结果约 10 分钟过期，未确认记录最多保留约 24 小时；浏览器关闭期间到期的数据下次运行清理。恢复记录与已完成缓存分开管理。
+
+回复和引用评论保留原稿，开启拦截时，人工点击或 Enter 可发送核对后的译文；XFollower 等程序点击发布按钮时保留原请求正文。关闭功能停止新增翻译请求，不能撤回已发送请求或删除 X 上已有内容。结果未知时先检查 X，再决定是否重试。
+
+`storage` 保存设置，`alarms` 恢复和清理原任务；X 内容脚本读取支持的文字并添加界面，Google 域名权限用于请求译文。Gemini 域名、本机回环地址及 `nativeMessaging` 按配置需要申请，用于 API、本地宿主发现及连接信息交换。不请求 cookies、浏览历史或任意站点权限。可执行代码随包提供，翻译结果只作数据，不执行远程代码。
+
+请勿自动翻译不愿提供给所选服务商的内容，本插件无法控制第三方保留策略。XTrans 不是 X、Google 或相关 AI 服务商的官方产品。

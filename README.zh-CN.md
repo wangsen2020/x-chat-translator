@@ -1,17 +1,25 @@
-# X Chat Translator
+# XTrans
 
 [English](README.md) | **简体中文** | [日本語](README.ja.md) | [Español](README.es.md)
 
-**当前版本：** `1.7.5` · **Chrome 应用商店：** [Twitter Translator for X – Tweets & DMs](https://chromewebstore.google.com/detail/dlijcpgpcmbnenmhpgijjhlhedhkmbmk) · **官网：** [goodexts.com/zh/x-chat-translator](https://goodexts.com/zh/x-chat-translator)
+**当前版本：** `1.8.0` · **Chrome 应用商店：** [Twitter Translator for X – Tweets & DMs](https://chromewebstore.google.com/detail/dlijcpgpcmbnenmhpgijjhlhedhkmbmk) · **官网：** [goodexts.com/zh/x-chat-translator](https://goodexts.com/zh/x-chat-translator)
 
-专为 **X (Twitter)** 打造的 Chrome MV3 翻译插件：保留原文不变，支持**帖子双语翻译**、**评论发送前实时预览**、**X Chat 收到私信即译**与**发送前译文预览**，并支持四个场景独立拆分配置翻译引擎。
+专为 **X (Twitter)** 打造的 Chrome MV3 翻译插件：保留原文不变，支持**帖子双语翻译**、**评论发送前实时预览**、**X Chat 收到私信即译**与**发送前译文预览**，并支持五个场景独立拆分配置翻译引擎。
 
 ---
 
+## 本轮更新
+
+- **文章分块懒翻译与缓存**：仅文章详情页的可见正文块进入翻译，滚到哪里读到哪里；复用与帖子相同的有界缓存机制，但文章类别独立，不采集整篇正文、媒体控件或编辑器。文章可独立选择引擎，旧配置默认沿用帖子引擎。
+
+- **XTrans 品牌与定位**：面向 X（Twitter）的帖子、回复、引用转帖评论及私信翻译助手。
+- **母语不翻译**：偏好设置默认开启，跳过已是阅读语言的帖子与回复；草稿仅在已是目标语言时跳过，中文草稿译成外语仍正常工作。
+- **引用评论预览**：保留原稿，独立预览译文；人工点击或按 Enter 可提交译文。XFollower 等程序点击发布按钮时沿用审定原文。
+
 ## 界面截图
 
-### 左右两栏引擎配置与四场景独立分配
-支持分别配置 **Google Translate**、**Gemini API (BYOK)** 与 **AgentRelay**，内置两条示例试译预览；可将帖子、评论、私信收到、私信发送四个场景自由组合为不同引擎。
+### 左右两栏引擎配置与五场景独立分配
+支持分别配置 **Google Translate**、**Gemini API (BYOK)** 与 **AgentRelay**，内置两条示例试译预览；可将帖子、文章、评论、私信收到、私信发送五个场景自由组合为不同引擎。
 
 | 翻译引擎配置 | 场景独立分配 |
 | :---: | :---: |
@@ -28,7 +36,7 @@
 
 ## 核心特性
 
-- **四场景引擎拆分**：帖子、评论、私信收到、私信发送均可独立指定翻译引擎；评论浮窗头部还支持**快速切换引擎并立即重译**。
+- **五场景引擎拆分**：帖子、文章、评论、私信收到、私信发送均可独立指定翻译引擎；评论浮窗头部还支持**快速切换引擎并立即重译**。
 - **三大翻译引擎**：
   - **Google Translate**：免费云端直连，免配置默认启用。
   - **Gemini API (BYOK)**：本地存储个人 Key，支持一键跳转 Google AI Studio 获取、连通性测试、模型切换（默认 `gemini-flash-lite-latest`）与 IndexedDB 持久缓存。

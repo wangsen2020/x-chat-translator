@@ -1,21 +1,17 @@
-X Chat Translator traduce publicaciones, respuestas y mensajes privados en X (Twitter).
+XTrans – Traductor de X (Twitter): publicaciones, respuestas y MD
 
-Lee publicaciones en vista bilingüe o reemplaza el texto con la traducción. Puedes consultar el original de cada publicación. Funciona con contenido visible, respuestas y textos largos. El original sigue disponible mientras esperas.
+Traduce posts, artículos, respuestas y MD en X. Lee en modo bilingüe, revisa borradores y guarda bloques al desplazarte.
 
-Google Translate es el servicio predeterminado. Para publicaciones, puedes usar AgentRelay local con Codex o Antigravity y seleccionar una sesión existente. Varias publicaciones se agrupan en una solicitud y cada traducción vuelve al texto correspondiente mediante su ID. Los mensajes privados siguen usando Google Translate.
+Traduce publicaciones, respuestas, comentarios de citas y mensajes en X. Lee en modo bilingüe y revisa antes de enviar.
 
-La página de ajustes tiene dos columnas para lectura y motor de traducción. Comprueba la conexión, elige una sesión, prueba 2 ejemplos y guarda. El icono de IA junto a la traducción abre la guía.
+Conserva el borrador de tu respuesta o cita y revisa la traducción debajo. La intercepción opcional envía la traducción.
 
-Las traducciones de publicaciones se guardan en IndexedDB local, hasta 4,096 segmentos. La caché distingue dirección del servicio, motor, sesión, idioma y texto original, para reutilizar resultados al recargar o volver a abrir.
+Omite publicaciones y respuestas en tu idioma de lectura. Los borradores de respuestas y citas se omiten solo si coinciden con el idioma de destino.
 
-En mensajes salientes, escribe en tu idioma, revisa la vista previa y confirma el envío. Los mensajes recibidos pueden traducirse automáticamente. El idioma de envío puede guardarse por conversación.
+Asigna Google Translate, Gemini API (tu propia clave) o IA local mediante AgentRelay a publicaciones, respuestas y MD entrantes o salientes.
 
-La interfaz incluye inglés, chino simplificado, español latinoamericano, japonés y coreano.
+Privacidad y límites: el texto se envía al servicio de traducción seleccionado. Gemini requiere tu propia clave de API; AgentRelay debe instalarse y ejecutarse por separado. Los proveedores pueden conservar el texto en su historial. Consulta la política de privacidad. No se traducen texto de imágenes ni subtítulos de video. Comprueba X antes de repetir un envío sin confirmar.
 
-Datos y requisitos
-Los textos se envían a Google Translate o, para publicaciones configuradas con AgentRelay, al servicio local y al proveedor de IA elegido. Debes instalar y ejecutar AgentRelay por separado e iniciar sesión. La sesión de IA puede conservar los textos. El token se guarda en el almacenamiento local de la extensión. No hay un servicio propio de analítica. Las traducciones locales permanecen hasta ser reemplazadas o desinstalar la extensión.
+Los artículos se traducen por bloques visibles, solo en su vista de detalle. Los bloques fuera de pantalla no se recopilan por adelantado. La categoría Artículo usa una caché local limitada: texto, idioma y motor coincidentes reutilizan resultados al volver o reabrir. Puede usar su propio motor; los ajustes anteriores heredan el de publicaciones.
 
-No traduce imágenes ni subtítulos y no funciona sin conexión. La calidad depende del servicio. Los cambios de X pueden afectar el envío de mensajes. Si el resultado es incierto, revisa la conversación antes de repetir.
-
-Producto y guía: https://goodexts.com/es/x-chat-translator#agentrelay
-Extensión independiente, sin afiliación con X ni Google.
+https://goodexts.com/x-chat-translator

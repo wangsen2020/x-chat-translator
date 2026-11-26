@@ -1,9 +1,9 @@
 {
   "extName": {
-    "message": "推特翻译助手 – X 帖子双语与私信 | X Chat Translator"
+    "message": "XTrans – X（Twitter）帖子、回复与私信翻译助手"
   },
   "extDesc": {
-    "message": "自动翻译 X（推特）帖子、推文和回复，保留原文双语对照。收到私信自动翻译，聊天发送前预览译文；支持按会话设置发送语言。"
+    "message": "翻译 X（Twitter）帖子、文章、回复与私信。文章随滚动按可见正文块翻译并缓存，双语阅读，发送前预览，默认跳过母语内容。"
   },
   "refreshRequired": {
     "message": "插件已更新，请刷新聊天页面"
@@ -142,19 +142,19 @@
     "message": "保存失败，请重试"
   },
   "popupSubtitle": {
-    "message": "发送前预览 · 收到即翻译"
+    "message": "帖子 · 文章 · 回复 · 私信"
   },
   "popupIntro": {
-    "message": "浏览帖子时保留原文，下方显示译文。在 X Chat 输入消息，确认译文后按 Enter 发送。"
+    "message": "翻译 X 帖子、文章正文块、回复、引用评论和私信。双语对照阅读，发送前独立预览译文。"
   },
   "postsToggle": {
-    "message": "帖子双语翻译"
+    "message": "帖子与文章翻译"
   },
   "readingLanguage": {
     "message": "我的语言（帖子与收到的消息）"
   },
   "postsHint": {
-    "message": "适用于可见帖子和回复。可在设置中选择显示方式。"
+    "message": "翻译可见帖子和回复；文章仅在详情页按可见正文块翻译，并复用缓存。"
   },
   "openChat": {
     "message": "打开 X Chat"
@@ -163,7 +163,7 @@
     "message": "设置会在 X Chat 页面右侧显示。"
   },
   "privacyHint": {
-    "message": "帖子与评论草稿发送至所选翻译服务，私信使用 Google Translate。"
+    "message": "待翻译文字发送至各场景所选引擎：Google 翻译、Gemini API 或经 AgentRelay 接入的 AI。跳过的母语内容不会发送翻译请求。"
   },
   "lang_en": {
     "message": "英语"
@@ -202,7 +202,7 @@
     "message": "阅读偏好"
   },
   "autoPosts": {
-    "message": "自动翻译可见帖子"
+    "message": "自动翻译可见帖子与文章"
   },
   "readLang": {
     "message": "我的阅读语言"
@@ -343,13 +343,13 @@
     "message": "拦截发送"
   },
   "replyEnabled": {
-    "message": "评论翻译"
+    "message": "回复与引用评论翻译"
   },
   "replyPopupHint": {
-    "message": "保留输入原文，在下方预览译文。开启拦截后，Enter 和回复按钮发送译文。"
+    "message": "原输入框保留回复或引用评论草稿，下方预览译文；开启拦截后发送译文。"
   },
   "replyTargetSetting": {
-    "message": "评论目标语言"
+    "message": "回复与引用评论目标语言"
   },
   "replyChooseLanguage": {
     "message": "无法确认帖子语言，请选择目标语言。"
@@ -499,7 +499,7 @@
     "message": "X 首页、详情页与时间线推文"
   },
   "replySceneHint": {
-    "message": "发评输入框实时预览与拦截发送"
+    "message": "普通回复与引用转帖评论的译文预览及可选发送拦截"
   },
   "chatInSceneHint": {
     "message": "X Chat 收到的对方私信消息"
@@ -530,5 +530,20 @@
   },
   "replyEngineShort": {
     "message": "引擎"
+  },
+  "skipNativeLanguage": {
+    "message": "母语不翻译"
+  },
+  "skipNativeLanguageHint": {
+    "message": "阅读时跳过已是「我的阅读语言」的帖子与回复。回复和引用评论草稿仅在已是目标语言时跳过。"
+  },
+  "articleEngineLabel": {
+    "message": "文章翻译"
+  },
+  "articleSceneHint": {
+    "message": "仅文章详情，按滚动到的正文块翻译并缓存"
+  },
+  "articleTranslation": {
+    "message": "文章分块翻译"
   }
 }
