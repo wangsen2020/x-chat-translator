@@ -1,5 +1,21 @@
 # 版本记录
 
+## 1.7.5
+
+- 将 `nativeMessaging` 从必需权限（`permissions`）调整为可选权限（`optional_permissions`），仅在用户主动点击启用 AgentRelay 时按需申请，避免老版本升级触发强制新权限弹窗。
+
+## 1.7.4
+
+- 修复扩展重载后旧页面内容脚本执行 `stop()` 清理监听器时因 `chrome.storage` 失效抛出 `Cannot read properties of undefined (reading 'onChanged')` 的问题。
+
+## 1.7.3
+
+- 修复 X.com 在候选菜单关闭后仍残留 `aria-activedescendant="typeaheadFocus-..."` 导致正常回车发送被误判放行的问题：仅在 `aria-expanded="true"` 或存在可见候选条目时放行回车，正常正文按 `Enter` 立即发送译文。
+
+## 1.7.2
+
+- 修复评论回复输入 `@mention` / `#hashtag` 自动补全列表展开时按 `Enter` 被误拦截并直接发布的问题，自动放行候选菜单的回车选词。
+
 ## 1.7.1
 
 - 精简工具栏弹窗 `popup.html` 文案，将冗长说明收敛为 `14px` `#769287` 圆圈问号悬浮/聚焦提示，消除弹窗滚动条。

@@ -2,7 +2,7 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md) | [日本語](README.ja.md) | **Español**
 
-**Versión:** `1.7.1` · **Chrome Web Store:** [Twitter Translator for X – Tweets & DMs](https://chromewebstore.google.com/detail/dlijcpgpcmbnenmhpgijjhlhedhkmbmk) · **Sitio web:** [goodexts.com/es/x-chat-translator](https://goodexts.com/es/x-chat-translator)
+**Versión:** `1.7.5` · **Chrome Web Store:** [Twitter Translator for X – Tweets & DMs](https://chromewebstore.google.com/detail/dlijcpgpcmbnenmhpgijjhlhedhkmbmk) · **Sitio web:** [goodexts.com/es/x-chat-translator](https://goodexts.com/es/x-chat-translator)
 
 Extensión Chrome MV3 para **X (Twitter)** que mantiene tu texto original intacto mientras traduce **publicaciones del timeline**, **borradores de respuestas** y **mensajes directos (DM) entrantes y salientes**, con asignación independiente de motores para cada escenario.
 

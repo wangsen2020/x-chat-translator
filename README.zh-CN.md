@@ -2,7 +2,7 @@
 
 [English](README.md) | **简体中文** | [日本語](README.ja.md) | [Español](README.es.md)
 
-**当前版本：** `1.7.1` · **Chrome 应用商店：** [Twitter Translator for X – Tweets & DMs](https://chromewebstore.google.com/detail/dlijcpgpcmbnenmhpgijjhlhedhkmbmk) · **官网：** [goodexts.com/zh/x-chat-translator](https://goodexts.com/zh/x-chat-translator)
+**当前版本：** `1.7.5` · **Chrome 应用商店：** [Twitter Translator for X – Tweets & DMs](https://chromewebstore.google.com/detail/dlijcpgpcmbnenmhpgijjhlhedhkmbmk) · **官网：** [goodexts.com/zh/x-chat-translator](https://goodexts.com/zh/x-chat-translator)
 
 专为 **X (Twitter)** 打造的 Chrome MV3 翻译插件：保留原文不变，支持**帖子双语翻译**、**评论发送前实时预览**、**X Chat 收到私信即译**与**发送前译文预览**，并支持四个场景独立拆分配置翻译引擎。
 

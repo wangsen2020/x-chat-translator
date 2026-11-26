@@ -2,7 +2,7 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md) | **日本語** | [Español](README.es.md)
 
-**バージョン:** `1.7.1` · **Chrome ウェブストア:** [Twitter Translator for X – Tweets & DMs](https://chromewebstore.google.com/detail/dlijcpgpcmbnenmhpgijjhlhedhkmbmk) · **公式サイト:** [goodexts.com/x-chat-translator](https://goodexts.com/x-chat-translator)
+**バージョン:** `1.7.5` · **Chrome ウェブストア:** [Twitter Translator for X – Tweets & DMs](https://chromewebstore.google.com/detail/dlijcpgpcmbnenmhpgijjhlhedhkmbmk) · **公式サイト:** [goodexts.com/x-chat-translator](https://goodexts.com/x-chat-translator)
 
 **X (Twitter)** 向けの Chrome MV3 翻訳拡張機能です。原文を保持したまま、**タイムライン投稿のバイリンガル翻訳**、**返信下書きの送信前プレビュー**、**X Chat の受信・送信 DM 翻訳**に対応し、4 つのシーンごとに翻訳エンジンを個別に設定できます。
 
